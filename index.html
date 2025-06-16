@@ -19,13 +19,13 @@
       display: grid;
       grid-template-columns: 2fr 1fr;
       grid-template-rows: auto 1fr auto;
-      height: 100vh;
+      height: calc(100vh - 40px); /* Adjust for vertical margin */
       gap: 10px;
       padding: 0 20px;
       box-sizing: border-box;
+      margin: 20px 8px; /* 20px top/bottom, 8px left/right */
     }
 
-    /* General box style */
     .map-box, .info-box, .timeline-box, .donation-box {
       border: 2px solid white;
       background-color: black;
@@ -43,59 +43,112 @@
 
     .filters {
       display: flex;
-      gap: 20px;
+      gap: 8px; /* Less space between filter groups */
       margin-bottom: 20px;
+      align-items: flex-start;
+      justify-content: flex-start; /* Align filters to the left */
     }
 
-    /* Multi-select dropdown styles */
-    .multiselect {
+    .filter-group {
       position: relative;
-      font-family: inherit;
+      min-width: 120px; /* You can reduce this if you want them even closer */
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      font-family: "Courier New", Courier, monospace;
       font-size: 16px;
-      user-select: none;
-      cursor: pointer;
-      width: 150px;
+      margin-right: 0; /* Remove extra space on the right */
     }
 
-    .selectBox {
-      border: 1px solid white;
-      padding: 5px;
-      background: black;
-      color: white;
+    .filter-label-btn {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: space-between; /* Pushes arrow to the right */
+      width: 100%;
+      background: black;
+      color: white;
+      border: 1px solid white;
+      border-radius: 4px;
+      padding: 6px 18px 6px 12px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      user-select: none;
+      transition: border-color 0.2s;
+      margin-bottom: 0;
+      min-width: 120px;
+      position: relative;
+      font-family: "Courier New", Courier, monospace;
     }
 
-    .selectBox::after {
-      content: "▼";
+    .filter-label-btn .arrow {
+      margin-left: auto; /* Ensures arrow is at the far right */
       font-size: 12px;
-      margin-left: 5px;
+      transition: transform 0.2s;
     }
 
-    .checkboxes {
+    .filter-label-btn.open .arrow {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-options {
       display: none;
       position: absolute;
-      background-color: black;
+      background: black;
       border: 1px solid white;
-      top: 100%;
+      border-radius: 4px;
+      z-index: 2;
+      min-width: 100%;
+      margin-top: 2px;
+      flex-direction: column;
       left: 0;
-      right: 0;
-      max-height: 120px;
-      overflow-y: auto;
-      z-index: 100;
-      padding: 5px 0;
+      top: 110%;
+      box-shadow: 0 2px 8px rgba(30,144,255,0.15);
+      padding: 8px 0;
+      font-family: "Courier New", Courier, monospace; /* Keep filter font */
+      font-size: 16px; /* Keep filter font size */
     }
 
-    .checkboxes label {
-      display: block;
-      padding: 3px 10px;
+    .dropdown-options .filter-option {
+      padding: 6px 18px;
       cursor: pointer;
+      border-radius: 4px;
+      transition: background 0.2s, color 0.2s;
+      display: block;
+      font-size: 15px;
+      background: black;
+      color: white;
+      margin: 2px 8px;
+      font-family: "Courier New", Courier, monospace; /* Keep filter font */
+    }
+
+    .dropdown-options .filter-option.selected {
+      background: white;
+      color: black;
+    }
+
+    .dropdown-options .filter-option:hover {
+      background: #333;
       color: white;
     }
 
-    .checkboxes label:hover {
-      background-color: #1e90ff;
+    .reset-btn {
+      background: none;
+      color: #1e90ff;
+      border: 1px solid #1e90ff;
+      border-radius: 4px;
+      padding: 6px 18px;
+      font-size: 15px;
+      cursor: pointer;
+      margin-left: 8px; /* Less space before the reset button */
+      transition: background 0.2s, color 0.2s;
+      align-self: flex-end;
+      font-family: "Courier New", Courier, monospace; /* Keep filter font */
+    }
+
+    .reset-btn:hover {
+      background: #1e90ff;
+      color: white;
     }
 
     .map-title {
@@ -106,9 +159,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      margin-top: 10px;
     }
 
-    /* Right column layout for info and donation */
     .right-column {
       display: grid;
       grid-template-rows: 1fr auto;
@@ -132,7 +185,7 @@
     .timeline-box {
       grid-column: 1 / 3;
       grid-row: 3 / 4;
-      height: 150px; /* Larger height */
+      height: 150px;
       text-align: center;
       font-size: 18px;
       overflow: auto;
@@ -156,60 +209,70 @@
 <body>
   <div class="container">
     <div class="map-box">
+      <div style="font-family:'Courier New', Courier, monospace; font-size:22px; font-weight:bold; color:white; text-align:left; margin-bottom:0;">
+  Trail No.3 Flora Map
+</div>
+<hr style="border: none; border-top: 2px solid white; margin: 8px -10px 18px -10px; width: calc(100% + 20px); padding: 0;">
       <div class="filters">
-        <div class="multiselect">
-          <div class="selectBox" onclick="toggleCheckboxes('treeTypes')">
-            Tree types
-          </div>
-          <div id="treeTypes" class="checkboxes">
-            <label><input type="checkbox" value="1" /> 1.</label>
-            <label><input type="checkbox" value="2" /> 2.</label>
-            <label><input type="checkbox" value="3" /> 3.</label>
-          </div>
-        </div>
-
-        <div class="multiselect">
-          <div class="selectBox" onclick="toggleCheckboxes('season')">
-            Season
-          </div>
-          <div id="season" class="checkboxes">
-            <label><input type="checkbox" value="1" /> 1.</label>
-            <label><input type="checkbox" value="2" /> 2.</label>
-            <label><input type="checkbox" value="3" /> 3.</label>
+        <!-- Tree Types Filter -->
+        <div class="filter-group" data-filter="treeTypes">
+          <button class="filter-label-btn" type="button">
+            Tree types <span class="arrow">&#9660;</span>
+          </button>
+          <div class="dropdown-options">
+            <span class="filter-option" data-value="all">All</span>
+            <span class="filter-option" data-value="1">1. </span>
+            <span class="filter-option" data-value="2">2. </span>
+            <span class="filter-option" data-value="3">3. </span>
           </div>
         </div>
-
-        <div class="multiselect">
-          <div class="selectBox" onclick="toggleCheckboxes('size')">
-            Size
-          </div>
-          <div id="size" class="checkboxes">
-            <label><input type="checkbox" value="1" /> 1.</label>
-            <label><input type="checkbox" value="2" /> 2.</label>
-            <label><input type="checkbox" value="3" /> 3.</label>
+        <!-- Season Filter -->
+        <div class="filter-group" data-filter="season">
+          <button class="filter-label-btn" type="button">
+            Season <span class="arrow">&#9660;</span>
+          </button>
+          <div class="dropdown-options">
+            <span class="filter-option" data-value="all">All</span>
+            <span class="filter-option" data-value="1">Winter</span>
+            <span class="filter-option" data-value="2">Summer</span>
+            <span class="filter-option" data-value="3">Rainy</span>
           </div>
         </div>
+        <!-- Size Filter -->
+        <div class="filter-group" data-filter="size">
+          <button class="filter-label-btn" type="button">
+            Size <span class="arrow">&#9660;</span>
+          </button>
+          <div class="dropdown-options">
+            <span class="filter-option" data-value="all">All</span>
+            <span class="filter-option" data-value="1">Small</span>
+            <span class="filter-option" data-value="2">Medium</span>
+            <span class="filter-option" data-value="3">Large</span>
+          </div>
+        </div>
+        <!-- Reset Button -->
+        <button class="reset-btn" type="button" id="resetFiltersBtn">Reset Filters</button>
       </div>
       <div class="map-title">Trail No.3 Map</div>
     </div>
 
     <div class="right-column" style="grid-column: 2 / 3; grid-row: 1 / 3;">
       <div class="info-box">
-        <h3>Tree Information</h3>
+        <div style="font-family:'Courier New', Courier, monospace; font-size:22px; font-weight:bold; color:white; text-align:left; margin-bottom:0;">
+  Forest Inventory
+</div>
+<hr style="border: none; border-top: 2px solid white; margin: 8px -10px 18px -10px; width: calc(100% + 20px); padding: 0;">
         <p>Details will appear here.</p>
       </div>
-
       <div class="donation-box">
         <h3>Support Us</h3>
         <p>It takes more than footsteps to keep the trail alive!</p>
         <a href="donate.html">
-  <button style="padding:8px 16px; background: white; color: black; border:none; cursor:pointer;">
-    Donate
-  </button>
-</a>
-
-</div>
-
+          <button style="padding:8px 16px; background: white; color: black; border:none; cursor:pointer;">
+            Donate
+          </button>
+        </a>
+      </div>
     </div>
 
     <div class="timeline-box">
@@ -218,31 +281,77 @@
   </div>
 
   <script>
-    function toggleCheckboxes(id) {
-      const box = document.getElementById(id);
-      if (box.style.display === "block") {
-        box.style.display = "none";
-      } else {
-        // Hide all others first
-        document.querySelectorAll(".checkboxes").forEach(el => {
-          el.style.display = "none";
-        });
-        box.style.display = "block";
-      }
+    // Helper to close all dropdowns
+    function closeAllDropdowns() {
+      document.querySelectorAll('.dropdown-options').forEach(el => el.style.display = "none");
+      document.querySelectorAll('.filter-label-btn').forEach(btn => btn.classList.remove('open'));
     }
+
+    // Open/close dropdown on label click
+    document.querySelectorAll('.filter-label-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const group = btn.closest('.filter-group');
+        const dropdown = group.querySelector('.dropdown-options');
+        const isOpen = dropdown.style.display === "block";
+        closeAllDropdowns();
+        if (!isOpen) {
+          dropdown.style.display = "block";
+          btn.classList.add('open');
+        }
+      });
+    });
 
     // Close dropdowns if clicking outside
     document.addEventListener("click", function(event) {
-      const multiselects = document.querySelectorAll(".multiselect");
-      let clickedInside = false;
-      multiselects.forEach(ms => {
-        if (ms.contains(event.target)) clickedInside = true;
-      });
-      if (!clickedInside) {
-        document.querySelectorAll(".checkboxes").forEach(el => {
-          el.style.display = "none";
-        });
+      if (!event.target.closest('.filter-group')) {
+        closeAllDropdowns();
       }
+    });
+
+    // Filter logic: allow multiple selections, "All" acts as reset
+    function selectOption(option) {
+      const dropdown = option.parentElement;
+      const options = dropdown.querySelectorAll('.filter-option');
+      if (option.dataset.value === "all") {
+        // If "All" is clicked, deselect all others and select "All"
+        options.forEach(opt => opt.classList.remove('selected'));
+        option.classList.add('selected');
+      } else {
+        // Deselect "All"
+        dropdown.querySelector('.filter-option[data-value="all"]').classList.remove('selected');
+        // Toggle this option
+        option.classList.toggle('selected');
+        // If none selected, revert to "All"
+        const anySelected = Array.from(options).slice(1).some(opt => opt.classList.contains('selected'));
+        if (!anySelected) {
+          options[0].classList.add('selected');
+        }
+      }
+    }
+
+    // Attach click events to filter options
+    document.querySelectorAll('.dropdown-options .filter-option').forEach(option => {
+      option.addEventListener('click', function(e) {
+        e.stopPropagation();
+        selectOption(this);
+      });
+    });
+
+    // Set default selection to "All" for each filter on load
+    document.querySelectorAll('.dropdown-options').forEach(dropdown => {
+      const allOption = dropdown.querySelector('.filter-option[data-value="all"]');
+      if (allOption) allOption.classList.add('selected');
+    });
+
+    // Reset button logic
+    document.getElementById('resetFiltersBtn').addEventListener('click', function() {
+      document.querySelectorAll('.dropdown-options').forEach(dropdown => {
+        dropdown.querySelectorAll('.filter-option').forEach(opt => opt.classList.remove('selected'));
+        const allOption = dropdown.querySelector('.filter-option[data-value="all"]');
+        if (allOption) allOption.classList.add('selected');
+      });
+      closeAllDropdowns();
     });
   </script>
 </body>
