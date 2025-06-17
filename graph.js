@@ -294,7 +294,7 @@ window.drawGraphWithFilters = function(filters) {
     .attr("r", 14)
     .attr("fill", d => colorByType(d.type))
     .call(drag(simulation))
-    .on("mouseover", (event, d) => {
+    .on("mouseover", function(event, d) {
       d3.select("#tooltip")
         .transition().duration(200).style("opacity", 0.9);
       d3.select("#tooltip")
@@ -302,8 +302,9 @@ window.drawGraphWithFilters = function(filters) {
         .style("left", (event.pageX + 10) + "px")
         .style("top", (event.pageY - 28) + "px");
     })
-    .on("mouseout", () => {
-      d3.select("#tooltip").transition().duration(500).style("opacity", 0);
+    .on("mouseout", function(event, d) {
+      d3.select("#tooltip")
+        .transition().duration(300).style("opacity", 0);
     });
 
   // Draw labels
