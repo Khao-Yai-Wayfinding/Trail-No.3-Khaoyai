@@ -2,68 +2,81 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Trail No.3 Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Trail No.3 Flora Map</title>
   <style>
-    html, body {
+    body {
+      background: #000;
+      color: #fff;
+      font-family: "Courier New", Courier, monospace;
       margin: 0;
       height: 100vh;
       overflow: hidden;
-      background-color: black;
-      color: white;
-      font-family: "Courier New", Courier, monospace;
-      font-size: 16px;
     }
-
     .container {
+      width: 98vw;
+      height: 98vh;
+      margin: 1vh 1vw;
+      padding: 0;
       display: grid;
       grid-template-columns: 2fr 1fr;
       grid-template-rows: auto 1fr auto;
-      height: calc(100vh - 40px); /* Adjust for vertical margin */
       gap: 10px;
-      padding: 0 20px;
       box-sizing: border-box;
-      margin: 20px 8px; /* 20px top/bottom, 8px left/right */
     }
-
     .map-box, .info-box, .timeline-box, .donation-box {
       border: 2px solid white;
-      background-color: black;
+      border-radius: 6px;
+      background: black;
       color: white;
-      padding: 10px;
+      padding: 20px 20px 10px 20px;
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
     }
-
     .map-box {
       grid-column: 1 / 2;
       grid-row: 1 / 3;
+      position: relative;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
     }
-
+    .header-title {
+      font-size: 22px;
+      font-weight: bold;
+      color: white;
+      text-align: left;
+      margin-bottom: 0;
+    }
+    .header-hr {
+      border: none;
+      border-top: 2px solid white;
+      margin: 8px -20px 18px -20px;
+      width: calc(100% + 40px);
+      padding: 0;
+    }
     .filters {
       display: flex;
-      gap: 8px; /* Less space between filter groups */
+      gap: 8px;
       margin-bottom: 20px;
       align-items: flex-start;
-      justify-content: flex-start; /* Align filters to the left */
+      justify-content: flex-start;
+      font-family: "Courier New", Courier, monospace;
     }
-
     .filter-group {
       position: relative;
-      min-width: 120px; /* You can reduce this if you want them even closer */
+      min-width: 120px;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       font-family: "Courier New", Courier, monospace;
       font-size: 16px;
-      margin-right: 0; /* Remove extra space on the right */
     }
-
     .filter-label-btn {
       display: flex;
       align-items: center;
-      justify-content: space-between; /* Pushes arrow to the right */
+      justify-content: space-between;
       width: 100%;
       background: black;
       color: white;
@@ -80,17 +93,14 @@
       position: relative;
       font-family: "Courier New", Courier, monospace;
     }
-
     .filter-label-btn .arrow {
-      margin-left: auto; /* Ensures arrow is at the far right */
+      margin-left: auto;
       font-size: 12px;
       transition: transform 0.2s;
     }
-
     .filter-label-btn.open .arrow {
       transform: rotate(180deg);
     }
-
     .dropdown-options {
       display: none;
       position: absolute;
@@ -105,10 +115,9 @@
       top: 110%;
       box-shadow: 0 2px 8px rgba(30,144,255,0.15);
       padding: 8px 0;
-      font-family: "Courier New", Courier, monospace; /* Keep filter font */
-      font-size: 16px; /* Keep filter font size */
+      font-family: "Courier New", Courier, monospace;
+      font-size: 16px;
     }
-
     .dropdown-options .filter-option {
       padding: 6px 18px;
       cursor: pointer;
@@ -119,19 +128,16 @@
       background: black;
       color: white;
       margin: 2px 8px;
-      font-family: "Courier New", Courier, monospace; /* Keep filter font */
+      font-family: "Courier New", Courier, monospace;
     }
-
     .dropdown-options .filter-option.selected {
       background: white;
       color: black;
     }
-
     .dropdown-options .filter-option:hover {
       background: #333;
       color: white;
     }
-
     .reset-btn {
       background: none;
       color: #1e90ff;
@@ -140,63 +146,85 @@
       padding: 6px 18px;
       font-size: 15px;
       cursor: pointer;
-      margin-left: 8px; /* Less space before the reset button */
+      margin-left: 8px;
       transition: background 0.2s, color 0.2s;
       align-self: flex-end;
-      font-family: "Courier New", Courier, monospace; /* Keep filter font */
+      font-family: "Courier New", Courier, monospace;
     }
-
     .reset-btn:hover {
       background: #1e90ff;
       color: white;
     }
-
-    .map-title {
-      text-align: center;
-      font-size: 20px;
-      font-weight: bold;
-      flex-grow: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 10px;
+    #force-map {
+      width: 100%;
+      height: 100%;
+      min-height: 300px;
+      flex: 1 1 auto;
+      background: #000;
+      border-radius: 6px;
+      margin-bottom: 16px;
+      /* border: none; */
+      position: relative;
+      box-sizing: border-box;
     }
-
     .right-column {
       display: grid;
       grid-template-rows: 1fr auto;
       height: 100%;
       gap: 10px;
     }
-
     .info-box {
       grid-row: 1;
       overflow-y: auto;
+      min-height: 180px;
+      margin-bottom: 10px;
     }
-
+    .info-header {
+      font-size: 22px;
+      font-weight: bold;
+      color: white;
+      text-align: left;
+      margin-bottom: 0;
+      font-family: "Courier New", Courier, monospace;
+    }
+    .info-hr {
+      border: none;
+      border-top: 2px solid white;
+      margin: 8px -20px 18px -20px;
+      width: calc(100% + 40px);
+      padding: 0;
+    }
     .donation-box {
       grid-row: 2;
       justify-content: center;
       align-items: center;
       font-size: 16px;
       text-align: center;
+      min-height: 100px;
     }
-
     .timeline-box {
       grid-column: 1 / 3;
       grid-row: 3 / 4;
-      height: 150px;
+      height: 120px;
       text-align: center;
       font-size: 18px;
       overflow: auto;
+      border: 2px solid white;
+      border-radius: 6px;
+      background: black;
+      color: white;
+      padding: 20px;
+      box-sizing: border-box;
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-
     .loading-text::after {
       content: "";
       display: inline-block;
       animation: dots 1.2s steps(4, end) infinite;
     }
-
     @keyframes dots {
       0% { content: ""; }
       25% { content: "."; }
@@ -204,64 +232,79 @@
       75% { content: "..."; }
       100% { content: ""; }
     }
+    .tooltip {
+      position: absolute;
+      pointer-events: none;
+      font-size: 12px;
+      padding: 6px;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      border-radius: 4px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 10;
+    }
   </style>
 </head>
 <body>
   <div class="container">
+    <!-- Map and Filters -->
     <div class="map-box">
-      <div style="font-family:'Courier New', Courier, monospace; font-size:22px; font-weight:bold; color:white; text-align:left; margin-bottom:0;">
-  Trail No.3 Flora Map
-</div>
-<hr style="border: none; border-top: 2px solid white; margin: 8px -10px 18px -10px; width: calc(100% + 20px); padding: 0;">
+      <div class="header-title">Trail No.3 Flora Map</div>
+      <hr class="header-hr">
       <div class="filters">
-        <!-- Tree Types Filter -->
-        <div class="filter-group" data-filter="treeTypes">
+        <!-- Type Filter FIRST -->
+        <div class="filter-group multiselect" data-filter="type">
           <button class="filter-label-btn" type="button">
-            Tree types <span class="arrow">&#9660;</span>
+            Tree Type <span class="arrow">&#9660;</span>
           </button>
           <div class="dropdown-options">
-            <span class="filter-option" data-value="all">All</span>
-            <span class="filter-option" data-value="1">1. </span>
-            <span class="filter-option" data-value="2">2. </span>
-            <span class="filter-option" data-value="3">3. </span>
+            <span class="filter-option selected" data-value="All">All</span>
+            <span class="filter-option" data-value="Deciduous">Deciduous</span>
+            <span class="filter-option" data-value="Evergreen">Evergreen</span>
+            <span class="filter-option" data-value="Fruit">Fruit</span>
+            <span class="filter-option" data-value="Coniferous">Coniferous</span>
+            <span class="filter-option" data-value="Rattan">Rattan</span>
+            <span class="filter-option" data-value="Orchid">Orchid</span>
+            <span class="filter-option" data-value="Shrub">Shrub</span>
+            <span class="filter-option" data-value="Vine">Vine</span>
+            <span class="filter-option" data-value="Herb">Herb</span>
           </div>
         </div>
-        <!-- Season Filter -->
-        <div class="filter-group" data-filter="season">
+        <!-- Season Filter SECOND -->
+        <div class="filter-group multiselect" data-filter="season">
           <button class="filter-label-btn" type="button">
             Season <span class="arrow">&#9660;</span>
           </button>
           <div class="dropdown-options">
-            <span class="filter-option" data-value="all">All</span>
-            <span class="filter-option" data-value="1">Winter</span>
-            <span class="filter-option" data-value="2">Summer</span>
-            <span class="filter-option" data-value="3">Rainy</span>
+            <span class="filter-option selected" data-value="All">All</span>
+            <span class="filter-option" data-value="Winter">Winter</span>
+            <span class="filter-option" data-value="Summer">Summer</span>
+            <span class="filter-option" data-value="Rainy">Rainy</span>
           </div>
         </div>
-        <!-- Size Filter -->
-        <div class="filter-group" data-filter="size">
+        <!-- Size Filter THIRD -->
+        <div class="filter-group multiselect" data-filter="size">
           <button class="filter-label-btn" type="button">
             Size <span class="arrow">&#9660;</span>
           </button>
           <div class="dropdown-options">
-            <span class="filter-option" data-value="all">All</span>
-            <span class="filter-option" data-value="1">Small</span>
-            <span class="filter-option" data-value="2">Medium</span>
-            <span class="filter-option" data-value="3">Large</span>
+            <span class="filter-option selected" data-value="All">All</span>
+            <span class="filter-option" data-value="Small">Small</span>
+            <span class="filter-option" data-value="Medium">Medium</span>
+            <span class="filter-option" data-value="Large">Large</span>
           </div>
         </div>
         <!-- Reset Button -->
         <button class="reset-btn" type="button" id="resetFiltersBtn">Reset Filters</button>
       </div>
-      <div class="map-title">Trail No.3 Map</div>
+      <div id="force-map"></div>
     </div>
-
+    <!-- Right Column: Info and Donation -->
     <div class="right-column" style="grid-column: 2 / 3; grid-row: 1 / 3;">
       <div class="info-box">
-        <div style="font-family:'Courier New', Courier, monospace; font-size:22px; font-weight:bold; color:white; text-align:left; margin-bottom:0;">
-  Forest Inventory
-</div>
-<hr style="border: none; border-top: 2px solid white; margin: 8px -10px 18px -10px; width: calc(100% + 20px); padding: 0;">
+        <div class="info-header">Forest Inventory</div>
+        <hr class="info-hr">
         <p>Details will appear here.</p>
       </div>
       <div class="donation-box">
@@ -274,20 +317,21 @@
         </a>
       </div>
     </div>
-
+    <!-- Timeline/Coming Soon -->
     <div class="timeline-box">
       <span>Coming soon<span class="loading-text"></span></span>
     </div>
   </div>
-
+  <div class="tooltip" id="tooltip"></div>
+  <!-- D3.js -->
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <!-- Multi-select dropdown logic and filter communication -->
   <script>
-    // Helper to close all dropdowns
     function closeAllDropdowns() {
       document.querySelectorAll('.dropdown-options').forEach(el => el.style.display = "none");
       document.querySelectorAll('.filter-label-btn').forEach(btn => btn.classList.remove('open'));
     }
 
-    // Open/close dropdown on label click
     document.querySelectorAll('.filter-label-btn').forEach(btn => {
       btn.addEventListener('click', function(e) {
         e.stopPropagation();
@@ -302,57 +346,67 @@
       });
     });
 
-    // Close dropdowns if clicking outside
     document.addEventListener("click", function(event) {
       if (!event.target.closest('.filter-group')) {
         closeAllDropdowns();
       }
     });
 
-    // Filter logic: allow multiple selections, "All" acts as reset
-    function selectOption(option) {
-      const dropdown = option.parentElement;
-      const options = dropdown.querySelectorAll('.filter-option');
-      if (option.dataset.value === "all") {
-        // If "All" is clicked, deselect all others and select "All"
-        options.forEach(opt => opt.classList.remove('selected'));
-        option.classList.add('selected');
-      } else {
-        // Deselect "All"
-        dropdown.querySelector('.filter-option[data-value="all"]').classList.remove('selected');
-        // Toggle this option
-        option.classList.toggle('selected');
-        // If none selected, revert to "All"
-        const anySelected = Array.from(options).slice(1).some(opt => opt.classList.contains('selected'));
-        if (!anySelected) {
-          options[0].classList.add('selected');
-        }
-      }
-    }
-
-    // Attach click events to filter options
     document.querySelectorAll('.dropdown-options .filter-option').forEach(option => {
       option.addEventListener('click', function(e) {
         e.stopPropagation();
-        selectOption(this);
+        const dropdown = option.parentElement;
+        const options = dropdown.querySelectorAll('.filter-option');
+        if (option.dataset.value === "All") {
+          options.forEach(opt => opt.classList.remove('selected'));
+          option.classList.add('selected');
+        } else {
+          dropdown.querySelector('.filter-option[data-value="All"]').classList.remove('selected');
+          option.classList.toggle('selected');
+          const anySelected = Array.from(options).slice(1).some(opt => opt.classList.contains('selected'));
+          if (!anySelected) {
+            options[0].classList.add('selected');
+          }
+        }
+        updateGraphWithFilters();
       });
     });
 
-    // Set default selection to "All" for each filter on load
-    document.querySelectorAll('.dropdown-options').forEach(dropdown => {
-      const allOption = dropdown.querySelector('.filter-option[data-value="all"]');
-      if (allOption) allOption.classList.add('selected');
-    });
-
-    // Reset button logic
     document.getElementById('resetFiltersBtn').addEventListener('click', function() {
       document.querySelectorAll('.dropdown-options').forEach(dropdown => {
         dropdown.querySelectorAll('.filter-option').forEach(opt => opt.classList.remove('selected'));
-        const allOption = dropdown.querySelector('.filter-option[data-value="all"]');
+        const allOption = dropdown.querySelector('.filter-option[data-value="All"]');
         if (allOption) allOption.classList.add('selected');
       });
+      // Clear all fixed positions before resetting the graph
+      if (window.treeData && window.treeData.nodes) {
+        window.treeData.nodes.forEach(n => { n.fx = null; n.fy = null; });
+      }
       closeAllDropdowns();
+      updateGraphWithFilters();
     });
+
+    function getSelectedFilters() {
+      const filters = {};
+      document.querySelectorAll('.filter-group').forEach(group => {
+        const filterKey = group.getAttribute('data-filter');
+        const selected = Array.from(group.querySelectorAll('.filter-option.selected')).map(opt => opt.dataset.value);
+        filters[filterKey] = selected.includes("All") ? [] : selected;
+      });
+      return filters;
+    }
+
+    // This function will be called by the filter UI to update the graph
+    function updateGraphWithFilters() {
+      if (window.drawGraphWithFilters) {
+        const filters = getSelectedFilters();
+        window.drawGraphWithFilters(filters);
+      }
+    }
+    // Initial call (in case graph.js loads after DOMContentLoaded)
+    document.addEventListener("DOMContentLoaded", updateGraphWithFilters);
   </script>
+  <!-- Your D3 force graph code should be in graph.js -->
+  <script src="graph.js"></script>
 </body>
 </html>
