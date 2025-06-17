@@ -199,6 +199,37 @@ function drag(simulation) {
     .on("end", dragended);
 }
 
+function updateInfoBox(filteredNodes) {
+  const infoBox = document.querySelector('.info-box');
+  if (!infoBox) return;
+  // Remove old cards
+  let list = infoBox.querySelector('.node-info-list');
+  if (!list) {
+    list = document.createElement('div');
+    list.className = 'node-info-list';
+    infoBox.appendChild(list);
+  }
+  list.innerHTML = '';
+  if (filteredNodes.length === 0) {
+    list.innerHTML = "<div style='color:#aaa;'>No trees found for this filter.</div>";
+    return;
+  }
+  filteredNodes.forEach(node => {
+    const card = document.createElement('div');
+    card.className = 'node-info-card';
+    card.style.borderColor = colorByType(node.type);
+    card.style.background = colorByType(node.type) + "22"; // subtle transparent background
+    card.innerHTML = `
+      <div class="node-title">${node.name}</div>
+      <div><b>Scientific:</b> ${node.scientific}</div>
+      <div><b>Season:</b> ${node.season_note}</div>
+      <div><b>Type:</b> ${node.type}</div>
+      <div><b>Size:</b> ${node.size}</div>
+    `;
+    list.appendChild(card);
+  });
+}
+
 window.drawGraphWithFilters = function(filters) {
   d3.select("#force-map").selectAll("*").remove();
 
@@ -209,15 +240,17 @@ window.drawGraphWithFilters = function(filters) {
     return seasonMatch && typeMatch && sizeMatch;
   });
 
+  // Update info box with current filtered nodes
+  updateInfoBox(filteredNodes);
+
   const links = createLinks(filteredNodes, filters);
 
   const container = document.getElementById("force-map");
   const width = container.clientWidth || 960;
   const height = container.clientHeight || 400;
 
-  // Adjust force for filtered vs default
   const isDefault = filters.type.length === 0 && filters.season.length === 0 && filters.size.length === 0;
-  const linkDistance = isDefault ? 450 : 350;
+  const linkDistance = isDefault ? 450 : 200;
   const chargeStrength = isDefault ? -200 : -10;
 
   const svg = d3.select("#force-map")
@@ -225,7 +258,6 @@ window.drawGraphWithFilters = function(filters) {
     .attr("width", width)
     .attr("height", height);
 
-  // Add zoom behavior (mouse wheel and drag), limit pan/zoom
   const zoom = d3.zoom()
     .scaleExtent([0.2, 5])
     .translateExtent([[ -width * 0.5, -height * 0.5 ], [ width * 1.5, height * 1.5 ]])
@@ -234,7 +266,6 @@ window.drawGraphWithFilters = function(filters) {
     });
   svg.call(zoom);
 
-  // Prevent page scroll/zoom when over force-map
   document.getElementById("force-map").addEventListener("wheel", function(e) {
     if (!e.ctrlKey) {
       e.preventDefault();
@@ -242,10 +273,8 @@ window.drawGraphWithFilters = function(filters) {
     }
   }, { passive: false });
 
-  // Add a group for zoom/pan
   const zoomable = svg.append("g").attr("class", "zoomable");
 
-  // --- Gradient link setup ---
   const defs = svg.append("defs");
   links.forEach(link => {
     const sourceNode = filteredNodes.find(n => n.id === (link.source.id || link.source));
@@ -295,6 +324,17 @@ window.drawGraphWithFilters = function(filters) {
     .attr("fill", d => colorByType(d.type))
     .call(drag(simulation))
     .on("mouseover", function(event, d) {
+      d3.select(this)
+        .transition()
+        .duration(120)
+        .attr("r", 14 * 1.08);
+
+      labelGroup.selectAll("text")
+        .filter(t => t.id === d.id)
+        .transition()
+        .duration(120)
+        .attr("font-size", "13px");
+
       d3.select("#tooltip")
         .transition().duration(200).style("opacity", 0.9);
       d3.select("#tooltip")
@@ -303,8 +343,19 @@ window.drawGraphWithFilters = function(filters) {
         .style("top", (event.pageY - 28) + "px");
     })
     .on("mouseout", function(event, d) {
+      d3.select(this)
+        .transition()
+        .duration(120)
+        .attr("r", 14);
+
+      labelGroup.selectAll("text")
+        .filter(t => t.id === d.id)
+        .transition()
+        .duration(120)
+        .attr("font-size", "12px");
+
       d3.select("#tooltip")
-        .transition().duration(300).style("opacity", 0);
+        .transition().duration(200).style("opacity", 0);
     });
 
   // Draw labels
@@ -319,14 +370,20 @@ window.drawGraphWithFilters = function(filters) {
     .attr("pointer-events", "none")
     .text(d => d.name);
 
+  const nodeRadius = 14;
   simulation.on("tick", () => {
+    // Clamp node positions to stay within the SVG border
+    filteredNodes.forEach(d => {
+      d.x = Math.max(nodeRadius, Math.min(width - nodeRadius, d.x));
+      d.y = Math.max(nodeRadius, Math.min(height - nodeRadius, d.y));
+    });
+
     linkGroup.selectAll("line")
       .attr("x1", d => d.source.x)
       .attr("y1", d => d.source.y)
       .attr("x2", d => d.target.x)
       .attr("y2", d => d.target.y)
       .each(function(d) {
-        // Update gradient direction
         const sourceId = (d.source.id || d.source).replace(/[^a-zA-Z0-9]/g, '');
         const targetId = (d.target.id || d.target).replace(/[^a-zA-Z0-9]/g, '');
         const grad = svg.select(`#gradient-link-${sourceId}-${targetId}`);
