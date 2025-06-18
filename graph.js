@@ -1,4 +1,3 @@
-// Make treeData global so reset can clear fx/fy
 window.treeData = {
   nodes: [
     {
@@ -148,12 +147,16 @@ function colorByType(type) {
   }
 }
 
+// Helper to sanitize ID for gradients
+function sanitizeId(id) {
+  return id.replace(/[^a-zA-Z0-9]/g, '');
+}
+
 // Only connect nodes that share a filter value
 function createLinks(nodes, filters) {
   const links = [];
   const noFilter = filters.type.length === 0 && filters.season.length === 0 && filters.size.length === 0;
   if (noFilter) {
-    // Fully connect all nodes
     for (let i = 0; i < nodes.length; i++) {
       for (let j = i + 1; j < nodes.length; j++) {
         links.push({ source: nodes[i].id, target: nodes[j].id });
@@ -161,7 +164,6 @@ function createLinks(nodes, filters) {
     }
     return links;
   }
-  // Otherwise, connect nodes that share any active filter value
   for (let i = 0; i < nodes.length; i++) {
     for (let j = i + 1; j < nodes.length; j++) {
       const a = nodes[i];
@@ -191,7 +193,7 @@ function drag(simulation) {
   }
   function dragended(event, d) {
     simulation.alphaTarget(0);
-    simulation.stop();
+    // simulation.stop();  // don't stop simulation completely, allow it to continue gently
   }
   return d3.drag()
     .on("start", dragstarted)
@@ -202,7 +204,7 @@ function drag(simulation) {
 function updateInfoBox(filteredNodes) {
   const infoBox = document.querySelector('.info-box');
   if (!infoBox) return;
-  // Remove old cards
+
   let list = infoBox.querySelector('.node-info-list');
   if (!list) {
     list = document.createElement('div');
@@ -210,15 +212,19 @@ function updateInfoBox(filteredNodes) {
     infoBox.appendChild(list);
   }
   list.innerHTML = '';
+
   if (filteredNodes.length === 0) {
     list.innerHTML = "<div style='color:#aaa;'>No trees found for this filter.</div>";
     return;
   }
+
   filteredNodes.forEach(node => {
     const card = document.createElement('div');
     card.className = 'node-info-card';
+    card.setAttribute('data-id', node.id);
+    card.setAttribute('tabindex', 0); // make focusable for accessibility
     card.style.borderColor = colorByType(node.type);
-    card.style.background = colorByType(node.type) + "22"; // subtle transparent background
+    card.style.background = colorByType(node.type) + "22";
     card.innerHTML = `
       <div class="node-title">${node.name}</div>
       <div><b>Scientific:</b> ${node.scientific}</div>
@@ -227,6 +233,27 @@ function updateInfoBox(filteredNodes) {
       <div><b>Size:</b> ${node.size}</div>
     `;
     list.appendChild(card);
+  });
+}
+
+// Only show name by default
+function renderInfoPanel(nodes) {
+  const infoList = document.getElementById('nodeInfoList');
+  infoList.innerHTML = '';
+  nodes.forEach(node => {
+    const card = document.createElement('div');
+    card.className = 'node-info-card';
+    card.innerHTML = `
+      <span class="node-title">${node.name}</span>
+      <div class="node-details" style="display:none;">
+        <div>ID: ${node.id}</div>
+        <div>Scientific: ${node.scientific}</div>
+        <div>Season: ${node.season_note}</div>
+        <div>Type: ${node.type}</div>
+        <div>Size: ${node.size}</div>
+      </div>
+    `;
+    infoList.appendChild(card);
   });
 }
 
@@ -240,7 +267,6 @@ window.drawGraphWithFilters = function(filters) {
     return seasonMatch && typeMatch && sizeMatch;
   });
 
-  // Update info box with current filtered nodes
   updateInfoBox(filteredNodes);
 
   const links = createLinks(filteredNodes, filters);
@@ -260,13 +286,14 @@ window.drawGraphWithFilters = function(filters) {
 
   const zoom = d3.zoom()
     .scaleExtent([0.2, 5])
-    .translateExtent([[ -width * 0.5, -height * 0.5 ], [ width * 1.5, height * 1.5 ]])
+    .translateExtent([[-width * 0.5, -height * 0.5], [width * 1.5, height * 1.5]])
     .on("zoom", (event) => {
       svg.select("g.zoomable").attr("transform", event.transform);
     });
   svg.call(zoom);
 
-  document.getElementById("force-map").addEventListener("wheel", function(e) {
+  // Prevent scrolling zoom unless ctrl is pressed
+  container.addEventListener("wheel", function(e) {
     if (!e.ctrlKey) {
       e.preventDefault();
       e.stopPropagation();
@@ -279,7 +306,7 @@ window.drawGraphWithFilters = function(filters) {
   links.forEach(link => {
     const sourceNode = filteredNodes.find(n => n.id === (link.source.id || link.source));
     const targetNode = filteredNodes.find(n => n.id === (link.target.id || link.target));
-    const gradId = `gradient-link-${sourceNode.id.replace(/[^a-zA-Z0-9]/g, '')}-${targetNode.id.replace(/[^a-zA-Z0-9]/g, '')}`;
+    const gradId = `gradient-link-${sanitizeId(sourceNode.id)}-${sanitizeId(targetNode.id)}`;
     const grad = defs.append("linearGradient")
       .attr("id", gradId)
       .attr("gradientUnits", "userSpaceOnUse")
@@ -308,10 +335,10 @@ window.drawGraphWithFilters = function(filters) {
     .enter()
     .append("line")
     .attr("stroke-width", 1.5)
-    .attr("stroke-opacity", 0.9)
+    .attr("stroke-opacity", 0.6)
     .attr("stroke", d => {
-      const sourceId = (d.source.id || d.source).replace(/[^a-zA-Z0-9]/g, '');
-      const targetId = (d.target.id || d.target).replace(/[^a-zA-Z0-9]/g, '');
+      const sourceId = sanitizeId(d.source.id || d.source);
+      const targetId = sanitizeId(d.target.id || d.target);
       return `url(#gradient-link-${sourceId}-${targetId})`;
     });
 
@@ -335,11 +362,15 @@ window.drawGraphWithFilters = function(filters) {
         .duration(120)
         .attr("font-size", "13px");
 
-      d3.select("#tooltip")
-        .transition().duration(200).style("opacity", 0.9);
-      d3.select("#tooltip")
+      const tooltip = d3.select("#tooltip");
+      tooltip.interrupt();
+      tooltip.transition().duration(200).style("opacity", 0.9);
+
+      // Prevent tooltip going beyond right edge of viewport
+      const leftPos = Math.min(event.pageX + 10, window.innerWidth - 200);
+      tooltip
         .html(`<strong>${d.name}</strong><br/>Scientific: ${d.scientific}<br/>Season: ${d.season_note}<br/>Type: ${d.type}<br/>Size: ${d.size}`)
-        .style("left", (event.pageX + 10) + "px")
+        .style("left", leftPos + "px")
         .style("top", (event.pageY - 28) + "px");
     })
     .on("mouseout", function(event, d) {
@@ -356,7 +387,30 @@ window.drawGraphWithFilters = function(filters) {
 
       d3.select("#tooltip")
         .transition().duration(200).style("opacity", 0);
+    })
+    .on('click', function(event, d) {
+      // Remove selection from all info cards
+      document.querySelectorAll('.node-info-card').forEach(card => {
+        card.classList.remove('selected-info-card');
+      });
+
+      // Add selection to the clicked node's info card
+      const infoCard = document.querySelector(`.node-info-card[data-id="${d.id}"]`);
+      if (infoCard) {
+        infoCard.classList.add('selected-info-card');
+        infoCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+
+      // Prevent event propagation to svg background
+      event.stopPropagation();
     });
+
+  // Deselect cards if clicking on empty background
+  svg.on("click", () => {
+    document.querySelectorAll('.node-info-card').forEach(card => {
+      card.classList.remove('selected-info-card');
+    });
+  });
 
   // Draw labels
   labelGroup.selectAll("text")
@@ -372,7 +426,6 @@ window.drawGraphWithFilters = function(filters) {
 
   const nodeRadius = 14;
   simulation.on("tick", () => {
-    // Clamp node positions to stay within the SVG border
     filteredNodes.forEach(d => {
       d.x = Math.max(nodeRadius, Math.min(width - nodeRadius, d.x));
       d.y = Math.max(nodeRadius, Math.min(height - nodeRadius, d.y));
@@ -384,8 +437,8 @@ window.drawGraphWithFilters = function(filters) {
       .attr("x2", d => d.target.x)
       .attr("y2", d => d.target.y)
       .each(function(d) {
-        const sourceId = (d.source.id || d.source).replace(/[^a-zA-Z0-9]/g, '');
-        const targetId = (d.target.id || d.target).replace(/[^a-zA-Z0-9]/g, '');
+        const sourceId = sanitizeId(d.source.id || d.source);
+        const targetId = sanitizeId(d.target.id || d.target);
         const grad = svg.select(`#gradient-link-${sourceId}-${targetId}`);
         if (!grad.empty()) {
           grad
@@ -404,6 +457,15 @@ window.drawGraphWithFilters = function(filters) {
       .attr("x", d => d.x)
       .attr("y", d => d.y);
   });
+
+  // Expose reset function to clear drag fixes and restart simulation
+  window.resetSimulation = () => {
+    filteredNodes.forEach(d => {
+      d.fx = null;
+      d.fy = null;
+    });
+    simulation.alpha(1).restart();
+  };
 };
 
 
