@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Donate - Trail No.3 Project</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: black;
+      color: white;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .donation-container {
+      display: flex;
+      gap: 40px;
+    }
+
+    .donation-box {
+      width: 600px;
+      height: 200px;
+      border: 2px solid white;
+      background-color: black;
+      position: relative;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .donation-box:hover {
+      transform: scale(1.05);
+    }
+
+    .donation-title {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: white;
+      color: black;
+      padding: 10px 0;
+      font-size: 16px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="donation-container">
+    <div class="donation-box" onclick="window.open('http://www.khaoyai.org/index.php?mo=24', '_blank')">
+      <div class="donation-title">Khao Yai National Park Protection Foundation</div>
+    </div>
+    <div class="donation-box" onclick="window.open('https://www.seub.or.th/donate/', '_blank')">
+      <div class="donation-title">Seub Nakhasathien Foundation</div>
+    </div>
+  </div>
+</body>
+</html>

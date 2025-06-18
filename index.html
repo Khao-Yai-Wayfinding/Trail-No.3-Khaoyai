@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Trail No.3 Flora Map</title>
+  <style>
+    body {
+      background: #000;
+      color: #fff;
+      font-family: "Courier New", Courier, monospace;
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      grid-template-rows: 1fr auto;
+      height: 100vh;
+      width: 100vw;
+      gap: 10px;
+      box-sizing: border-box;
+    }
+    .map-box, .info-box, .timeline-box, .donation-box {
+      border: 2px solid white;
+      border-radius: 0 !important;
+      background: black;
+      color: white;
+      padding: 20px 20px 10px 20px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+    }
+    .map-box {
+      border: 2px solid white;
+      border-radius: 6px;
+      background: transparent; /* or #222 if you want a subtle background */
+      color: white;
+      padding: 0;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      min-height: 0;
+      position: relative;
+    }
+    .header-title {
+      font-size: 22px;
+      font-weight: bold;
+      color: white;
+      text-align: left;
+      margin-top: 20px;      /* Match .info-header */
+      margin-bottom: 0;
+      font-family: "Courier New", Courier, monospace;
+      margin-left: 20px;
+      /* Remove extra padding if any */
+    }
+
+    .header-hr {
+      border: none;
+      border-top: 2px solid white;
+      margin: 8px 0 18px 0;  /* Remove negative margins, match .info-hr */
+      width: 100%;           /* Make the line fit the box */
+      padding: 0;
+    }
+    .filters {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      align-items: flex-start;
+      justify-content: flex-start;
+      font-family: "Courier New", Courier, monospace;
+      margin-left: 20px;
+    }
+    .filter-group {
+      position: relative;
+      min-width: 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 16px;
+    }
+    .filter-label-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      background: black;
+      color: white;
+      border: 1px solid white;
+      border-radius: 4px;
+      padding: 6px 18px 6px 12px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      user-select: none;
+      transition: border-color 0.2s;
+      margin-bottom: 0;
+      min-width: 120px;
+      position: relative;
+      font-family: "Courier New", Courier, monospace;
+    }
+    .filter-label-btn .arrow {
+      margin-left: auto;
+      font-size: 12px;
+      transition: transform 0.2s;
+    }
+    .filter-label-btn.open .arrow {
+      transform: rotate(180deg);
+    }
+    .dropdown-options {
+      display: none;
+      position: absolute;
+      background: black;
+      border: 1px solid white;
+      border-radius: 4px;
+      z-index: 2;
+      min-width: 100%;
+      margin-top: 2px;
+      flex-direction: column;
+      left: 0;
+      top: 110%;
+      box-shadow: 0 2px 8px rgba(30,144,255,0.15);
+      padding: 8px 0;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 16px;
+    }
+    .dropdown-options .filter-option {
+      padding: 6px 18px;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background 0.2s, color 0.2s;
+      display: block;
+      font-size: 15px;
+      background: black;
+      color: white;
+      margin: 2px 8px;
+      font-family: "Courier New", Courier, monospace;
+    }
+    .dropdown-options .filter-option.selected {
+      background: white;
+      color: black;
+    }
+    .dropdown-options .filter-option:hover {
+      background: #333;
+      color: white;
+    }
+    .reset-btn {
+      background: none;
+      color: #1e90ff;
+      border: 1px solid #1e90ff;
+      border-radius: 4px;
+      padding: 6px 18px;
+      font-size: 15px;
+      cursor: pointer;
+      margin-left: 8px;
+      transition: background 0.2s, color 0.2s;
+      align-self: flex-end;
+      font-family: "Courier New", Courier, monospace;
+    }
+    .reset-btn:hover {
+      background: #1e90ff;
+      color: white;
+    }
+    #force-map {
+      width: 100%;
+      height: 100%;
+      min-height: 300px;
+      flex: 1 1 auto;
+      background: #000;
+      border-radius: 6px;
+      margin-bottom: 16px;
+      /* border: none; */
+      position: relative;
+      box-sizing: border-box;
+    }
+    .right-column {
+      grid-column: 2 / 3;
+      grid-row: 1 / 2;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-width: 0;
+      min-height: 0;
+      gap: 18px;
+    }
+    .info-box {
+      flex: 1 1 0;
+      min-height: 180px;
+      margin-bottom: 0;
+      border: 2px solid white;
+      border-radius: 6px;
+      background: black;
+      color: white;
+      padding: 0 20px 10px 20px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      min-height: 0;
+      max-height: 100%;
+    }
+    .info-header {
+      font-size: 22px;
+      font-weight: bold;
+      color: white;
+      text-align: left;
+      margin-top: 20px;   /* Match .map-header */
+      margin-bottom: 0;
+      font-family: "Courier New", Courier, monospace;
+      position: sticky;
+      top: 0;
+      background: black;
+      z-index: 2;
+      padding-top: 0;     /* Match .map-header */
+      padding-bottom: 0;
+    }
+    .info-hr {
+      border: none;
+      border-top: 2px solid white;
+      margin: 8px -20px 18px -20px;
+      width: calc(100% + 40px);
+      padding: 0;
+      position: sticky;
+      top: 48px;
+      background: black;
+      z-index: 2;
+    }
+    .node-info-list {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-bottom: 10px;
+      scrollbar-width: thin;
+      scrollbar-color: white transparent;
+      direction: ltr; /* Ensure left-to-right, scrollbar on right */
+    }
+
+    /* For Chrome, Edge, Safari */
+    .node-info-list::-webkit-scrollbar {
+      width: 8px;
+      background: transparent;
+      right: 0; /* Not required, but for clarity */
+    }
+
+    .node-info-list::-webkit-scrollbar-thumb {
+      background: white;
+      border-radius: 4px;
+    }
+
+    .node-info-list::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .node-info-card {
+      background: #111;
+      border: 1px solid #1e90ff;
+      border-radius: 6px;
+      padding: 12px 16px;
+      font-size: 15px;
+      margin-bottom: 8px;
+    }
+    .node-title {
+      font-weight: bold;
+      font-size: 17px;
+      margin-bottom: 4px;
+    }
+    .timeline-box {
+      grid-column: 1 / 3;
+      grid-row: 2 / 3;
+      height: 220px; /* Increased vertical height */
+      text-align: center;
+      font-size: 17px;
+      overflow: auto;
+      border: 2px solid white;
+      border-radius: 6px;
+      background: black;
+      color: white;
+      padding: 40px;
+      box-sizing: border-box;
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .loading-text::after {
+      content: "";
+      display: inline-block;
+      animation: dots 1.2s steps(4, end) infinite;
+    }
+    @keyframes dots {
+      0% { content: ""; }
+      25% { content: "."; }
+      50% { content: ".."; }
+      75% { content: "..."; }
+      100% { content: ""; }
+    }
+    .tooltip {
+      position: absolute;
+      pointer-events: none;
+      font-size: 12px;
+      padding: 6px;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      border-radius: 4px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 10;
+    }
+    .donation-box {
+      min-height: 100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Map and Filters -->
+    <div class="map-box">
+      <div class="header-title">Trail No.3 Flora Map</div>
+      <hr class="header-hr">
+      <div class="filters">
+        <!-- Type Filter FIRST -->
+        <div class="filter-group multiselect" data-filter="type">
+          <button class="filter-label-btn" type="button">
+            Tree Type <span class="arrow">&#9660;</span>
+          </button>
+          <div class="dropdown-options">
+            <span class="filter-option selected" data-value="All">All</span>
+            <span class="filter-option" data-value="Deciduous">Deciduous</span>
+            <span class="filter-option" data-value="Evergreen">Evergreen</span>
+            <span class="filter-option" data-value="Fruit">Fruit</span>
+            <span class="filter-option" data-value="Coniferous">Coniferous</span>
+            <span class="filter-option" data-value="Rattan">Rattan</span>
+            <span class="filter-option" data-value="Orchid">Orchid</span>
+            <span class="filter-option" data-value="Shrub">Shrub</span>
+            <span class="filter-option" data-value="Vine">Vine</span>
+            <span class="filter-option" data-value="Herb">Herb</span>
+          </div>
+        </div>
+        <!-- Season Filter SECOND -->
+        <div class="filter-group multiselect" data-filter="season">
+          <button class="filter-label-btn" type="button">
+            Season <span class="arrow">&#9660;</span>
+          </button>
+          <div class="dropdown-options">
+            <span class="filter-option selected" data-value="All">All</span>
+            <span class="filter-option" data-value="Winter">Winter</span>
+            <span class="filter-option" data-value="Summer">Summer</span>
+            <span class="filter-option" data-value="Rainy">Rainy</span>
+          </div>
+        </div>
+        <!-- Size Filter THIRD -->
+        <div class="filter-group multiselect" data-filter="size">
+          <button class="filter-label-btn" type="button">
+            Size <span class="arrow">&#9660;</span>
+          </button>
+          <div class="dropdown-options">
+            <span class="filter-option selected" data-value="All">All</span>
+            <span class="filter-option" data-value="Small">Small</span>
+            <span class="filter-option" data-value="Medium">Medium</span>
+            <span class="filter-option" data-value="Large">Large</span>
+          </div>
+        </div>
+        <!-- Reset Button -->
+        <button class="reset-btn" type="button" id="resetFiltersBtn">Reset Filters</button>
+      </div>
+      <div id="force-map"></div>
+    </div>
+    <!-- Right Column: Info and Donation -->
+    <div class="right-column">
+      <div class="info-box">
+        <div class="info-header">Forest Inventory</div>
+        <hr class="info-hr">
+        <div class="node-info-list" id="nodeInfoList"></div>
+      </div>
+      <div class="donation-box">
+        <h3>Support Us</h3>
+        <p>It takes more than footsteps to keep the trail alive!</p>
+        <a href="donate.html">
+          <button style="padding:8px 16px; background: white; color: black; border:none; cursor:pointer;">
+            Donate
+          </button>
+        </a>
+      </div>
+    </div>
+    <!-- Timeline/Coming Soon -->
+    <div class="timeline-box">
+      <span>Coming soon<span class="loading-text"></span></span>
+    </div>
+  </div>
+  <div class="tooltip" id="tooltip"></div>
+  <!-- D3.js -->
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <!-- Multi-select dropdown logic and filter communication -->
+  <script>
+    function closeAllDropdowns() {
+      document.querySelectorAll('.dropdown-options').forEach(el => el.style.display = "none");
+      document.querySelectorAll('.filter-label-btn').forEach(btn => btn.classList.remove('open'));
+    }
+
+    document.querySelectorAll('.filter-label-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const group = btn.closest('.filter-group');
+        const dropdown = group.querySelector('.dropdown-options');
+        const isOpen = dropdown.style.display === "block";
+        closeAllDropdowns();
+        if (!isOpen) {
+          dropdown.style.display = "block";
+          btn.classList.add('open');
+        }
+      });
+    });
+
+    document.addEventListener("click", function(event) {
+      if (!event.target.closest('.filter-group')) {
+        closeAllDropdowns();
+      }
+    });
+
+    document.querySelectorAll('.dropdown-options .filter-option').forEach(option => {
+      option.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const dropdown = option.parentElement;
+        const options = dropdown.querySelectorAll('.filter-option');
+        if (option.dataset.value === "All") {
+          options.forEach(opt => opt.classList.remove('selected'));
+          option.classList.add('selected');
+        } else {
+          dropdown.querySelector('.filter-option[data-value="All"]').classList.remove('selected');
+          option.classList.toggle('selected');
+          const anySelected = Array.from(options).slice(1).some(opt => opt.classList.contains('selected'));
+          if (!anySelected) {
+            options[0].classList.add('selected');
+          }
+        }
+        updateGraphWithFilters();
+      });
+    });
+
+    document.getElementById('resetFiltersBtn').addEventListener('click', function() {
+      document.querySelectorAll('.dropdown-options').forEach(dropdown => {
+        dropdown.querySelectorAll('.filter-option').forEach(opt => opt.classList.remove('selected'));
+        const allOption = dropdown.querySelector('.filter-option[data-value="All"]');
+        if (allOption) allOption.classList.add('selected');
+      });
+      // Clear all fixed positions before resetting the graph
+      if (window.treeData && window.treeData.nodes) {
+        window.treeData.nodes.forEach(n => { n.fx = null; n.fy = null; });
+      }
+      closeAllDropdowns();
+      updateGraphWithFilters();
+    });
+
+    function getSelectedFilters() {
+      const filters = {};
+      document.querySelectorAll('.filter-group').forEach(group => {
+        const filterKey = group.getAttribute('data-filter');
+        const selected = Array.from(group.querySelectorAll('.filter-option.selected')).map(opt => opt.dataset.value);
+        filters[filterKey] = selected.includes("All") ? [] : selected;
+      });
+      return filters;
+    }
+
+    // This function will be called by the filter UI to update the graph
+    function updateGraphWithFilters() {
+      if (window.drawGraphWithFilters) {
+        const filters = getSelectedFilters();
+        window.drawGraphWithFilters(filters);
+      }
+    }
+    // Initial call (in case graph.js loads after DOMContentLoaded)
+    document.addEventListener("DOMContentLoaded", updateGraphWithFilters);
+  </script>
+  <!-- Your D3 force graph code should be in graph.js -->
+  <script src="graph.js"></script>
+</body>
+</html>
