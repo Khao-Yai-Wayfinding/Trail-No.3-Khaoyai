@@ -24,7 +24,7 @@
     }
     .map-box, .info-box, .timeline-box, .donation-box {
       border: 2px solid white;
-      border-radius: 6px;
+      border-radius: 0 !important;
       background: black;
       color: white;
       padding: 20px 20px 10px 20px;
@@ -33,27 +33,35 @@
       flex-direction: column;
     }
     .map-box {
-      grid-column: 1 / 2;
-      grid-row: 1 / 2;
-      /* your map styles */
+      border: 2px solid white;
+      border-radius: 6px;
+      background: transparent; /* or #222 if you want a subtle background */
+      color: white;
+      padding: 0;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
       min-width: 0;
       min-height: 0;
       position: relative;
-      display: flex;
-      flex-direction: column;
     }
     .header-title {
       font-size: 22px;
       font-weight: bold;
       color: white;
       text-align: left;
+      margin-top: 20px;      /* Match .info-header */
       margin-bottom: 0;
+      font-family: "Courier New", Courier, monospace;
+      margin-left: 20px;
+      /* Remove extra padding if any */
     }
+
     .header-hr {
       border: none;
       border-top: 2px solid white;
-      margin: 8px -20px 18px -20px;
-      width: calc(100% + 40px);
+      margin: 8px 0 18px 0;  /* Remove negative margins, match .info-hr */
+      width: 100%;           /* Make the line fit the box */
       padding: 0;
     }
     .filters {
@@ -63,6 +71,7 @@
       align-items: flex-start;
       justify-content: flex-start;
       font-family: "Courier New", Courier, monospace;
+      margin-left: 20px;
     }
     .filter-group {
       position: relative;
