@@ -1,0 +1,140 @@
+{
+  "nodes": [
+    {
+      "id": "EagleWood_Agarwood",
+      "name": "EagleWood, Agarwood",
+      "scientific": "Aquilaria crassna",
+      "season": "Dry",
+      "type": "Evergreen tree",
+      "size": "Large"
+    },
+    {
+      "id": "Dipterocarpus_gracilis",
+      "name": "Dipterocarpus gracilis",
+      "scientific": "Dipterocarpus gracilis",
+      "season": "",
+      "type": "",
+      "size": "Large"
+    },
+    {
+      "id": "Calamus_viminalis_Willd",
+      "name": "Calamus viminalis (Willd.)",
+      "scientific": "Calamus viminalis",
+      "season": "",
+      "type": "Palm",
+      "size": "Large"
+    },
+    {
+      "id": "Wild_Nutmeg",
+      "name": "Wild Nutmeg",
+      "scientific": "Knema globularia",
+      "season": "Rainy",
+      "type": "Tree",
+      "size": "Large",
+      "img": "TreePic3/Wild_Nutmeg.png"
+    },
+    {
+      "id": "Aphanamixis_polystachya_Wall_R_Parker",
+      "name": "Aphanamixis polystachya (Wall.) R. Parker",
+      "scientific": "Aphanamixis polystachya",
+      "season": "",
+      "type": "Evergreen tree",
+      "size": "Large"
+    },
+    {
+      "id": "Needlewood",
+      "name": "Needlewood",
+      "scientific": "Schima wallichii",
+      "season": "",
+      "type": "Evergreen tree",
+      "size": "Large",
+      "img": "TreePic3/Needlewood.jpg"
+    },
+    {
+      "id": "Magnolia_baillonii_Pierre",
+      "name": "Magnolia baillonii (Pierre)",
+      "scientific": "Magnolia baillonii",
+      "season": "",
+      "type": "Tree",
+      "size": "Large",
+      "img": "TreePic3/Magnolia_baillonii.jpg"
+    },
+    {
+      "id": "“Wai_Daeng”_Renanthera_coccinea_Lour",
+      "name": "“Wai Daeng” Renanthera coccinea Lour.",
+      "scientific": "Renanthera coccinea",
+      "season": "Year-round",
+      "type": "",
+      "size": "Small"
+    },
+    {
+      "id": "“Samek_Khao”_Agapetes_bracteata_Hook_f_ex_C_B_Clarke",
+      "name": "“Samek Khao” Agapetes bracteata Hook. f. ex C. B. Clarke",
+      "scientific": "Agapetes bracteata",
+      "season": "",
+      "type": "",
+      "size": ""
+    },
+    {
+      "id": "“Moli_Siam”_Reevesia_pubescens_var_siamensis_Craib_Anthony",
+      "name": "“Moli Siam” (Reevesia pubescens var. siamensis (Craib) Anthony)",
+      "scientific": "Reevesia pubescens var",
+      "season": "",
+      "type": "",
+      "size": "Large"
+    },
+    {
+      "id": "“Khreua_Phu_Ngoen”_Argyreia_mollis_Burm_f_Choisy",
+      "name": "“Khreua Phu Ngoen” Argyreia mollis (Burm. f.) Choisy",
+      "scientific": "Argyreia mollis",
+      "season": "",
+      "type": "Herb",
+      "size": "Small"
+    },
+    {
+      "id": "“Euang_Nam_Tarn”_Dendrobium_heterocarpum_Lindl",
+      "name": "“Euang Nam Tarn” Dendrobium heterocarpum Lindl.",
+      "scientific": "Dendrobium heterocarpum",
+      "season": "",
+      "type": "",
+      "size": ""
+    },
+    {
+      "id": "Nervilia_khaoyaica_Suddee_Watthana_&_SW_Gale",
+      "name": "Nervilia khaoyaica Suddee (Watthana & S.W. Gale)",
+      "scientific": "Nervilia khaoyaica",
+      "season": "",
+      "type": "",
+      "size": "",
+      "img": "TreePic3/Nervilia_khaoyaica_Suddee.jpg"
+    },
+    {
+      "id": "Scutellaria_khaoyaiensis_A_J_Paton",
+      "name": "Scutellaria khaoyaiensis A. J. Paton",
+      "scientific": "Scutellaria khaoyaiensis",
+      "season": "",
+      "type": "",
+      "size": "Large",
+      "img": "TreePic3/Scutellaria_khaoyaiensis.jpg"
+    },
+    {
+      "id": "Polypleurum_ubonense",
+      "name": "Polypleurum ubonense",
+      "scientific": "Polypleurum ubonense",
+      "season": "Rainy",
+      "type": "Herb",
+      "size": "Small",
+      "img": "TreePic3/Polypleurum_ubonense.jpg"
+    },
+    {
+      "id": "Monolophus_saxicola_K_Larsen_Veldkamp_&_Mood",
+      "name": "Monolophus saxicola (K. Larsen) Veldkamp & Mood",
+      "scientific": "Monolophus saxicola",
+      "season": "",
+      "type": "",
+      "size": "",
+      "img": "TreePic3/Monolophus_saxicola.png"
+    }
+  ],
+  "links": []
+}
