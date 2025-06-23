@@ -13,7 +13,7 @@
       height: 100vh;
       overflow: hidden;
     }
-    /* Add page padding */
+
     .page-padding {
       padding: 10px;
       height: 100vh;
@@ -21,6 +21,7 @@
       width: 100vw;
       overflow: hidden;
     }
+
     .container {
       display: grid;
       grid-template-columns: 2fr 1fr;
@@ -30,46 +31,200 @@
       gap: 10px;
       box-sizing: border-box;
     }
-    .map-box, .info-box, .timeline-box, .donation-box {
+
+    /* Mobile Layout */
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: 1fr;
+        grid-template-rows: 60vh auto 1fr auto;
+        gap: 8px;
+      }
+      
+      .map-box {
+        grid-column: 1;
+        grid-row: 1;
+        height: 60vh;
+        min-height: 400px;
+      }
+      
+      .header-section {
+        flex-direction: column;
+        gap: 10px;
+        margin: 10px;
+        align-items: flex-start;
+      }
+      
+      .header-title {
+        font-size: 18px;
+      }
+      
+      .donation-box-inline {
+        width: 100%;
+        height: 36px;
+        font-size: 12px;
+        padding: 6px 12px;
+      }
+      
+      .right-column {
+        grid-column: 1;
+        grid-row: 3;
+        height: auto;
+        min-height: 300px;
+        max-height: none;
+      }
+      
+      .timeline-box {
+        grid-column: 1;
+        grid-row: 4;
+        height: 120px;
+      }
+      
+      .filters {
+        flex-wrap: wrap;
+        margin-bottom: 10px;
+        gap: 6px;
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+      
+      .filter-group {
+        min-width: 90px;
+        font-size: 14px;
+        flex: 1;
+      }
+      
+      .filter-label-btn {
+        padding: 6px 12px 6px 8px;
+        font-size: 12px;
+        min-width: 90px;
+        width: 100%;
+      }
+      
+      .reset-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+        flex: 1;
+        min-width: 90px;
+        height: 36px;
+      }
+      
+      .info-header {
+        font-size: 18px;
+        margin-top: 15px;
+      }
+      
+      .info-box {
+        max-height: 50vh;
+        overflow-y: auto;
+      }
+      
+      .node-info-list {
+        max-height: calc(50vh - 100px);
+      }
+      
+      #force-map {
+        margin: 0 8px 8px 8px;
+        min-height: 350px;
+      }
+      
+      /* Make dropdowns more touch-friendly */
+      .dropdown-options {
+        min-width: 120px;
+        max-height: 200px;
+        overflow-y: auto;
+      }
+      
+      .dropdown-options .filter-option {
+        padding: 8px 16px;
+        font-size: 14px;
+        min-height: 32px;
+        display: flex;
+        align-items: center;
+      }
+      
+      /* Better touch targets */
+      .filter-label-btn {
+        min-height: 36px;
+      }
+      
+      /* Improve node interaction on mobile */
+      .node-info-card {
+        min-height: 44px; /* Apple recommended touch target */
+        padding: 8px 12px;
+        font-size: 14px;
+      }
+      
+      .tree-img {
+        max-height: 140px;
+      }
+    }
+
+    /* Tablet specific adjustments */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .container {
+        grid-template-columns: 3fr 2fr;
+      }
+      
+      .filter-group {
+        min-width: 110px;
+      }
+      
+      .filter-label-btn {
+        font-size: 14px;
+        padding: 5px 15px 5px 10px;
+      }
+    }
+
+    /* Large screen optimizations */
+    @media (min-width: 1400px) {
+      .header-title {
+        font-size: 26px;
+      }
+      
+      .info-header {
+        font-size: 24px;
+      }
+      
+      .filter-label-btn {
+        font-size: 16px;
+        padding: 8px 20px 8px 15px;
+      }
+    }
+
+    .map-box, .info-box, .timeline-box {
       border: 2px solid white;
-      border-radius: 0 !important;
+      border-radius: 6px;
       background: black;
       color: white;
-      padding: 20px 20px 10px 20px;
+      padding: 20px;
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
     }
+
     .map-box {
-      border: 2px solid white;
-      border-radius: 6px;
-      background: transparent;
-      color: white;
       padding: 0;
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
       min-width: 0;
       min-height: 0;
       position: relative;
     }
+
     .header-title {
       font-size: 22px;
       font-weight: bold;
       color: white;
       text-align: left;
-      margin-top: 20px;
-      margin-bottom: 0;
+      margin: 20px 0 0 20px;
       font-family: "Courier New", Courier, monospace;
-      margin-left: 20px;
     }
+
     .header-hr {
       border: none;
       border-top: 2px solid white;
       margin: 8px 0 18px 0;
       width: 100%;
-      padding: 0;
     }
+
     .filters {
       display: flex;
       align-items: center;
@@ -80,6 +235,7 @@
       margin-left: 20px;
       position: relative;
     }
+
     .filter-group {
       position: relative;
       min-width: 120px;
@@ -89,6 +245,7 @@
       font-family: "Courier New", Courier, monospace;
       font-size: 16px;
     }
+
     .filter-label-btn {
       display: flex;
       align-items: center;
@@ -109,14 +266,17 @@
       position: relative;
       font-family: "Courier New", Courier, monospace;
     }
+
     .filter-label-btn .arrow {
       margin-left: auto;
       font-size: 12px;
       transition: transform 0.2s;
     }
+
     .filter-label-btn.open .arrow {
       transform: rotate(180deg);
     }
+
     .dropdown-options {
       display: none;
       position: absolute;
@@ -134,6 +294,7 @@
       font-family: "Courier New", Courier, monospace;
       font-size: 16px;
     }
+
     .dropdown-options .filter-option {
       padding: 6px 18px;
       cursor: pointer;
@@ -146,14 +307,17 @@
       margin: 2px 8px;
       font-family: "Courier New", Courier, monospace;
     }
+
     .dropdown-options .filter-option.selected {
       background: white;
       color: black;
     }
+
     .dropdown-options .filter-option:hover {
       background: #333;
       color: white;
     }
+
     .reset-btn {
       background: none;
       color: #1e90ff;
@@ -167,10 +331,12 @@
       align-self: flex-end;
       font-family: "Courier New", Courier, monospace;
     }
+
     .reset-btn:hover {
       background: #1e90ff;
       color: white;
     }
+
     #force-map {
       width: 100%;
       height: 100%;
@@ -178,10 +344,11 @@
       flex: 1 1 auto;
       background: #000;
       border-radius: 6px;
-      margin-bottom: 16px;
+      margin: 0 16px 16px 16px;
       position: relative;
       box-sizing: border-box;
     }
+
     .right-column {
       grid-column: 2 / 3;
       grid-row: 1 / 2;
@@ -192,24 +359,16 @@
       min-height: 0;
       gap: 18px;
     }
+
     .info-box {
       flex: 1 1 0;
       min-height: 180px;
       margin-bottom: 0;
-      border: 2px solid white;
-      border-radius: 6px;
-      background: black;
-      color: white;
       padding: 0 20px 10px 20px;
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      min-width: 0;
-      min-height: 0;
       max-height: 100%;
-      overflow: visible;      /* No scroll */
-      max-height: none;       /* Remove height limits */
+      overflow: hidden; /* Container doesn't scroll, only the list inside */
     }
+
     .info-header {
       font-size: 22px;
       font-weight: bold;
@@ -222,102 +381,161 @@
       top: 0;
       background: black;
       z-index: 2;
-      padding-top: 0;
-      padding-bottom: 0;
     }
+
     .info-hr {
       border: none;
       border-top: 2px solid white;
       margin: 8px -20px 18px -20px;
       width: calc(100% + 40px);
-      padding: 0;
       position: sticky;
       top: 48px;
       background: black;
       z-index: 2;
     }
+
     .node-info-list {
       flex: 1 1 auto;
-      overflow-y: auto;
+      overflow-y: auto; /* Enable scrolling */
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 8px;
       padding-bottom: 10px;
       scrollbar-width: thin;
-      scrollbar-color: white transparent;
-      direction: ltr;
-      overflow: visible;      /* No scroll */
-      max-height: none;
-      padding-bottom: 0;
-      gap: 0;
+      scrollbar-color: white black;
+      max-height: calc(100vh - 200px); /* Set proper max height */
+      background: black; /* Ensure black background */
     }
+
     .node-info-list::-webkit-scrollbar {
       width: 8px;
-      background: transparent;
-      right: 0;
+      background: black;
     }
+
     .node-info-list::-webkit-scrollbar-thumb {
       background: white;
       border-radius: 4px;
     }
+
     .node-info-list::-webkit-scrollbar-track {
-      background: transparent;
+      background: black;
     }
+
     .node-info-card {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      max-height: 28px; /* Only show name by default */
-      padding: 6px 12px;
+      max-height: 32px;
+      padding: 8px 12px;
       margin-bottom: 4px;
-      background: #111;
-      border: 1px solid #1e90ff;
+      background: black; /* Always black background */
+      border: 1px solid white;
       border-radius: 6px;
       font-size: 15px;
       cursor: pointer;
-      transition: background 0.2s, color 0.2s, max-height 0.3s;
+      transition: all 0.3s ease;
       display: flex;
       align-items: center;
+      position: relative;
+      color: white; /* Always white text */
     }
+
+    .node-info-card .node-title {
+      font-weight: bold;
+      margin-bottom: 0;
+      color: white;
+    }
+
     .node-info-card .node-details {
       display: none;
+      margin-top: 8px;
+      white-space: normal;
+      color: white;
     }
+
     .node-info-card.selected-info-card {
       white-space: normal;
       overflow: visible;
       text-overflow: unset;
-      max-height: 500px; /* Expand to fit details */
-      background: white !important;
-      color: black !important;
-      border-color: #1e90ff;
+      max-height: none;
+      background: black !important; /* Keep black background when selected */
+      color: white !important; /* Keep white text when selected */
+      border-color: white;
+      border-width: 2px;
+      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2); /* White glow instead of blue */
+      flex-direction: column;
+      align-items: flex-start;
     }
+
     .node-info-card.selected-info-card .node-details {
       display: block;
-      margin-top: 8px;
+      width: 100%;
+      color: white;
     }
+
+    .tree-img {
+      max-width: 100%;
+      max-height: 150px; /* Increase max height */
+      width: 100%; /* Fill the full width */
+      display: block;
+      margin: 8px 0;
+      border-radius: 6px;
+      object-fit: cover; /* Fill the container while maintaining aspect ratio */
+      border: 1px solid white;
+      mix-blend-mode: normal; /* Normal blend mode for images */
+    }
+
+    /* Text exclusion mode for overlaying text on images */
+    .node-info-card .node-details div {
+      background: rgba(0, 0, 0, 0.8); /* Semi-transparent black background for text */
+      color: white;
+      padding: 4px 8px;
+      margin: 2px 0;
+      border-radius: 4px;
+      mix-blend-mode: normal; /* Ensure text is readable */
+    }
+
+    /* Mobile specific card styling */
+    @media (max-width: 768px) {
+      .node-info-card {
+        font-size: 14px;
+        padding: 6px 10px;
+        background: black;
+        color: white;
+      }
+      
+      .node-info-card.selected-info-card {
+        margin-bottom: 8px;
+        background: black !important;
+        color: white !important;
+      }
+      
+      .tree-img {
+        max-height: 120px; /* Slightly smaller on mobile */
+      }
+      
+      .node-info-list {
+        max-height: calc(100vh - 250px); /* Adjust for mobile */
+      }
+    }
+
     .timeline-box {
       grid-column: 1 / 3;
       grid-row: 2 / 3;
-      height: 220px;
+      height: 180px;
       text-align: center;
       font-size: 17px;
-      overflow: auto;
-      border: 2px solid white;
-      border-radius: 6px;
-      background: black;
-      color: white;
-      padding: 40px;
-      box-sizing: border-box;
-      margin-top: 0;
       display: flex;
       align-items: center;
       justify-content: center;
     }
+
     .loading-text::after {
       content: "";
       display: inline-block;
       animation: dots 1.2s steps(4, end) infinite;
     }
+
     @keyframes dots {
       0% { content: ""; }
       25% { content: "."; }
@@ -325,74 +543,50 @@
       75% { content: "..."; }
       100% { content: ""; }
     }
-    .tooltip {
-      position: absolute;
-      pointer-events: none;
-      font-size: 12px;
-      padding: 6px;
-      background: rgba(0,0,0,0.7);
-      color: white;
-      border-radius: 4px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      z-index: 10;
-    }
-    .donation-box {
-      min-height: 100px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-    }
+
     .donation-box-inline {
       margin-left: auto;
-      margin-right: 20px; /* 20px from the right edge */
+      margin-right: 20px;
       height: 38px;
       display: flex;
-      align-items: center;      /* Vertically center with filter buttons */
+      align-items: center;
       justify-content: center;
       background: white;
       color: black;
       border: 1px solid white;
       border-radius: 4px;
-      padding: 6px 18px 6px 12px;
+      padding: 6px 18px;
       font-size: 15px;
       font-weight: bold;
       cursor: pointer;
       width: 120px;
-      min-width: unset;
       font-family: "Courier New", Courier, monospace;
-      box-sizing: border-box;
-      user-select: none;
-      transition: border-color 0.2s, background 0.2s, color 0.2s;
-      align-self: center; /* Ensures vertical alignment in flex container */
       text-decoration: none;
+      transition: all 0.2s;
     }
-    a.donation-box-inline:hover,
-    a.donation-box-inline:focus,
-    a.donation-box-inline:active {
-      background: black !important;
-      color: white !important;
-      border-color: #fff !important;
-      text-decoration: none !important;
-      outline: none !important;
-}
 
     .donation-box-inline:hover {
       background: black;
-      color: white !important;
-      border-color: #fff;
-      text-decoration: none !important;
+      color: white;
+      border-color: white;
     }
-    .tree-img {
-  max-width: 100%;
-  max-height: 120px;
-  display: block;
-  margin-bottom: 8px;
-  border-radius: 6px;
-  object-fit: contain;
-}
+
+    .tooltip {
+      position: absolute;
+      pointer-events: none;
+      font-size: 11px; /* Smaller font */
+      padding: 8px 10px;
+      background: rgba(0,0,0,0.85);
+      color: white;
+      border-radius: 6px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 1000;
+      border: 1px solid rgba(255,255,255,0.3); /* Subtle border */
+      font-family: "Courier New", Courier, monospace;
+      max-width: 200px;
+      line-height: 1.3;
+    }
   </style>
 </head>
 <body>
@@ -400,28 +594,33 @@
     <div class="container">
       <!-- Map and Filters -->
       <div class="map-box">
-        <div class="header-title">Trail No.3 Flora Map</div>
+        <div class="header-section">
+          <div class="header-title">Trail No.3 Flora Map</div>
+          <a href="donate.html" target="_blank" class="donation-box-inline">Donate</a>
+        </div>
         <hr class="header-hr">
         <div class="filters">
-          <!-- Type Filter FIRST -->
+          <!-- Type Filter -->
           <div class="filter-group multiselect" data-filter="type">
             <button class="filter-label-btn" type="button">
               Tree Type <span class="arrow">&#9660;</span>
             </button>
             <div class="dropdown-options">
               <span class="filter-option selected" data-value="All">All</span>
-              <span class="filter-option" data-value="Deciduous">Deciduous</span>
               <span class="filter-option" data-value="Evergreen">Evergreen</span>
+              <span class="filter-option" data-value="Deciduous">Deciduous</span>
               <span class="filter-option" data-value="Fruit">Fruit</span>
               <span class="filter-option" data-value="Coniferous">Coniferous</span>
+              <span class="filter-option" data-value="Shrub">Shrub</span>
+              <span class="filter-option" data-value="Herb">Herb</span>
+              <span class="filter-option" data-value="Vine">Vine</span>
               <span class="filter-option" data-value="Rattan">Rattan</span>
               <span class="filter-option" data-value="Orchid">Orchid</span>
-              <span class="filter-option" data-value="Shrub">Shrub</span>
-              <span class="filter-option" data-value="Vine">Vine</span>
-              <span class="filter-option" data-value="Herb">Herb</span>
+              <span class="filter-option" data-value="Palm">Palm</span>
+              <span class="filter-option" data-value="Bamboo">Bamboo</span>
             </div>
           </div>
-          <!-- Season Filter SECOND -->
+          <!-- Season Filter -->
           <div class="filter-group multiselect" data-filter="season">
             <button class="filter-label-btn" type="button">
               Season <span class="arrow">&#9660;</span>
@@ -433,7 +632,7 @@
               <span class="filter-option" data-value="Rainy">Rainy</span>
             </div>
           </div>
-          <!-- Size Filter THIRD -->
+          <!-- Size Filter -->
           <div class="filter-group multiselect" data-filter="size">
             <button class="filter-label-btn" type="button">
               Size <span class="arrow">&#9660;</span>
@@ -445,35 +644,34 @@
               <span class="filter-option" data-value="Large">Large</span>
             </div>
           </div>
-          <!-- Reset Button -->
+          <!-- Reset Button - now properly aligned -->
           <button class="reset-btn" type="button" id="resetFiltersBtn">Reset Filters</button>
         </div>
-        <div style="flex:1"></div>
-        <a href="donate.html" class="donation-box-inline">Donate</a>
         <div id="force-map"></div>
       </div>
-      <!-- Right Column: Info and Donation -->
+
+      <!-- Right Column: Info -->
       <div class="right-column">
-        <div class="info-box" style="flex: 1 1 0; min-height: 180px; margin-bottom: 0; border: 2px solid white; border-radius: 6px; background: black; color: white; padding: 0 20px 10px 20px; box-sizing: border-box; display: flex; flex-direction: column; min-width: 0; min-height: 0; max-height: 100%; overflow: visible;      /* No scroll */
-      max-height: none;       /* Remove height limits */">
+        <div class="info-box">
           <div class="info-header">Forest Inventory</div>
           <hr class="info-hr">
-          <div class="node-info-list" id="nodeInfoList" style="overflow: visible;      /* No scroll */
-      max-height: none;
-      padding-bottom: 0;
-      gap: 0;"></div>
+          <div class="node-info-list" id="nodeInfoList"></div>
         </div>
       </div>
+
       <!-- Timeline/Coming Soon -->
       <div class="timeline-box">
         <span>Coming soon<span class="loading-text"></span></span>
       </div>
     </div>
   </div>
+
   <div class="tooltip" id="tooltip"></div>
+
   <!-- D3.js -->
   <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-  <!-- Multi-select dropdown logic and filter communication -->
+  
+  <!-- Filter UI Logic -->
   <script>
     function closeAllDropdowns() {
       document.querySelectorAll('.dropdown-options').forEach(el => el.style.display = "none");
@@ -526,9 +724,8 @@
         const allOption = dropdown.querySelector('.filter-option[data-value="All"]');
         if (allOption) allOption.classList.add('selected');
       });
-      // Clear all fixed positions before resetting the graph
-      if (window.treeData && window.treeData.nodes) {
-        window.treeData.nodes.forEach(n => { n.fx = null; n.fy = null; });
+      if (window.TreeData && window.TreeData.nodes) {
+        window.TreeData.nodes.forEach(n => { n.fx = null; n.fy = null; });
       }
       closeAllDropdowns();
       updateGraphWithFilters();
@@ -544,17 +741,35 @@
       return filters;
     }
 
-    // This function will be called by the filter UI to update the graph
     function updateGraphWithFilters() {
       if (window.drawGraphWithFilters) {
         const filters = getSelectedFilters();
         window.drawGraphWithFilters(filters);
       }
     }
-    // Initial call (in case graph.js loads after DOMContentLoaded)
-    document.addEventListener("DOMContentLoaded", updateGraphWithFilters);
+
+    document.addEventListener("DOMContentLoaded", function() {
+      console.log("🌐 DOM loaded, initializing interface...");
+      
+      // Show initial loading state
+      const infoList = document.getElementById("nodeInfoList");
+      if (infoList) {
+        infoList.innerHTML = `
+          <div style="color: #aaa; text-align: center; padding: 20px;">
+            <div>🌳 Loading flora data<span class="loading-text"></span></div>
+            <div style="font-size: 12px; margin-top: 8px;">
+              Please wait while we fetch the tree information
+            </div>
+          </div>
+        `;
+      }
+      
+      // Try to update graph (will show loading message if data not ready)
+      updateGraphWithFilters();
+    });
   </script>
-  <!-- Your D3 force graph code should be in graph.js -->
+
+  <!-- Main Graph Logic -->
   <script src="graph.js"></script>
 </body>
 </html>

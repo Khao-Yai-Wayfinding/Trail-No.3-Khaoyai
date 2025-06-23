@@ -1,139 +1,149 @@
 {
   "nodes": [
     {
-      "id": "EagleWood_Agarwood",
+      "id": "EagleWoodAgarwood",
       "name": "EagleWood, Agarwood",
       "scientific": "Aquilaria crassna",
-      "season": "Dry",
-      "type": "Evergreen tree",
-      "size": "Large"
+      "season_note": "Summer",
+      "type": "Fruit",
+      "size": "Large",
+      "description": "Scientific Name : Aquilaria crassna Pierre ex LecomteFamily : Thymelaeaceae An evergreen tree growing to 30m tall, having ellipsoid leaves with sparse hairs, and scented white flowers in bunches of 4-..."
     },
     {
-      "id": "Dipterocarpus_gracilis",
+      "id": "Dipterocarpusgracilis",
       "name": "Dipterocarpus gracilis",
       "scientific": "Dipterocarpus gracilis",
-      "season": "",
-      "type": "",
-      "size": "Large"
+      "season_note": "Winter",
+      "type": "Evergreen",
+      "size": "Large",
+      "description": "Scientific Name :Dipterocarpus gracilis BlumeFamily : Dipterocarpaceae A tall dipterocarp found in evergreen forest. Its tall canopy is buffeted by wind and so relies on wind for seed dispersal. Its s..."
     },
     {
-      "id": "Calamus_viminalis_Willd",
+      "id": "CalamusviminalisWilld",
       "name": "Calamus viminalis (Willd.)",
       "scientific": "Calamus viminalis",
-      "season": "",
-      "type": "Palm",
-      "size": "Large"
+      "season_note": "Winter",
+      "type": "Fruit",
+      "size": "Large",
+      "description": "Scientific Name:Calamus viminalis Willd.Family :  Arecaceae A species of palm with strong spathes covered with sharp thorns. The tissue inside is soft, crispy, white and with a bitter taste. The leave..."
     },
     {
-      "id": "Wild_Nutmeg",
+      "id": "WildNutmeg",
       "name": "Wild Nutmeg",
       "scientific": "Knema globularia",
-      "season": "Rainy",
-      "type": "Tree",
+      "season_note": "Winter",
+      "type": "Fruit",
       "size": "Large",
-      "img": "TreePic3/Wild_Nutmeg.png"
+      "description": "Scientific Name:Knema globularia (Lam.) Warb.Family : Myristicaceae A hardy perennial growing to 10-25 meters tall. At the crown of this tree is a tall, rounded bush, and the bark is brown, inside pin..."
     },
     {
-      "id": "Aphanamixis_polystachya_Wall_R_Parker",
+      "id": "AphanamixispolystachyaWallRParker",
       "name": "Aphanamixis polystachya (Wall.) R. Parker",
       "scientific": "Aphanamixis polystachya",
-      "season": "",
-      "type": "Evergreen tree",
-      "size": "Large"
+      "season_note": "Winter",
+      "type": "Fruit",
+      "size": "Large",
+      "description": "Scientific Name:Aphanamixis polystachya (Wall.) R. ParkerFamily : Meliaceae Large evergreen tree with a dense crown and leaves growing in 3-7 pairs. Small round yellowish flowers and spherical fruit, ..."
     },
     {
       "id": "Needlewood",
       "name": "Needlewood",
       "scientific": "Schima wallichii",
-      "season": "",
-      "type": "Evergreen tree",
+      "season_note": "Winter",
+      "type": "Fruit",
       "size": "Large",
-      "img": "TreePic3/Needlewood.jpg"
+      "description": "Scientific Name:Schima wallichii (DC.) Korth.Family : Theaceae A tall evergreen tree standing 35 meters high, having a dense crown with single leaves in a spiral. Buds have stems and flower singly or ...",
+      "img": "Needlewood.jpg"
     },
     {
-      "id": "Magnolia_baillonii_Pierre",
+      "id": "MagnoliabailloniiPierre",
       "name": "Magnolia baillonii (Pierre)",
       "scientific": "Magnolia baillonii",
-      "season": "",
-      "type": "Tree",
+      "season_note": "Winter",
+      "type": "Evergreen",
       "size": "Large",
-      "img": "TreePic3/Magnolia_baillonii.jpg"
+      "description": "Scientific Name:Magnolia baillonii PierreFamily : Magnoliaceae A tall 35 meters tree with ovoid leaves coming to short points with hair underneath. The white scented and curved flowers come out in bun..."
     },
     {
-      "id": "“Wai_Daeng”_Renanthera_coccinea_Lour",
+      "id": "WaiDaengRenantheracoccineaLour",
       "name": "“Wai Daeng” Renanthera coccinea Lour.",
       "scientific": "Renanthera coccinea",
-      "season": "Year-round",
-      "type": "",
-      "size": "Small"
+      "season_note": "Winter",
+      "type": "Orchid",
+      "size": "Small",
+      "description": "Scientific Name:Renanthera coccinea Lour.Family : Orchidaceae This is an orchid growing from rock crevices and is found throughout clearings of dry forest in Khao Yai National Park, The orchids grow i..."
     },
     {
-      "id": "“Samek_Khao”_Agapetes_bracteata_Hook_f_ex_C_B_Clarke",
+      "id": "SamekKhaoAgapetesbracteataHookfexCBClarke",
       "name": "“Samek Khao” Agapetes bracteata Hook. f. ex C. B. Clarke",
       "scientific": "Agapetes bracteata",
-      "season": "",
-      "type": "",
-      "size": ""
+      "season_note": "Winter",
+      "type": "Shrub",
+      "size": "Small",
+      "description": "Scientific Name:Agapetes bracteata Hook. f. ex C. B. ClarkeFamily : Ericaceae A single-habitat plant in Thailand, it is a round bush some 2m high with hair at the end of its branches, axils, infloresc..."
     },
     {
-      "id": "“Moli_Siam”_Reevesia_pubescens_var_siamensis_Craib_Anthony",
+      "id": "MoliSiamReevesiapubescensvarsiamensisCraibAnthony",
       "name": "“Moli Siam” (Reevesia pubescens var. siamensis (Craib) Anthony)",
       "scientific": "Reevesia pubescens var",
-      "season": "",
-      "type": "",
-      "size": "Large"
+      "season_note": "Winter",
+      "type": "Fruit",
+      "size": "Large",
+      "description": "Scientific Name:Reevesia pubescens var. siamensis (Craib) AnthonyFamily : Sterculiaceae A single habitat plant in Thailand, it is a handsome plant standing 5-12 meters tall. Young leaves and flowers a..."
     },
     {
-      "id": "“Khreua_Phu_Ngoen”_Argyreia_mollis_Burm_f_Choisy",
+      "id": "KhreuaPhuNgoenArgyreiamollisBurmfChoisy",
       "name": "“Khreua Phu Ngoen” Argyreia mollis (Burm. f.) Choisy",
       "scientific": "Argyreia mollis",
-      "season": "",
-      "type": "Herb",
-      "size": "Small"
+      "season_note": "Winter",
+      "type": "Vine",
+      "size": "Medium",
+      "description": "Scientific Name:Argyreia mollis (Burm. f.) ChoisyFamily : Convolvulaceae A climber with hard stems, which can scale up to 10m. The young branches have a fine white-brown hair. The oval fruits have poi..."
     },
     {
-      "id": "“Euang_Nam_Tarn”_Dendrobium_heterocarpum_Lindl",
+      "id": "EuangNamTarnDendrobiumheterocarpumLindl",
       "name": "“Euang Nam Tarn” Dendrobium heterocarpum Lindl.",
       "scientific": "Dendrobium heterocarpum",
-      "season": "",
-      "type": "",
-      "size": ""
+      "season_note": "Winter",
+      "type": "Orchid",
+      "size": "Small",
+      "description": "Scientific Name:Dendrobium heterocarpum Lindl.Family : Orchidaceae An epiphyte orchid 15-30cm long in the shape of a spear, 1.5-2.5cm wide and 10-16cm long. It flowers in short bunches with 2-5 floret..."
     },
     {
-      "id": "Nervilia_khaoyaica_Suddee_Watthana_&_SW_Gale",
+      "id": "NerviliakhaoyaicaSuddeeWatthanaSWGale",
       "name": "Nervilia khaoyaica Suddee (Watthana & S.W. Gale)",
       "scientific": "Nervilia khaoyaica",
-      "season": "",
-      "type": "",
-      "size": "",
-      "img": "TreePic3/Nervilia_khaoyaica_Suddee.jpg"
+      "season_note": "Winter",
+      "type": "Orchid",
+      "size": "Small",
+      "description": "Scientific Name:Nervilia khaoyaica Suddee (Watthana & S.W. Gale)Family : Nervilia This is an orchid growing from the soil on the mountains at an average elevation of 733 meters and measures 9 cm. from..."
     },
     {
-      "id": "Scutellaria_khaoyaiensis_A_J_Paton",
+      "id": "ScutellariakhaoyaiensisAJPaton",
       "name": "Scutellaria khaoyaiensis A. J. Paton",
       "scientific": "Scutellaria khaoyaiensis",
-      "season": "",
-      "type": "",
+      "season_note": "Winter",
+      "type": "Shrub",
       "size": "Large",
-      "img": "TreePic3/Scutellaria_khaoyaiensis.jpg"
+      "description": "Scientific Name:Scutellaria khaoyaiensis A. J. PatonFamily : Lamiaceae A newly discovered annual species, 20-40cm tall, with inflorescences appearing at the end of a shoot. Petals at the base are fuse..."
     },
     {
-      "id": "Polypleurum_ubonense",
+      "id": "Polypleurumubonense",
       "name": "Polypleurum ubonense",
-      "scientific": "Polypleurum ubonense",
-      "season": "Rainy",
+      "scientific": "This newly",
+      "season_note": "Rainy",
       "type": "Herb",
       "size": "Small",
-      "img": "TreePic3/Polypleurum_ubonense.jpg"
+      "description": "Scientific Name:Polypleurum ubonenseFamily : Podostemaceae This newly-reported species is a herbaceous perennial whose roots are hard plates and leaves are small and scaly. The flowers are very small,..."
     },
     {
-      "id": "Monolophus_saxicola_K_Larsen_Veldkamp_&_Mood",
+      "id": "MonolophussaxicolaKLarsenVeldkampMood",
       "name": "Monolophus saxicola (K. Larsen) Veldkamp & Mood",
       "scientific": "Monolophus saxicola",
-      "season": "",
-      "type": "",
-      "size": "",
-      "img": "TreePic3/Monolophus_saxicola.png"
+      "season_note": "Winter",
+      "type": "Shrub",
+      "size": "Small",
+      "description": "Scientific Name:Monolophus saxicola (K. Larsen) Veldkamp & MoodFamily : Zingiberaceae An annual growing on moist rock with yellow flowers"
     }
   ],
   "links": []

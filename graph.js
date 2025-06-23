@@ -1,16 +1,25 @@
+// Color mapping for tree types - Updated palette
 function colorByType(type) {
-  switch (type) {
-    case "Deciduous": return "#1f77b4";
-    case "Evergreen": return "#2ca02c";
-    case "Fruit": return "#ff7f0e";
-    case "Coniferous": return "#9467bd";
-    case "Rattan": return "#8c564b";
-    case "Orchid": return "#e377c2";
-    case "Shrub": return "#7f7f7f";
-    case "Vine": return "#bcbd22";
-    case "Herb": return "#17becf";
-    default: return "#cccccc";
-  }
+  if (!type) return "#4a5568"; // Dark gray
+  
+  const typeStr = type.toLowerCase();
+  
+  // Greenish-bluish tones with pink and yellow accents
+  if (typeStr.includes('deciduous')) return "#2d7d9a"; // Blue-green
+  if (typeStr.includes('evergreen')) return "#22543d"; // Deep green
+  if (typeStr.includes('fruit')) return "#f6e05e"; // Soft yellow
+  if (typeStr.includes('conifer')) return "#2c5282"; // Deep blue
+  if (typeStr.includes('rattan')) return "#38a169"; // Medium green
+  if (typeStr.includes('orchid')) return "#d53f8c"; // Pink accent
+  if (typeStr.includes('shrub')) return "#319795"; // Teal
+  if (typeStr.includes('vine') || typeStr.includes('climber')) return "#4fd1c7"; // Light teal
+  if (typeStr.includes('herb')) return "#68d391"; // Light green
+  if (typeStr.includes('palm')) return "#ed8936"; // Warm orange (less harsh)
+  if (typeStr.includes('bamboo')) return "#9ae6b4"; // Very light green
+  if (typeStr.includes('tree')) return "#2f855a"; // Forest green
+  
+  console.log(`⚠️  Unmapped type: "${type}" -> using default gray`);
+  return "#4a5568"; // Default gray
 }
 
 function sanitizeId(id) {
@@ -20,13 +29,16 @@ function sanitizeId(id) {
 function createLinks(nodes, filters) {
   const links = [];
   const noFilter = filters.type.length === 0 && filters.season.length === 0 && filters.size.length === 0;
+  
   if (noFilter) {
+    // Connect all nodes when no filters are active
     for (let i = 0; i < nodes.length; i++) {
       for (let j = i + 1; j < nodes.length; j++) {
         links.push({ source: nodes[i].id, target: nodes[j].id });
       }
     }
   } else {
+    // Connect nodes based on shared attributes
     for (let i = 0; i < nodes.length; i++) {
       for (let j = i + 1; j < nodes.length; j++) {
         const a = nodes[i];
@@ -57,21 +69,24 @@ function drag(simulation) {
     })
     .on("end", (event, d) => {
       simulation.alphaTarget(0);
+      // On mobile, don't stick nodes after dragging
+      if (window.innerWidth < 768) {
+        d.fx = null;
+        d.fy = null;
+      }
     });
 }
 
 function updateInfoBox(nodes) {
-  const box = document.querySelector(".info-box");
-  if (!box) return;
-  box.innerHTML = "";
+  const list = document.getElementById("nodeInfoList");
+  if (!list) return;
+  
+  list.innerHTML = "";
 
   if (!nodes.length) {
-    box.innerHTML = "<div style='color:#aaa;'>No matching trees.</div>";
+    list.innerHTML = "<div style='color:#aaa; text-align: center; padding: 20px;'>No matching trees found.</div>";
     return;
   }
-
-  const list = document.createElement("div");
-  list.className = "node-info-list";
 
   nodes.forEach(node => {
     const card = document.createElement("div");
@@ -79,23 +94,129 @@ function updateInfoBox(nodes) {
     card.setAttribute("data-id", node.id);
     card.style.borderColor = colorByType(node.type);
     card.style.background = colorByType(node.type) + "22";
-    card.innerHTML = `
-      <div class="node-title">${node.name}</div>
-      ${node.img ? `<img src="TreePic3/${node.img}" alt="${node.name}" style="max-width:100%; max-height:120px; border-radius:8px; margin: 8px 0;">` : ''}
-      <div><b>Scientific:</b> ${node.scientific}</div>
-      <div><b>Season:</b> ${node.season_note}</div>
-      <div><b>Type:</b> ${node.type}</div>
-      <div><b>Size:</b> ${node.size}</div>
-    `;
+    
+    // Create the main title (always visible)
+    const titleDiv = document.createElement("div");
+    titleDiv.className = "node-title";
+    titleDiv.textContent = node.name;
+    titleDiv.style.fontWeight = "bold";
+    
+    // Create details container (hidden by default)
+    const detailsDiv = document.createElement("div");
+    detailsDiv.className = "node-details";
+    
+    // Add image if exists
+    if (node.img) {
+      const img = document.createElement("img");
+      img.className = "tree-img";
+      
+      // Handle both cases: with or without TreePic3/ prefix
+      let imagePath = node.img;
+      if (imagePath.startsWith('TreePic3/')) {
+        img.src = imagePath;
+      } else {
+        img.src = `TreePic3/${imagePath}`;
+      }
+      
+      img.alt = node.name;
+      
+      // Add error handling - silently handle missing images
+      img.onerror = function() {
+        this.style.display = "none";
+        // Don't show error placeholder, just hide the image
+      };
+      
+      img.onload = function() {
+        console.log(`✓ Successfully loaded: ${this.src}`);
+      };
+      
+      detailsDiv.appendChild(img);
+    }
+    
+    // Add other details
+    const details = [
+      { label: "Scientific", value: node.scientific },
+      { label: "Season", value: node.season_note },
+      { label: "Type", value: node.type },
+      { label: "Size", value: node.size }
+    ];
+    
+    details.forEach(detail => {
+      if (detail.value) {
+        const detailElement = document.createElement("div");
+        detailElement.innerHTML = `<b>${detail.label}:</b> ${detail.value}`;
+        detailElement.style.marginBottom = "4px";
+        detailsDiv.appendChild(detailElement);
+      }
+    });
+    
+    // Add description if available
+    if (node.description) {
+      const descElement = document.createElement("div");
+      descElement.innerHTML = `<b>Description:</b> ${node.description}`;
+      descElement.style.marginBottom = "4px";
+      descElement.style.fontSize = "6px";
+      descElement.style.lineHeight = "1.4";
+      detailsDiv.appendChild(descElement);
+    }
+    
+    // Assemble the card
+    card.appendChild(titleDiv);
+    card.appendChild(detailsDiv);
     list.appendChild(card);
   });
-
-  box.appendChild(list);
 }
 
+// Debug function to check image loading and types
+function debugImagePaths(nodes) {
+  console.log("=== Debug Info ===");
+  console.log(`Total nodes: ${nodes.length}`);
+  
+  const nodesWithImages = nodes.filter(n => n.img);
+  console.log(`Nodes with images: ${nodesWithImages.length}`);
+  
+  // Get all unique types
+  const types = [...new Set(nodes.map(n => n.type).filter(t => t))];
+  console.log(`Unique types found: ${types.join(', ')}`);
+  
+  // Show type distribution
+  const typeCount = {};
+  nodes.forEach(n => {
+    const type = n.type || 'undefined';
+    typeCount[type] = (typeCount[type] || 0) + 1;
+  });
+  console.log('Type distribution:', typeCount);
+  
+  console.log("==================");
+}
+
+// Main drawing function
 window.drawGraphWithFilters = function (filters) {
+  // Clear previous graph
   d3.select("#force-map").selectAll("*").remove();
 
+  if (!window.TreeData || !window.TreeData.nodes) {
+    console.log("TreeData not loaded yet, showing loading message...");
+    const container = document.getElementById("force-map");
+    container.innerHTML = `
+      <div style="
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        height: 100%; 
+        color: white; 
+        font-family: 'Courier New', monospace;
+        text-align: center;
+        flex-direction: column;
+      ">
+        <div style="font-size: 18px; margin-bottom: 10px;">🌳 Loading Flora Data</div>
+        <div style="font-size: 14px;">Please wait<span class="loading-text"></span></div>
+      </div>
+    `;
+    return;
+  }
+
+  // Filter nodes based on selected filters
   const filteredNodes = window.TreeData.nodes.filter(d => {
     const seasonMatch = !filters.season.length || filters.season.includes(d.season_note);
     const typeMatch = !filters.type.length || filters.type.includes(d.type);
@@ -103,111 +224,217 @@ window.drawGraphWithFilters = function (filters) {
     return seasonMatch && typeMatch && sizeMatch;
   });
 
+  console.log(`Filtered to ${filteredNodes.length} nodes from ${window.TreeData.nodes.length} total`);
+
+  // Create links between filtered nodes
   const links = createLinks(filteredNodes, filters);
+  
+  // Update info box
   updateInfoBox(filteredNodes);
 
+  // Get container dimensions
   const container = document.getElementById("force-map");
   const width = container.clientWidth || 960;
   const height = container.clientHeight || 500;
 
+  // Create SVG
   const svg = d3.select("#force-map")
     .append("svg")
     .attr("width", width)
     .attr("height", height);
 
+  // Create zoomable group
   const zoomable = svg.append("g").attr("class", "zoomable");
-  svg.call(d3.zoom().on("zoom", (event) => {
-    zoomable.attr("transform", event.transform);
-  }));
-
+  
+  // Add zoom behavior with limits - no initial zoom
+  const zoom = d3.zoom()
+    .scaleExtent([1, 5])  // Limit zoom: 30% to 300%
+    .translateExtent([[-width * 2, -height * 2], [width * 3, height * 3]])  // Limit pan
+    .on("zoom", (event) => {
+      zoomable.attr("transform", event.transform);
+    });
+  
+  svg.call(zoom);
+  
+  // Create gradient definitions for links
   const defs = svg.append("defs");
   links.forEach(link => {
     const sourceNode = filteredNodes.find(n => n.id === (link.source.id || link.source));
     const targetNode = filteredNodes.find(n => n.id === (link.target.id || link.target));
-    const gradId = `gradient-link-${sanitizeId(sourceNode.id)}-${sanitizeId(targetNode.id)}`;
-    const grad = defs.append("linearGradient")
-      .attr("id", gradId)
-      .attr("gradientUnits", "userSpaceOnUse")
-      .attr("x1", 0).attr("y1", 0).attr("x2", 1).attr("y2", 0);
-    grad.append("stop").attr("offset", "0%").attr("stop-color", colorByType(sourceNode.type));
-    grad.append("stop").attr("offset", "100%").attr("stop-color", colorByType(targetNode.type));
+    
+    if (sourceNode && targetNode) {
+      const gradId = `gradient-link-${sanitizeId(sourceNode.id)}-${sanitizeId(targetNode.id)}`;
+      const grad = defs.append("linearGradient")
+        .attr("id", gradId)
+        .attr("gradientUnits", "userSpaceOnUse")
+        .attr("x1", 0).attr("y1", 0).attr("x2", 1).attr("y2", 0);
+      grad.append("stop").attr("offset", "0%").attr("stop-color", colorByType(sourceNode.type));
+      grad.append("stop").attr("offset", "100%").attr("stop-color", colorByType(targetNode.type));
+    }
   });
 
+  // Create groups for different elements
   const linkGroup = zoomable.append("g").attr("class", "links");
   const nodeGroup = zoomable.append("g").attr("class", "nodes");
   const labelGroup = zoomable.append("g").attr("class", "labels");
 
+  // Create force simulation with better initial positioning
   const simulation = d3.forceSimulation(filteredNodes)
-    .force("link", d3.forceLink(links).id(d => d.id).distance(180).strength(0.7))
-    .force("charge", d3.forceManyBody().strength(-150))
+    .force("link", d3.forceLink(links).id(d => d.id).distance(250).strength(0.8)) // Shorter links for better clustering
+    .force("charge", d3.forceManyBody().strength(-250)) // Balanced repulsion
     .force("center", d3.forceCenter(width / 2, height / 2))
-    .force("collision", d3.forceCollide().radius(18));
+    .force("collision", d3.forceCollide().radius(18)) // Prevent overlap
+    .force("x", d3.forceX(width / 2).strength(0.1)) // Stronger centering
+    .force("y", d3.forceY(height / 2).strength(0.1));
 
-  linkGroup.selectAll("line")
+  // Create links with thinner styling
+  const linkElements = linkGroup.selectAll("line")
     .data(links)
     .enter()
     .append("line")
-    .attr("stroke-width", 1.5)
-    .attr("stroke-opacity", 0.6)
+    .attr("stroke-width", 1.5) // Thinner lines
+    .attr("stroke-opacity", 0.7) // More subtle
     .attr("stroke", d => {
       const sourceId = sanitizeId(d.source.id || d.source);
       const targetId = sanitizeId(d.target.id || d.target);
       return `url(#gradient-link-${sourceId}-${targetId})`;
     });
 
-  nodeGroup.selectAll("circle")
+  // Create tooltip
+  const tooltip = d3.select("#tooltip");
+
+  // Create nodes with proper colors and thinner styling
+  const nodeElements = nodeGroup.selectAll("circle")
     .data(filteredNodes, d => d.id)
     .enter()
     .append("circle")
-    .attr("r", 14)
-    .attr("fill", d => colorByType(d.type))
+    .attr("r", 12) // Smaller radius
+    .attr("fill", d => colorByType(d.type))  // Ensure color is applied
+    .attr("stroke", "#fff")
+    .attr("stroke-width", 0.5) // Thinner stroke
+    .style("cursor", "pointer")
     .call(drag(simulation))
+    .on("mouseover", (event, d) => {
+      tooltip.transition()
+        .duration(200)
+        .style("opacity", 0.9);
+      tooltip.html(`
+        <strong>${d.name}</strong><br/>
+        <em>${d.scientific || 'Unknown'}</em><br/>
+        Type: ${d.type}<br/>
+        Season: ${d.season_note}<br/>
+        Size: ${d.size}
+      `)
+        .style("left", (event.pageX + 10) + "px")
+        .style("top", (event.pageY - 10) + "px");
+    })
+    .on("mouseout", () => {
+      tooltip.transition()
+        .duration(500)
+        .style("opacity", 0);
+    })
     .on("click", (event, d) => {
-      document.querySelectorAll(".node-info-card").forEach(card => card.classList.remove("selected-info-card"));
+      // Remove previous selections
+      document.querySelectorAll(".node-info-card").forEach(card => 
+        card.classList.remove("selected-info-card"));
+      
+      // Select the clicked node's info card
       const infoCard = document.querySelector(`.node-info-card[data-id="${d.id}"]`);
       if (infoCard) {
         infoCard.classList.add("selected-info-card");
-        infoCard.scrollIntoView({ behavior: "smooth", block: "center" });
+        
+        // Check if mobile (screen width < 768px)
+        const isMobile = window.innerWidth < 768;
+        if (isMobile) {
+          // On mobile, scroll to the info section
+          const infoBox = document.querySelector('.info-box');
+          if (infoBox) {
+            infoBox.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        } else {
+          // On desktop, scroll within the info list
+          infoCard.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
       }
+      
+      // NO NEW WINDOW - just expand the info card
       event.stopPropagation();
     });
 
+  // Clear selections when clicking on empty space
   svg.on("click", () => {
-    document.querySelectorAll(".node-info-card").forEach(card => card.classList.remove("selected-info-card"));
+    document.querySelectorAll(".node-info-card").forEach(card => 
+      card.classList.remove("selected-info-card"));
   });
 
-  labelGroup.selectAll("text")
+  // Create labels with customizable font size
+  const labelElements = labelGroup.selectAll("text")
     .data(filteredNodes)
     .enter()
     .append("text")
     .attr("text-anchor", "middle")
     .attr("dy", ".35em")
     .attr("fill", "#fff")
-    .attr("font-size", "12px")
+    .attr("font-size", "5px") // 🔧 CHANGE THIS VALUE to adjust font size
+    .attr("font-family", "Courier New, monospace")
     .attr("pointer-events", "none")
-    .text(d => d.name);
+    .style("text-shadow", "1px 1px 1px rgba(0,0,0,0.8)")
+    .text(d => d.name.length > 8 ? d.name.substring(0, 8) + "..." : d.name); // Also shortened text length
 
+  // Update positions on simulation tick
   simulation.on("tick", () => {
+    // Constrain nodes to stay within bounds with smaller radius
     filteredNodes.forEach(d => {
-      d.x = Math.max(14, Math.min(width - 14, d.x));
-      d.y = Math.max(14, Math.min(height - 14, d.y));
+      d.x = Math.max(15, Math.min(width - 15, d.x));
+      d.y = Math.max(15, Math.min(height - 15, d.y));
     });
 
-    linkGroup.selectAll("line")
+    linkElements
       .attr("x1", d => d.source.x)
       .attr("y1", d => d.source.y)
       .attr("x2", d => d.target.x)
       .attr("y2", d => d.target.y);
 
-    nodeGroup.selectAll("circle")
+    nodeElements
       .attr("cx", d => d.x)
       .attr("cy", d => d.y);
 
-    labelGroup.selectAll("text")
+    labelElements
       .attr("x", d => d.x)
       .attr("y", d => d.y);
   });
 
+  // Add click handlers to info cards with mobile support
+  setTimeout(() => {
+    document.querySelectorAll('.node-info-card').forEach(card => {
+      card.addEventListener('click', function() {
+        // Remove previous selections
+        document.querySelectorAll('.node-info-card').forEach(c => 
+          c.classList.remove('selected-info-card'));
+        
+        // Select this card
+        this.classList.add('selected-info-card');
+        
+        // Highlight corresponding node
+        const nodeId = this.getAttribute('data-id');
+        const node = filteredNodes.find(n => n.id === nodeId);
+        if (node) {
+          // Temporarily highlight the node in the graph
+          const nodeElement = nodeElements.filter(d => d.id === nodeId);
+          nodeElement.transition()
+            .duration(300)
+            .attr("r", 24)
+            .attr("stroke-width", 4)
+            .transition()
+            .duration(300)
+            .attr("r", 16)
+            .attr("stroke-width", 2);
+        }
+      });
+    });
+  }, 100);
+
+  // Reset simulation function
   window.resetSimulation = () => {
     filteredNodes.forEach(d => {
       d.fx = null;
@@ -215,10 +442,80 @@ window.drawGraphWithFilters = function (filters) {
     });
     simulation.alpha(1).restart();
   };
+
+  console.log(`Graph created with ${filteredNodes.length} nodes and ${links.length} links`);
 };
 
-// Load the data and initialize TreeData
+// Load the data and initialize
+console.log("🌳 Initializing Flora Map...");
+
+// Set a flag to track loading state
+window.TreeDataLoaded = false;
+
 d3.json("TreeDataWithImg.json").then(data => {
+  console.log("✅ Tree data loaded successfully");
   window.TreeData = data;
-  drawGraphWithFilters({ type: [], season: [], size: [] }); // Draw full graph initially
+  window.TreeDataLoaded = true;
+  
+  // Debug the loaded data
+  console.log("📊 Loaded tree data:", data);
+  console.log(`🌲 Total trees: ${data.nodes.length}`);
+  debugImagePaths(data.nodes);
+  
+  // Initial draw with no filters
+  drawGraphWithFilters({ type: [], season: [], size: [] });
+  
+  // Update info box to show we're ready
+  const infoList = document.getElementById("nodeInfoList");
+  if (infoList && infoList.innerHTML.includes("Loading")) {
+    updateInfoBox(data.nodes);
+  }
+  
+}).catch(error => {
+  console.error("❌ Error loading tree data:", error);
+  window.TreeDataLoaded = false;
+  
+  // Show error message in the graph area
+  const container = document.getElementById("force-map");
+  container.innerHTML = `
+    <div style="
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      height: 100%; 
+      color: #ff6b6b; 
+      font-family: 'Courier New', monospace;
+      text-align: center;
+      flex-direction: column;
+    ">
+      <div style="font-size: 18px; margin-bottom: 10px;">⚠️ Error Loading Data</div>
+      <div style="font-size: 14px;">Could not load TreeDataWithImg.json</div>
+      <div style="font-size: 12px; margin-top: 10px; color: #999;">
+        Make sure you've run the Python scraper first:<br/>
+        <code>python scrape_trees.py</code>
+      </div>
+    </div>
+  `;
+  
+  // Show error in info box too
+  const infoList = document.getElementById("nodeInfoList");
+  if (infoList) {
+    infoList.innerHTML = `
+      <div style="color: #ff6b6b; text-align: center; padding: 20px;">
+        <div>❌ Failed to load tree data</div>
+        <div style="font-size: 12px; margin-top: 8px; color: #999;">
+          Run: <code>python scrape_trees.py</code><br/>
+          Then refresh this page
+        </div>
+      </div>
+    `;
+  }
 });
+
+// Export functions for potential external use
+window.TreeGraphUtils = {
+  colorByType,
+  sanitizeId,
+  debugImagePaths,
+  resetSimulation: () => window.resetSimulation && window.resetSimulation()
+};
