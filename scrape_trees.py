@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import json
 import re
 import os
+import datetime
 
 # URL to scrape
 URL = "https://khaoyainationalpark.com/en/discover/flora"
@@ -190,6 +191,7 @@ def get_tree_data():
             "season_note": season,
             "type": tree_type,
             "size": size,
+            "_generated_at": datetime.datetime.now().isoformat(),
             "description": desc[:200] + "..." if len(desc) > 200 else desc
         }
         
