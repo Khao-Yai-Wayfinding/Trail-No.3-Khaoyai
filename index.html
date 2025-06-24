@@ -18,17 +18,16 @@
       color: #fff;
       font-family: "Courier New", Courier, monospace;
       margin: 0;
-      height: 100vh;
-      overflow: hidden;
+      min-height: 100vh;
+      overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
 
     .page-padding {
       padding: 10px;
-      height: 100vh;
+      min-height: 100vh;
       box-sizing: border-box;
       width: 100vw;
-      overflow: hidden;
       /* iPhone safe areas */
       padding-top: max(10px, env(safe-area-inset-top));
       padding-bottom: max(10px, env(safe-area-inset-bottom));
@@ -40,32 +39,48 @@
       display: grid;
       grid-template-columns: 2fr 1fr;
       grid-template-rows: 1fr auto;
-      height: 100%;
+      min-height: calc(100vh - 20px);
       width: 100%;
       gap: 10px;
       box-sizing: border-box;
     }
 
-    /* iPhone Layout - Map takes half screen, then Forest Inventory, then Timeline */
+    /* iPhone Layout - Vertical stacking with proper spacing */
     @media (max-width: 768px) {
+      body {
+        overflow-y: auto;
+        height: auto;
+        min-height: 100vh;
+      }
+      
+      .page-padding {
+        height: auto;
+        min-height: 100vh;
+        overflow: visible;
+      }
+      
       .container {
         grid-template-columns: 1fr;
-        grid-template-rows: 50vh auto 1fr;
-        gap: 8px;
+        grid-template-rows: auto auto auto;
+        gap: 12px;
+        height: auto;
+        min-height: auto;
       }
       
       .map-box {
         grid-column: 1;
         grid-row: 1;
-        height: 50vh;
-        min-height: 300px;
+        height: 60vh;
+        min-height: 400px;
+        max-height: 70vh;
       }
       
       .right-column {
         grid-column: 1;
         grid-row: 2;
         height: auto;
-        min-height: 200px;
+        min-height: 300px;
+        max-height: none;
       }
       
       .timeline-box {
@@ -130,17 +145,20 @@
       
       .info-box {
         max-height: none;
-        padding: 10px;
+        padding: 15px;
+        height: auto;
+        min-height: 250px;
       }
       
       .node-info-list {
-        max-height: 150px;
+        max-height: 200px;
         overflow-y: auto;
       }
       
       #force-map {
         margin: 8px;
-        min-height: 250px;
+        min-height: 300px;
+        height: calc(100% - 16px);
       }
       
       /* Better touch targets for iPhone */
@@ -182,6 +200,7 @@
     @media (min-width: 769px) and (max-width: 1024px) {
       .container {
         grid-template-columns: 3fr 2fr;
+        height: calc(100vh - 20px);
       }
       
       .filter-group {
@@ -196,6 +215,10 @@
 
     /* Desktop optimizations */
     @media (min-width: 1025px) {
+      .container {
+        height: calc(100vh - 20px);
+      }
+      
       .header-title {
         font-size: 24px;
       }
@@ -224,8 +247,8 @@
     .map-box {
       padding: 0;
       min-width: 0;
-      min-height: 0;
       position: relative;
+      overflow: hidden;
     }
 
     .header-section {
@@ -233,6 +256,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 20px;
+      flex-shrink: 0;
     }
 
     .header-title {
@@ -248,6 +272,7 @@
       border-top: 2px solid white;
       margin: 0 0 18px 0;
       width: 100%;
+      flex-shrink: 0;
     }
 
     .filters {
@@ -258,6 +283,7 @@
       justify-content: flex-start;
       font-family: "Courier New", Courier, monospace;
       position: relative;
+      flex-shrink: 0;
     }
 
     .filter-group {
@@ -370,15 +396,15 @@
 
     #force-map {
       width: 100%;
-      height: 100%;
-      min-height: 300px;
-      flex: 1 1 auto;
+      flex: 1;
+      min-height: 250px;
       background: #000;
       border-radius: 6px;
       margin: 0 16px 16px 16px;
       position: relative;
       box-sizing: border-box;
       touch-action: manipulation;
+      overflow: hidden;
     }
 
     .right-column {
@@ -386,19 +412,18 @@
       grid-row: 1 / 2;
       display: flex;
       flex-direction: column;
-      height: 100%;
       min-width: 0;
-      min-height: 0;
       gap: 18px;
     }
 
     .info-box {
-      flex: 1 1 0;
-      min-height: 180px;
+      flex: 1;
+      min-height: 250px;
       margin-bottom: 0;
       padding: 20px;
-      max-height: 100%;
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
 
     .info-header {
@@ -408,10 +433,7 @@
       text-align: left;
       margin: 0 0 8px 0;
       font-family: "Courier New", Courier, monospace;
-      position: sticky;
-      top: 0;
-      background: black;
-      z-index: 2;
+      flex-shrink: 0;
     }
 
     .info-hr {
@@ -419,14 +441,11 @@
       border-top: 2px solid white;
       margin: 0 -20px 18px -20px;
       width: calc(100% + 40px);
-      position: sticky;
-      top: 28px;
-      background: black;
-      z-index: 2;
+      flex-shrink: 0;
     }
 
     .node-info-list {
-      flex: 1 1 auto;
+      flex: 1;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       display: flex;
@@ -435,8 +454,7 @@
       padding-bottom: 10px;
       scrollbar-width: thin;
       scrollbar-color: white black;
-      max-height: calc(100vh - 200px);
-      background: black;
+      min-height: 0;
     }
 
     .node-info-list::-webkit-scrollbar {
@@ -471,6 +489,7 @@
       position: relative;
       color: white;
       -webkit-user-select: none;
+      flex-shrink: 0;
     }
 
     .node-info-card:active {
@@ -538,6 +557,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-shrink: 0;
     }
 
     .loading-text::after {
@@ -687,120 +707,6 @@
   <!-- D3.js -->
   <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
   
-  <!-- Filter UI Logic -->
-  <script>
-    function closeAllDropdowns() {
-      document.querySelectorAll('.dropdown-options').forEach(el => el.style.display = "none");
-      document.querySelectorAll('.filter-label-btn').forEach(btn => btn.classList.remove('open'));
-    }
-
-    document.querySelectorAll('.filter-label-btn').forEach(btn => {
-      btn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        const group = btn.closest('.filter-group');
-        const dropdown = group.querySelector('.dropdown-options');
-        const isOpen = dropdown.style.display === "block";
-        closeAllDropdowns();
-        if (!isOpen) {
-          dropdown.style.display = "block";
-          btn.classList.add('open');
-        }
-      });
-    });
-
-    document.addEventListener("click", function(event) {
-      if (!event.target.closest('.filter-group')) {
-        closeAllDropdowns();
-      }
-    });
-
-    // Improved touch handling for mobile
-    document.querySelectorAll('.dropdown-options .filter-option').forEach(option => {
-      option.addEventListener('click', function(e) {
-        e.stopPropagation();
-        const dropdown = option.parentElement;
-        const options = dropdown.querySelectorAll('.filter-option');
-        if (option.dataset.value === "All") {
-          options.forEach(opt => opt.classList.remove('selected'));
-          option.classList.add('selected');
-        } else {
-          dropdown.querySelector('.filter-option[data-value="All"]').classList.remove('selected');
-          option.classList.toggle('selected');
-          const anySelected = Array.from(options).slice(1).some(opt => opt.classList.contains('selected'));
-          if (!anySelected) {
-            options[0].classList.add('selected');
-          }
-        }
-        updateGraphWithFilters();
-        // Close dropdown after selection on mobile
-        if (window.innerWidth <= 768) {
-          closeAllDropdowns();
-        }
-      });
-    });
-
-    document.getElementById('resetFiltersBtn').addEventListener('click', function() {
-      document.querySelectorAll('.dropdown-options').forEach(dropdown => {
-        dropdown.querySelectorAll('.filter-option').forEach(opt => opt.classList.remove('selected'));
-        const allOption = dropdown.querySelector('.filter-option[data-value="All"]');
-        if (allOption) allOption.classList.add('selected');
-      });
-      if (window.TreeData && window.TreeData.nodes) {
-        window.TreeData.nodes.forEach(n => { n.fx = null; n.fy = null; });
-      }
-      closeAllDropdowns();
-      updateGraphWithFilters();
-    });
-
-    function getSelectedFilters() {
-      const filters = {};
-      document.querySelectorAll('.filter-group').forEach(group => {
-        const filterKey = group.getAttribute('data-filter');
-        const selected = Array.from(group.querySelectorAll('.filter-option.selected')).map(opt => opt.dataset.value);
-        filters[filterKey] = selected.includes("All") ? [] : selected;
-      });
-      return filters;
-    }
-
-    function updateGraphWithFilters() {
-      if (window.drawGraphWithFilters) {
-        const filters = getSelectedFilters();
-        window.drawGraphWithFilters(filters);
-      }
-    }
-
-    // Prevent zoom on double-tap
-    let lastTouchEnd = 0;
-    document.addEventListener('touchend', function (event) {
-      const now = (new Date()).getTime();
-      if (now - lastTouchEnd <= 300) {
-        event.preventDefault();
-      }
-      lastTouchEnd = now;
-    }, false);
-
-    document.addEventListener("DOMContentLoaded", function() {
-      console.log("🌐 DOM loaded, initializing interface...");
-      
-      // Show initial loading state
-      const infoList = document.getElementById("nodeInfoList");
-      if (infoList) {
-        infoList.innerHTML = `
-          <div style="color: #aaa; text-align: center; padding: 20px;">
-            <div>🌳 Loading flora data<span class="loading-text"></span></div>
-            <div style="font-size: 12px; margin-top: 8px;">
-              Please wait while we fetch the tree information
-            </div>
-          </div>
-        `;
-      }
-      
-      // Try to update graph (will show loading message if data not ready)
-      updateGraphWithFilters();
-    });
-  </script>
-
   <!-- Main Graph Logic -->
   <script src="graph.js"></script>
-</body>
-</html>
+  
