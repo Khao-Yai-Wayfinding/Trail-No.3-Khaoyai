@@ -3,8 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Flora Map">
   <title>Trail No.3 Flora Map</title>
   <style>
+    * {
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+    }
+
     body {
       background: #000;
       color: #fff;
@@ -12,6 +20,7 @@
       margin: 0;
       height: 100vh;
       overflow: hidden;
+      -webkit-font-smoothing: antialiased;
     }
 
     .page-padding {
@@ -20,6 +29,11 @@
       box-sizing: border-box;
       width: 100vw;
       overflow: hidden;
+      /* iPhone safe areas */
+      padding-top: max(10px, env(safe-area-inset-top));
+      padding-bottom: max(10px, env(safe-area-inset-bottom));
+      padding-left: max(10px, env(safe-area-inset-left));
+      padding-right: max(10px, env(safe-area-inset-right));
     }
 
     .container {
@@ -32,30 +46,45 @@
       box-sizing: border-box;
     }
 
-    /* Mobile Layout */
+    /* iPhone Layout - Map takes half screen, then Forest Inventory, then Timeline */
     @media (max-width: 768px) {
       .container {
         grid-template-columns: 1fr;
-        grid-template-rows: 60vh auto 1fr auto;
+        grid-template-rows: 50vh auto 1fr;
         gap: 8px;
       }
       
       .map-box {
         grid-column: 1;
         grid-row: 1;
-        height: 60vh;
-        min-height: 400px;
+        height: 50vh;
+        min-height: 300px;
+      }
+      
+      .right-column {
+        grid-column: 1;
+        grid-row: 2;
+        height: auto;
+        min-height: 200px;
+      }
+      
+      .timeline-box {
+        grid-column: 1;
+        grid-row: 3;
+        height: 100px;
+        min-height: 80px;
       }
       
       .header-section {
         flex-direction: column;
-        gap: 10px;
-        margin: 10px;
+        gap: 8px;
+        margin: 8px;
         align-items: flex-start;
       }
       
       .header-title {
         font-size: 18px;
+        margin: 0;
       }
       
       .donation-box-inline {
@@ -63,103 +92,93 @@
         height: 36px;
         font-size: 12px;
         padding: 6px 12px;
-      }
-      
-      .right-column {
-        grid-column: 1;
-        grid-row: 3;
-        height: auto;
-        min-height: 300px;
-        max-height: none;
-      }
-      
-      .timeline-box {
-        grid-column: 1;
-        grid-row: 4;
-        height: 120px;
+        margin: 0;
       }
       
       .filters {
         flex-wrap: wrap;
-        margin-bottom: 10px;
+        margin: 8px;
         gap: 6px;
-        margin-left: 10px;
-        margin-right: 10px;
       }
       
       .filter-group {
-        min-width: 90px;
-        font-size: 14px;
+        min-width: 80px;
         flex: 1;
       }
       
       .filter-label-btn {
-        padding: 6px 12px 6px 8px;
+        padding: 8px 12px;
         font-size: 12px;
-        min-width: 90px;
+        min-height: 36px;
         width: 100%;
+        border-radius: 6px;
       }
       
       .reset-btn {
-        padding: 6px 12px;
+        padding: 8px 12px;
         font-size: 12px;
         flex: 1;
-        min-width: 90px;
+        min-width: 80px;
         height: 36px;
+        border-radius: 6px;
       }
       
       .info-header {
-        font-size: 18px;
-        margin-top: 15px;
+        font-size: 16px;
+        margin-top: 10px;
       }
       
       .info-box {
-        max-height: 50vh;
-        overflow-y: auto;
+        max-height: none;
+        padding: 10px;
       }
       
       .node-info-list {
-        max-height: calc(50vh - 100px);
-      }
-      
-      #force-map {
-        margin: 0 8px 8px 8px;
-        min-height: 350px;
-      }
-      
-      /* Make dropdowns more touch-friendly */
-      .dropdown-options {
-        min-width: 120px;
-        max-height: 200px;
+        max-height: 150px;
         overflow-y: auto;
       }
       
+      #force-map {
+        margin: 8px;
+        min-height: 250px;
+      }
+      
+      /* Better touch targets for iPhone */
+      .dropdown-options {
+        min-width: 120px;
+        max-height: 180px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      
       .dropdown-options .filter-option {
-        padding: 8px 16px;
+        padding: 12px 16px;
         font-size: 14px;
-        min-height: 32px;
+        min-height: 44px;
         display: flex;
         align-items: center;
       }
       
-      /* Better touch targets */
-      .filter-label-btn {
-        min-height: 36px;
-      }
-      
-      /* Improve node interaction on mobile */
       .node-info-card {
-        min-height: 44px; /* Apple recommended touch target */
-        padding: 8px 12px;
+        min-height: 44px;
+        padding: 10px 12px;
         font-size: 14px;
+        border-radius: 8px;
+        margin-bottom: 6px;
       }
       
       .tree-img {
-        max-height: 140px;
+        max-height: 120px;
+        border-radius: 8px;
+      }
+      
+      .timeline-box {
+        font-size: 14px;
+        padding: 10px;
       }
     }
 
-    /* Tablet specific adjustments */
+    /* iPad/Tablet adjustments */
     @media (min-width: 769px) and (max-width: 1024px) {
       .container {
         grid-template-columns: 3fr 2fr;
@@ -171,29 +190,29 @@
       
       .filter-label-btn {
         font-size: 14px;
-        padding: 5px 15px 5px 10px;
+        padding: 6px 15px;
       }
     }
 
-    /* Large screen optimizations */
-    @media (min-width: 1400px) {
+    /* Desktop optimizations */
+    @media (min-width: 1025px) {
       .header-title {
-        font-size: 26px;
-      }
-      
-      .info-header {
         font-size: 24px;
       }
       
+      .info-header {
+        font-size: 22px;
+      }
+      
       .filter-label-btn {
-        font-size: 16px;
-        padding: 8px 20px 8px 15px;
+        font-size: 15px;
+        padding: 8px 18px;
       }
     }
 
     .map-box, .info-box, .timeline-box {
       border: 2px solid white;
-      border-radius: 6px;
+      border-radius: 8px;
       background: black;
       color: white;
       padding: 20px;
@@ -209,19 +228,25 @@
       position: relative;
     }
 
+    .header-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px;
+    }
+
     .header-title {
       font-size: 22px;
       font-weight: bold;
       color: white;
-      text-align: left;
-      margin: 20px 0 0 20px;
+      margin: 0;
       font-family: "Courier New", Courier, monospace;
     }
 
     .header-hr {
       border: none;
       border-top: 2px solid white;
-      margin: 8px 0 18px 0;
+      margin: 0 0 18px 0;
       width: 100%;
     }
 
@@ -229,10 +254,9 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 20px;
+      margin: 0 20px 20px 20px;
       justify-content: flex-start;
       font-family: "Courier New", Courier, monospace;
-      margin-left: 20px;
       position: relative;
     }
 
@@ -255,16 +279,21 @@
       color: white;
       border: 1px solid white;
       border-radius: 4px;
-      padding: 6px 18px 6px 12px;
+      padding: 8px 18px;
       font-size: 15px;
       font-weight: bold;
       cursor: pointer;
       user-select: none;
-      transition: border-color 0.2s;
+      transition: all 0.2s;
       margin-bottom: 0;
       min-width: 120px;
       position: relative;
       font-family: "Courier New", Courier, monospace;
+      -webkit-appearance: none;
+    }
+
+    .filter-label-btn:active {
+      background: #333;
     }
 
     .filter-label-btn .arrow {
@@ -282,25 +311,26 @@
       position: absolute;
       background: black;
       border: 1px solid white;
-      border-radius: 4px;
-      z-index: 2;
+      border-radius: 6px;
+      z-index: 1000;
       min-width: 100%;
       margin-top: 2px;
       flex-direction: column;
       left: 0;
-      top: 110%;
-      box-shadow: 0 2px 8px rgba(30,144,255,0.15);
+      top: 100%;
+      box-shadow: 0 4px 12px rgba(255,255,255,0.1);
       padding: 8px 0;
       font-family: "Courier New", Courier, monospace;
       font-size: 16px;
     }
 
     .dropdown-options .filter-option {
-      padding: 6px 18px;
+      padding: 8px 18px;
       cursor: pointer;
       border-radius: 4px;
-      transition: background 0.2s, color 0.2s;
-      display: block;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
       font-size: 15px;
       background: black;
       color: white;
@@ -313,7 +343,7 @@
       color: black;
     }
 
-    .dropdown-options .filter-option:hover {
+    .dropdown-options .filter-option:active {
       background: #333;
       color: white;
     }
@@ -323,16 +353,17 @@
       color: #1e90ff;
       border: 1px solid #1e90ff;
       border-radius: 4px;
-      padding: 6px 18px;
+      padding: 8px 18px;
       font-size: 15px;
       cursor: pointer;
       margin-left: 8px;
-      transition: background 0.2s, color 0.2s;
+      transition: all 0.2s;
       align-self: flex-end;
       font-family: "Courier New", Courier, monospace;
+      -webkit-appearance: none;
     }
 
-    .reset-btn:hover {
+    .reset-btn:active {
       background: #1e90ff;
       color: white;
     }
@@ -347,6 +378,7 @@
       margin: 0 16px 16px 16px;
       position: relative;
       box-sizing: border-box;
+      touch-action: manipulation;
     }
 
     .right-column {
@@ -364,18 +396,17 @@
       flex: 1 1 0;
       min-height: 180px;
       margin-bottom: 0;
-      padding: 0 20px 10px 20px;
+      padding: 20px;
       max-height: 100%;
-      overflow: hidden; /* Container doesn't scroll, only the list inside */
+      overflow: hidden;
     }
 
     .info-header {
-      font-size: 22px;
+      font-size: 20px;
       font-weight: bold;
       color: white;
       text-align: left;
-      margin-top: 20px;
-      margin-bottom: 0;
+      margin: 0 0 8px 0;
       font-family: "Courier New", Courier, monospace;
       position: sticky;
       top: 0;
@@ -386,35 +417,36 @@
     .info-hr {
       border: none;
       border-top: 2px solid white;
-      margin: 8px -20px 18px -20px;
+      margin: 0 -20px 18px -20px;
       width: calc(100% + 40px);
       position: sticky;
-      top: 48px;
+      top: 28px;
       background: black;
       z-index: 2;
     }
 
     .node-info-list {
       flex: 1 1 auto;
-      overflow-y: auto; /* Enable scrolling */
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
       display: flex;
       flex-direction: column;
       gap: 8px;
       padding-bottom: 10px;
       scrollbar-width: thin;
       scrollbar-color: white black;
-      max-height: calc(100vh - 200px); /* Set proper max height */
-      background: black; /* Ensure black background */
+      max-height: calc(100vh - 200px);
+      background: black;
     }
 
     .node-info-list::-webkit-scrollbar {
-      width: 8px;
+      width: 6px;
       background: black;
     }
 
     .node-info-list::-webkit-scrollbar-thumb {
       background: white;
-      border-radius: 4px;
+      border-radius: 3px;
     }
 
     .node-info-list::-webkit-scrollbar-track {
@@ -428,7 +460,7 @@
       max-height: 32px;
       padding: 8px 12px;
       margin-bottom: 4px;
-      background: black; /* Always black background */
+      background: black;
       border: 1px solid white;
       border-radius: 6px;
       font-size: 15px;
@@ -437,7 +469,12 @@
       display: flex;
       align-items: center;
       position: relative;
-      color: white; /* Always white text */
+      color: white;
+      -webkit-user-select: none;
+    }
+
+    .node-info-card:active {
+      background: #333;
     }
 
     .node-info-card .node-title {
@@ -458,11 +495,11 @@
       overflow: visible;
       text-overflow: unset;
       max-height: none;
-      background: black !important; /* Keep black background when selected */
-      color: white !important; /* Keep white text when selected */
+      background: black !important;
+      color: white !important;
       border-color: white;
       border-width: 2px;
-      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2); /* White glow instead of blue */
+      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
       flex-direction: column;
       align-items: flex-start;
     }
@@ -475,54 +512,27 @@
 
     .tree-img {
       max-width: 100%;
-      max-height: 150px; /* Increase max height */
-      width: 100%; /* Fill the full width */
+      max-height: 150px;
+      width: 100%;
       display: block;
       margin: 8px 0;
       border-radius: 6px;
-      object-fit: cover; /* Fill the container while maintaining aspect ratio */
+      object-fit: cover;
       border: 1px solid white;
-      mix-blend-mode: normal; /* Normal blend mode for images */
     }
 
-    /* Text exclusion mode for overlaying text on images */
     .node-info-card .node-details div {
-      background: rgba(0, 0, 0, 0.8); /* Semi-transparent black background for text */
+      background: rgba(0, 0, 0, 0.8);
       color: white;
       padding: 4px 8px;
       margin: 2px 0;
       border-radius: 4px;
-      mix-blend-mode: normal; /* Ensure text is readable */
-    }
-
-    /* Mobile specific card styling */
-    @media (max-width: 768px) {
-      .node-info-card {
-        font-size: 14px;
-        padding: 6px 10px;
-        background: black;
-        color: white;
-      }
-      
-      .node-info-card.selected-info-card {
-        margin-bottom: 8px;
-        background: black !important;
-        color: white !important;
-      }
-      
-      .tree-img {
-        max-height: 120px; /* Slightly smaller on mobile */
-      }
-      
-      .node-info-list {
-        max-height: calc(100vh - 250px); /* Adjust for mobile */
-      }
     }
 
     .timeline-box {
       grid-column: 1 / 3;
       grid-row: 2 / 3;
-      height: 180px;
+      height: 120px;
       text-align: center;
       font-size: 17px;
       display: flex;
@@ -545,8 +555,6 @@
     }
 
     .donation-box-inline {
-      margin-left: auto;
-      margin-right: 20px;
       height: 38px;
       display: flex;
       align-items: center;
@@ -563,9 +571,10 @@
       font-family: "Courier New", Courier, monospace;
       text-decoration: none;
       transition: all 0.2s;
+      -webkit-appearance: none;
     }
 
-    .donation-box-inline:hover {
+    .donation-box-inline:active {
       background: black;
       color: white;
       border-color: white;
@@ -574,7 +583,7 @@
     .tooltip {
       position: absolute;
       pointer-events: none;
-      font-size: 11px; /* Smaller font */
+      font-size: 11px;
       padding: 8px 10px;
       background: rgba(0,0,0,0.85);
       color: white;
@@ -582,10 +591,17 @@
       opacity: 0;
       transition: opacity 0.3s ease;
       z-index: 1000;
-      border: 1px solid rgba(255,255,255,0.3); /* Subtle border */
+      border: 1px solid rgba(255,255,255,0.3);
       font-family: "Courier New", Courier, monospace;
       max-width: 200px;
       line-height: 1.3;
+    }
+
+    /* Prevent zoom on double-tap */
+    @media (max-width: 768px) {
+      input, select, textarea, button {
+        font-size: 16px !important;
+      }
     }
   </style>
 </head>
@@ -644,7 +660,7 @@
               <span class="filter-option" data-value="Large">Large</span>
             </div>
           </div>
-          <!-- Reset Button - now properly aligned -->
+          <!-- Reset Button -->
           <button class="reset-btn" type="button" id="resetFiltersBtn">Reset Filters</button>
         </div>
         <div id="force-map"></div>
@@ -659,7 +675,7 @@
         </div>
       </div>
 
-      <!-- Timeline/Coming Soon -->
+      <!-- Timeline -->
       <div class="timeline-box">
         <span>Coming soon<span class="loading-text"></span></span>
       </div>
@@ -698,6 +714,7 @@
       }
     });
 
+    // Improved touch handling for mobile
     document.querySelectorAll('.dropdown-options .filter-option').forEach(option => {
       option.addEventListener('click', function(e) {
         e.stopPropagation();
@@ -715,6 +732,10 @@
           }
         }
         updateGraphWithFilters();
+        // Close dropdown after selection on mobile
+        if (window.innerWidth <= 768) {
+          closeAllDropdowns();
+        }
       });
     });
 
@@ -747,6 +768,16 @@
         window.drawGraphWithFilters(filters);
       }
     }
+
+    // Prevent zoom on double-tap
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function (event) {
+      const now = (new Date()).getTime();
+      if (now - lastTouchEnd <= 300) {
+        event.preventDefault();
+      }
+      lastTouchEnd = now;
+    }, false);
 
     document.addEventListener("DOMContentLoaded", function() {
       console.log("🌐 DOM loaded, initializing interface...");
