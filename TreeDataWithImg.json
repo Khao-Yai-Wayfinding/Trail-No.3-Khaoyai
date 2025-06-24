@@ -7,7 +7,7 @@
       "season": "Summer",
       "type": "Evergreen",
       "size": "Large",
-      "img": "TreePic3/EagleWood_Agarwood.jpg"
+      "img": "EagleWood_Agarwood.jpg"
     },
     {
       "id": "Dipterocarpus_gracilis",
@@ -16,7 +16,7 @@
       "season": "Rainy",
       "type": "Deciduous",
       "size": "Large",
-      "img": "TreePic3/Dipterocarpus_gracilis.jpg"
+      "img": "Dipterocarpus_gracilis.jpg"
     },
     {
       "id": "Calamus_viminalis_Willd",
@@ -25,7 +25,7 @@
       "season": "Rainy",
       "type": "Rattan",
       "size": "Large",
-      "img": "TreePic3/Calamus_viminalis_Willd.png"
+      "img": "Calamus_viminalis_Willd.png"
     },
     {
       "id": "Wild_Nutmeg",
@@ -34,7 +34,7 @@
       "season": "Rainy",
       "type": "Evergreen",
       "size": "Large",
-      "img": "TreePic3/Wild_Nutmeg.png"
+      "img": "Wild_Nutmeg.png"
     },
     {
       "id": "Aphanamixis_polystachya_Wall_R_Parker",
@@ -43,7 +43,7 @@
       "season": "Summer",
       "type": "Evergreen",
       "size": "Large",
-      "img" : "TreePic3/Aphanamixis_polystachya_(Wall.)_R._Parker.png"
+      "img": "Aphanamixis_polystachya_(Wall.)_R._Parker.png"
     },
     {
       "id": "Needlewood",
@@ -52,7 +52,7 @@
       "season": "Rainy",
       "type": "Evergreen",
       "size": "Large",
-      "img": "TreePic3/Needlewood.jpg"
+      "img": "Needlewood.jpg"
     },
     {
       "id": "Magnolia_baillonii_Pierre",
@@ -61,7 +61,7 @@
       "season": "Summer",
       "type": "Deciduous",
       "size": "Large",
-      "img": "TreePic3/Magnolia_baillonii.jpg"
+      "img": "Magnolia_baillonii.jpg"
     },
     {
       "id": "“Wai_Daeng”_Renanthera_coccinea_Lour",
@@ -70,7 +70,7 @@
       "season": "All",
       "type": "Orchid",
       "size": "Small",
-      "img": "TreePic3/Wai_Daeng.jpg"
+      "img": "Wai_Daeng.jpg"
     },
     {
       "id": "“Samek_Khao”_Agapetes_bracteata_Hook_f_ex_C_B_Clarke",
@@ -79,7 +79,7 @@
       "season": "Winter",
       "type": "Shrub",
       "size": "Medium",
-      "img": "TreePic3/Samek_Khao_Agapetes_bracteata_Hook_f_ex_C_B_Clarke.png"
+      "img": "Samek_Khao_Agapetes_bracteata_Hook_f_ex_C_B_Clarke.png"
     },
     {
       "id": "“Moli_Siam”_Reevesia_pubescens_var_siamensis_Craib_Anthony",
@@ -88,7 +88,7 @@
       "season": "Summer",
       "type": "Deciduous",
       "size": "Large",
-      "img": "TreePic3/Moli_Siam.jpg"
+      "img": "Moli_Siam.jpg"
     },
     {
       "id": "“Khreua_Phu_Ngoen”_Argyreia_mollis_Burm_f_Choisy",
@@ -97,7 +97,7 @@
       "season": "Rainy",
       "type": "Herb",
       "size": "Small",
-      "img": "TreePic3/Khreua_Phu_Ngoen.jpg"
+      "img": "Khreua_Phu_Ngoen.jpg"
     },
     {
       "id": "“Euang_Nam_Tarn”_Dendrobium_heterocarpum_Lindl",
@@ -106,7 +106,7 @@
       "season": "Rainy",
       "type": "Orchid",
       "size": "Small",
-      "img": "TreePic3/Euang_Nam_Tarn.jpg"
+      "img": "Euang_Nam_Tarn.jpg"
     },
     {
       "id": "Nervilia_khaoyaica_Suddee_Watthana_&_SW_Gale",
@@ -115,7 +115,7 @@
       "season": "Summer",
       "type": "Orchid",
       "size": "Small",
-      "img": "TreePic3/Nervilia_khaoyaica_Suddee.jpg"
+      "img": "Nervilia_khaoyaica_Suddee.jpg"
     },
     {
       "id": "Scutellaria_khaoyaiensis_A_J_Paton",
@@ -124,7 +124,7 @@
       "season": "Summer",
       "type": "Herb",
       "size": "Small",
-      "img": "TreePic3/Scutellaria_khaoyaiensis.jpg"
+      "img": "Scutellaria_khaoyaiensis.jpg"
     },
     {
       "id": "Polypleurum_ubonense",
@@ -133,7 +133,7 @@
       "season": "Rainy",
       "type": "Herb",
       "size": "Small",
-      "img": "TreePic3/Polypleurum_ubonense.jpg"
+      "img": "Polypleurum_ubonense.jpg"
     },
     {
       "id": "Monolophus_saxicola_K_Larsen_Veldkamp_&_Mood",
@@ -142,7 +142,7 @@
       "season": "Rainy",
       "type": "Herb",
       "size": "Small",
-      "img": "TreePic3/Monolophus_saxicola.png"
+      "img": "Monolophus_saxicola.png"
     }
   ],
   "links": []
