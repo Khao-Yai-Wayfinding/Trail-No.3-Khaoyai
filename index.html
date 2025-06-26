@@ -3,68 +3,41 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Flora Map">
   <title>Trail No.3 Flora Map</title>
   <style>
-    * {
-      -webkit-tap-highlight-color: transparent;
-      -webkit-touch-callout: none;
-    }
-
     body {
       background: #000;
       color: #fff;
       font-family: "Courier New", Courier, monospace;
       margin: 0;
-      min-height: 100vh;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
+      height: 100vh;
+      overflow: hidden;
     }
 
     .page-padding {
       padding: 10px;
-      min-height: 100vh;
+      height: 100vh;
       box-sizing: border-box;
       width: 100vw;
-      /* iPhone safe areas */
-      padding-top: max(10px, env(safe-area-inset-top));
-      padding-bottom: max(10px, env(safe-area-inset-bottom));
-      padding-left: max(10px, env(safe-area-inset-left));
-      padding-right: max(10px, env(safe-area-inset-right));
+      overflow: hidden;
     }
 
     .container {
       display: grid;
       grid-template-columns: 2fr 1fr;
       grid-template-rows: 1fr auto;
-      min-height: calc(100vh - 20px);
+      height: 100%;
       width: 100%;
       gap: 10px;
       box-sizing: border-box;
     }
 
-    /* iPhone Layout - Vertical stacking with proper spacing */
+    /* Mobile Layout */
     @media (max-width: 768px) {
-      body {
-        overflow-y: auto;
-        height: auto;
-        min-height: 100vh;
-      }
-      
-      .page-padding {
-        height: auto;
-        min-height: 100vh;
-        overflow: visible;
-      }
-      
       .container {
         grid-template-columns: 1fr;
-        grid-template-rows: auto auto auto;
-        gap: 12px;
-        height: auto;
-        min-height: auto;
+        grid-template-rows: 60vh auto 1fr auto;
+        gap: 8px;
       }
       
       .map-box {
@@ -72,34 +45,17 @@
         grid-row: 1;
         height: 60vh;
         min-height: 400px;
-        max-height: 70vh;
-      }
-      
-      .right-column {
-        grid-column: 1;
-        grid-row: 2;
-        height: auto;
-        min-height: 300px;
-        max-height: none;
-      }
-      
-      .timeline-box {
-        grid-column: 1;
-        grid-row: 3;
-        height: 100px;
-        min-height: 80px;
       }
       
       .header-section {
         flex-direction: column;
-        gap: 8px;
-        margin: 8px;
+        gap: 10px;
+        margin: 10px;
         align-items: flex-start;
       }
       
       .header-title {
         font-size: 18px;
-        margin: 0;
       }
       
       .donation-box-inline {
@@ -107,100 +63,106 @@
         height: 36px;
         font-size: 12px;
         padding: 6px 12px;
-        margin: 0;
+      }
+      
+      .right-column {
+        grid-column: 1;
+        grid-row: 3;
+        height: auto;
+        min-height: 300px;
+        max-height: none;
+      }
+      
+      .timeline-box {
+        grid-column: 1;
+        grid-row: 4;
+        height: 120px;
       }
       
       .filters {
         flex-wrap: wrap;
-        margin: 8px;
+        margin-bottom: 10px;
         gap: 6px;
+        margin-left: 10px;
+        margin-right: 10px;
       }
       
       .filter-group {
-        min-width: 80px;
+        min-width: 90px;
+        font-size: 14px;
         flex: 1;
       }
       
       .filter-label-btn {
-        padding: 8px 12px;
+        padding: 6px 12px 6px 8px;
         font-size: 12px;
-        min-height: 36px;
+        min-width: 90px;
         width: 100%;
-        border-radius: 6px;
       }
       
       .reset-btn {
-        padding: 8px 12px;
+        padding: 6px 12px;
         font-size: 12px;
         flex: 1;
-        min-width: 80px;
+        min-width: 90px;
         height: 36px;
-        border-radius: 6px;
       }
       
       .info-header {
-        font-size: 16px;
-        margin-top: 10px;
+        font-size: 18px;
+        margin-top: 15px;
       }
       
       .info-box {
-        max-height: none;
-        padding: 15px;
-        height: auto;
-        min-height: 250px;
+        max-height: 50vh;
+        overflow-y: auto;
       }
       
       .node-info-list {
+        max-height: calc(50vh - 100px);
+      }
+      
+      #force-map {
+        margin: 0 8px 8px 8px;
+        min-height: 350px;
+      }
+      
+      /* Make dropdowns more touch-friendly */
+      .dropdown-options {
+        min-width: 120px;
         max-height: 200px;
         overflow-y: auto;
       }
       
-      #force-map {
-        margin: 8px;
-        min-height: 300px;
-        height: calc(100% - 16px);
-      }
-      
-      /* Better touch targets for iPhone */
-      .dropdown-options {
-        min-width: 120px;
-        max-height: 180px;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-      }
-      
       .dropdown-options .filter-option {
-        padding: 12px 16px;
+        padding: 8px 16px;
         font-size: 14px;
-        min-height: 44px;
+        min-height: 32px;
         display: flex;
         align-items: center;
       }
       
+      /* Better touch targets */
+      .filter-label-btn {
+        min-height: 36px;
+      }
+      
+      /* Improve node interaction on mobile */
       .node-info-card {
-        min-height: 44px;
-        padding: 10px 12px;
+        min-height: 44px; /* Apple recommended touch target */
+        padding: 8px 12px;
         font-size: 14px;
-        border-radius: 8px;
-        margin-bottom: 6px;
       }
       
       .tree-img {
-        max-height: 120px;
-        border-radius: 8px;
-      }
-      
-      .timeline-box {
-        font-size: 14px;
-        padding: 10px;
+        max-height: 140px;
       }
     }
 
-    /* iPad/Tablet adjustments */
+    /* Tablet specific adjustments */
     @media (min-width: 769px) and (max-width: 1024px) {
       .container {
         grid-template-columns: 3fr 2fr;
-        height: calc(100vh - 20px);
       }
       
       .filter-group {
@@ -209,33 +171,29 @@
       
       .filter-label-btn {
         font-size: 14px;
-        padding: 6px 15px;
+        padding: 5px 15px 5px 10px;
       }
     }
 
-    /* Desktop optimizations */
-    @media (min-width: 1025px) {
-      .container {
-        height: calc(100vh - 20px);
-      }
-      
+    /* Large screen optimizations */
+    @media (min-width: 1400px) {
       .header-title {
-        font-size: 24px;
+        font-size: 26px;
       }
       
       .info-header {
-        font-size: 22px;
+        font-size: 24px;
       }
       
       .filter-label-btn {
-        font-size: 15px;
-        padding: 8px 18px;
+        font-size: 16px;
+        padding: 8px 20px 8px 15px;
       }
     }
 
     .map-box, .info-box, .timeline-box {
       border: 2px solid white;
-      border-radius: 8px;
+      border-radius: 6px;
       background: black;
       color: white;
       padding: 20px;
@@ -247,43 +205,35 @@
     .map-box {
       padding: 0;
       min-width: 0;
+      min-height: 0;
       position: relative;
-      overflow: hidden;
-    }
-
-    .header-section {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px;
-      flex-shrink: 0;
     }
 
     .header-title {
       font-size: 22px;
       font-weight: bold;
       color: white;
-      margin: 0;
+      text-align: left;
+      margin: 20px 0 0 20px;
       font-family: "Courier New", Courier, monospace;
     }
 
     .header-hr {
       border: none;
       border-top: 2px solid white;
-      margin: 0 0 18px 0;
+      margin: 8px 0 18px 0;
       width: 100%;
-      flex-shrink: 0;
     }
 
     .filters {
       display: flex;
       align-items: center;
       gap: 8px;
-      margin: 0 20px 20px 20px;
+      margin-bottom: 20px;
       justify-content: flex-start;
       font-family: "Courier New", Courier, monospace;
+      margin-left: 20px;
       position: relative;
-      flex-shrink: 0;
     }
 
     .filter-group {
@@ -305,21 +255,16 @@
       color: white;
       border: 1px solid white;
       border-radius: 4px;
-      padding: 8px 18px;
+      padding: 6px 18px 6px 12px;
       font-size: 15px;
       font-weight: bold;
       cursor: pointer;
       user-select: none;
-      transition: all 0.2s;
+      transition: border-color 0.2s;
       margin-bottom: 0;
       min-width: 120px;
       position: relative;
       font-family: "Courier New", Courier, monospace;
-      -webkit-appearance: none;
-    }
-
-    .filter-label-btn:active {
-      background: #333;
     }
 
     .filter-label-btn .arrow {
@@ -337,26 +282,25 @@
       position: absolute;
       background: black;
       border: 1px solid white;
-      border-radius: 6px;
-      z-index: 1000;
+      border-radius: 4px;
+      z-index: 2;
       min-width: 100%;
       margin-top: 2px;
       flex-direction: column;
       left: 0;
-      top: 100%;
-      box-shadow: 0 4px 12px rgba(255,255,255,0.1);
+      top: 110%;
+      box-shadow: 0 2px 8px rgba(30,144,255,0.15);
       padding: 8px 0;
       font-family: "Courier New", Courier, monospace;
       font-size: 16px;
     }
 
     .dropdown-options .filter-option {
-      padding: 8px 18px;
+      padding: 6px 18px;
       cursor: pointer;
       border-radius: 4px;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
+      transition: background 0.2s, color 0.2s;
+      display: block;
       font-size: 15px;
       background: black;
       color: white;
@@ -369,7 +313,7 @@
       color: black;
     }
 
-    .dropdown-options .filter-option:active {
+    .dropdown-options .filter-option:hover {
       background: #333;
       color: white;
     }
@@ -379,32 +323,30 @@
       color: #1e90ff;
       border: 1px solid #1e90ff;
       border-radius: 4px;
-      padding: 8px 18px;
+      padding: 6px 18px;
       font-size: 15px;
       cursor: pointer;
       margin-left: 8px;
-      transition: all 0.2s;
+      transition: background 0.2s, color 0.2s;
       align-self: flex-end;
       font-family: "Courier New", Courier, monospace;
-      -webkit-appearance: none;
     }
 
-    .reset-btn:active {
+    .reset-btn:hover {
       background: #1e90ff;
       color: white;
     }
 
     #force-map {
       width: 100%;
-      flex: 1;
-      min-height: 250px;
+      height: 100%;
+      min-height: 300px;
+      flex: 1 1 auto;
       background: #000;
       border-radius: 6px;
       margin: 0 16px 16px 16px;
       position: relative;
       box-sizing: border-box;
-      touch-action: manipulation;
-      overflow: hidden;
     }
 
     .right-column {
@@ -412,59 +354,67 @@
       grid-row: 1 / 2;
       display: flex;
       flex-direction: column;
+      height: 100%;
       min-width: 0;
+      min-height: 0;
       gap: 18px;
     }
 
     .info-box {
-      flex: 1;
-      min-height: 250px;
+      flex: 1 1 0;
+      min-height: 180px;
       margin-bottom: 0;
-      padding: 20px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
+      padding: 0 20px 10px 20px;
+      max-height: 100%;
+      overflow: hidden; /* Container doesn't scroll, only the list inside */
     }
 
     .info-header {
-      font-size: 20px;
+      font-size: 22px;
       font-weight: bold;
       color: white;
       text-align: left;
-      margin: 0 0 8px 0;
+      margin-top: 20px;
+      margin-bottom: 0;
       font-family: "Courier New", Courier, monospace;
-      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      background: black;
+      z-index: 2;
     }
 
     .info-hr {
       border: none;
       border-top: 2px solid white;
-      margin: 0 -20px 18px -20px;
+      margin: 8px -20px 18px -20px;
       width: calc(100% + 40px);
-      flex-shrink: 0;
+      position: sticky;
+      top: 48px;
+      background: black;
+      z-index: 2;
     }
 
     .node-info-list {
-      flex: 1;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
+      flex: 1 1 auto;
+      overflow-y: auto; /* Enable scrolling */
       display: flex;
       flex-direction: column;
       gap: 8px;
       padding-bottom: 10px;
       scrollbar-width: thin;
       scrollbar-color: white black;
-      min-height: 0;
+      max-height: calc(100vh - 200px); /* Set proper max height */
+      background: black; /* Ensure black background */
     }
 
     .node-info-list::-webkit-scrollbar {
-      width: 6px;
+      width: 8px;
       background: black;
     }
 
     .node-info-list::-webkit-scrollbar-thumb {
       background: white;
-      border-radius: 3px;
+      border-radius: 4px;
     }
 
     .node-info-list::-webkit-scrollbar-track {
@@ -478,7 +428,7 @@
       max-height: 32px;
       padding: 8px 12px;
       margin-bottom: 4px;
-      background: black;
+      background: black; /* Always black background */
       border: 1px solid white;
       border-radius: 6px;
       font-size: 15px;
@@ -487,13 +437,7 @@
       display: flex;
       align-items: center;
       position: relative;
-      color: white;
-      -webkit-user-select: none;
-      flex-shrink: 0;
-    }
-
-    .node-info-card:active {
-      background: #333;
+      color: white; /* Always white text */
     }
 
     .node-info-card .node-title {
@@ -514,11 +458,11 @@
       overflow: visible;
       text-overflow: unset;
       max-height: none;
-      background: black !important;
-      color: white !important;
+      background: black !important; /* Keep black background when selected */
+      color: white !important; /* Keep white text when selected */
       border-color: white;
       border-width: 2px;
-      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2); /* White glow instead of blue */
       flex-direction: column;
       align-items: flex-start;
     }
@@ -531,33 +475,59 @@
 
     .tree-img {
       max-width: 100%;
-      max-height: 150px;
-      width: 100%;
+      max-height: 150px; /* Increase max height */
+      width: 100%; /* Fill the full width */
       display: block;
       margin: 8px 0;
       border-radius: 6px;
-      object-fit: cover;
+      object-fit: cover; /* Fill the container while maintaining aspect ratio */
       border: 1px solid white;
+      mix-blend-mode: normal; /* Normal blend mode for images */
     }
 
+    /* Text exclusion mode for overlaying text on images */
     .node-info-card .node-details div {
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.8); /* Semi-transparent black background for text */
       color: white;
       padding: 4px 8px;
       margin: 2px 0;
       border-radius: 4px;
+      mix-blend-mode: normal; /* Ensure text is readable */
+    }
+
+    /* Mobile specific card styling */
+    @media (max-width: 768px) {
+      .node-info-card {
+        font-size: 14px;
+        padding: 6px 10px;
+        background: black;
+        color: white;
+      }
+      
+      .node-info-card.selected-info-card {
+        margin-bottom: 8px;
+        background: black !important;
+        color: white !important;
+      }
+      
+      .tree-img {
+        max-height: 120px; /* Slightly smaller on mobile */
+      }
+      
+      .node-info-list {
+        max-height: calc(100vh - 250px); /* Adjust for mobile */
+      }
     }
 
     .timeline-box {
       grid-column: 1 / 3;
       grid-row: 2 / 3;
-      height: 120px;
+      height: 180px;
       text-align: center;
       font-size: 17px;
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-shrink: 0;
     }
 
     .loading-text::after {
@@ -575,6 +545,8 @@
     }
 
     .donation-box-inline {
+      margin-left: auto;
+      margin-right: 20px;
       height: 38px;
       display: flex;
       align-items: center;
@@ -591,10 +563,9 @@
       font-family: "Courier New", Courier, monospace;
       text-decoration: none;
       transition: all 0.2s;
-      -webkit-appearance: none;
     }
 
-    .donation-box-inline:active {
+    .donation-box-inline:hover {
       background: black;
       color: white;
       border-color: white;
@@ -603,7 +574,7 @@
     .tooltip {
       position: absolute;
       pointer-events: none;
-      font-size: 11px;
+      font-size: 11px; /* Smaller font */
       padding: 8px 10px;
       background: rgba(0,0,0,0.85);
       color: white;
@@ -611,17 +582,10 @@
       opacity: 0;
       transition: opacity 0.3s ease;
       z-index: 1000;
-      border: 1px solid rgba(255,255,255,0.3);
+      border: 1px solid rgba(255,255,255,0.3); /* Subtle border */
       font-family: "Courier New", Courier, monospace;
       max-width: 200px;
       line-height: 1.3;
-    }
-
-    /* Prevent zoom on double-tap */
-    @media (max-width: 768px) {
-      input, select, textarea, button {
-        font-size: 16px !important;
-      }
     }
   </style>
 </head>
@@ -680,7 +644,7 @@
               <span class="filter-option" data-value="Large">Large</span>
             </div>
           </div>
-          <!-- Reset Button -->
+          <!-- Reset Button - now properly aligned -->
           <button class="reset-btn" type="button" id="resetFiltersBtn">Reset Filters</button>
         </div>
         <div id="force-map"></div>
@@ -695,9 +659,9 @@
         </div>
       </div>
 
-      <!-- Timeline -->
+      <!-- Timeline/Coming Soon -->
       <div class="timeline-box">
-        <span>Coming soon<span class="loading-text"></span></span>
+      <div class="timeline-box" id="timeline-box"></div>  
       </div>
     </div>
   </div>
@@ -707,6 +671,192 @@
   <!-- D3.js -->
   <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
   
+  <!-- Filter UI Logic -->
+  <script>
+    function closeAllDropdowns() {
+      document.querySelectorAll('.dropdown-options').forEach(el => el.style.display = "none");
+      document.querySelectorAll('.filter-label-btn').forEach(btn => btn.classList.remove('open'));
+    }
+
+    document.querySelectorAll('.filter-label-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const group = btn.closest('.filter-group');
+        const dropdown = group.querySelector('.dropdown-options');
+        const isOpen = dropdown.style.display === "block";
+        closeAllDropdowns();
+        if (!isOpen) {
+          dropdown.style.display = "block";
+          btn.classList.add('open');
+        }
+      });
+    });
+
+    document.addEventListener("click", function(event) {
+      if (!event.target.closest('.filter-group')) {
+        closeAllDropdowns();
+      }
+    });
+
+    document.querySelectorAll('.dropdown-options .filter-option').forEach(option => {
+      option.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const dropdown = option.parentElement;
+        const options = dropdown.querySelectorAll('.filter-option');
+        if (option.dataset.value === "All") {
+          options.forEach(opt => opt.classList.remove('selected'));
+          option.classList.add('selected');
+        } else {
+          dropdown.querySelector('.filter-option[data-value="All"]').classList.remove('selected');
+          option.classList.toggle('selected');
+          const anySelected = Array.from(options).slice(1).some(opt => opt.classList.contains('selected'));
+          if (!anySelected) {
+            options[0].classList.add('selected');
+          }
+        }
+        updateGraphWithFilters();
+      });
+    });
+
+    document.getElementById('resetFiltersBtn').addEventListener('click', function() {
+      document.querySelectorAll('.dropdown-options').forEach(dropdown => {
+        dropdown.querySelectorAll('.filter-option').forEach(opt => opt.classList.remove('selected'));
+        const allOption = dropdown.querySelector('.filter-option[data-value="All"]');
+        if (allOption) allOption.classList.add('selected');
+      });
+      if (window.TreeData && window.TreeData.nodes) {
+        window.TreeData.nodes.forEach(n => { n.fx = null; n.fy = null; });
+      }
+      closeAllDropdowns();
+      updateGraphWithFilters();
+    });
+
+    function getSelectedFilters() {
+      const filters = {};
+      document.querySelectorAll('.filter-group').forEach(group => {
+        const filterKey = group.getAttribute('data-filter');
+        const selected = Array.from(group.querySelectorAll('.filter-option.selected')).map(opt => opt.dataset.value);
+        filters[filterKey] = selected.includes("All") ? [] : selected;
+      });
+      return filters;
+    }
+
+    function updateGraphWithFilters() {
+      if (window.drawGraphWithFilters) {
+        const filters = getSelectedFilters();
+        window.drawGraphWithFilters(filters);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+      console.log("🌐 DOM loaded, initializing interface...");
+      
+      // Show initial loading state
+      const infoList = document.getElementById("nodeInfoList");
+      if (infoList) {
+        infoList.innerHTML = `
+          <div style="color: #aaa; text-align: center; padding: 20px;">
+            <div>🌳 Loading flora data<span class="loading-text"></span></div>
+            <div style="font-size: 12px; margin-top: 8px;">
+              Please wait while we fetch the tree information
+            </div>
+          </div>
+        `;
+      }
+      
+      // Try to update graph (will show loading message if data not ready)
+      updateGraphWithFilters();
+    });
+  </script>
+
   <!-- Main Graph Logic -->
   <script src="graph.js"></script>
+
+  <script src="timeline.js"></script>
+
   
+
+<!-- Enhanced integration script -->
+<script>
+// Enhanced integration between timeline and graph
+(function() {
+  // Wait for both systems to be ready
+  function waitForSystems() {
+    if (window.TreeDataLoaded && window.FloraTimeline && window.drawGraphWithFilters) {
+      setupTimelineGraphIntegration();
+    } else {
+      setTimeout(waitForSystems, 100);
+    }
+  }
+  
+  function setupTimelineGraphIntegration() {
+    console.log('🔗 Setting up timeline-graph integration');
+    
+    // Override the timeline's filter application to work with your existing system
+    const originalApplyFilters = window.FloraTimeline.applyFiltersToGraph;
+    
+    window.FloraTimeline.applyFiltersToGraph = function(timelineFilters) {
+      // Get current UI filter state
+      const currentFilters = getSelectedFilters();
+      
+      // Apply timeline filters while preserving UI selections
+      const combinedFilters = {
+        type: timelineFilters.type.length > 0 ? timelineFilters.type : currentFilters.type,
+        season: timelineFilters.season.length > 0 ? timelineFilters.season : currentFilters.season,
+        size: currentFilters.size // Always preserve size filter
+      };
+      
+      console.log('🎯 Timeline applying combined filters:', combinedFilters);
+      
+      // Update the graph
+      window.drawGraphWithFilters(combinedFilters);
+      
+      // Optionally update filter UI to show what's active
+      updateFilterUIForTimeline(timelineFilters);
+    };
+    
+    // Function to update filter UI when timeline is active
+    function updateFilterUIForTimeline(timelineFilters) {
+      // Visual indication that timeline is controlling filters
+      const filterGroups = document.querySelectorAll('.filter-group');
+      filterGroups.forEach(group => {
+        const filterType = group.getAttribute('data-filter');
+        if (timelineFilters[filterType] && timelineFilters[filterType].length > 0) {
+          group.style.opacity = '0.7';
+          group.style.pointerEvents = 'none';
+        } else {
+          group.style.opacity = '1';
+          group.style.pointerEvents = 'auto';
+        }
+      });
+    }
+    
+    // Reset timeline when main reset button is clicked
+    const resetBtn = document.getElementById('resetFiltersBtn');
+    if (resetBtn) {
+      const originalReset = resetBtn.onclick;
+      resetBtn.addEventListener('click', function() {
+        if (window.FloraTimeline) {
+          window.FloraTimeline.reset();
+          
+          // Reset filter UI opacity
+          document.querySelectorAll('.filter-group').forEach(group => {
+            group.style.opacity = '1';
+            group.style.pointerEvents = 'auto';
+          });
+        }
+      });
+    }
+    
+    console.log('✅ Timeline-graph integration complete');
+  }
+  
+  // Start the integration process
+  waitForSystems();
+})();
+
+</script>
+
+
+</body>
+</html>

@@ -266,8 +266,7 @@ window.drawGraphWithFilters = function (filters) {
       const gradId = `gradient-link-${sanitizeId(sourceNode.id)}-${sanitizeId(targetNode.id)}`;
       const grad = defs.append("linearGradient")
         .attr("id", gradId)
-        .attr("gradientUnits", "userSpaceOnUse")
-        .attr("x1", 0).attr("y1", 0).attr("x2", 1).attr("y2", 0);
+        .attr("gradientUnits", "userSpaceOnUse");
       grad.append("stop").attr("offset", "0%").attr("stop-color", colorByType(sourceNode.type));
       grad.append("stop").attr("offset", "100%").attr("stop-color", colorByType(targetNode.type));
     }
@@ -280,11 +279,11 @@ window.drawGraphWithFilters = function (filters) {
 
   // Create force simulation with better initial positioning
   const simulation = d3.forceSimulation(filteredNodes)
-    .force("link", d3.forceLink(links).id(d => d.id).distance(250).strength(0.8)) // Shorter links for better clustering
-    .force("charge", d3.forceManyBody().strength(-250)) // Balanced repulsion
+    .force("link", d3.forceLink(links).id(d => d.id).distance(350).strength(0.8)) // Even more distance
+    .force("charge", d3.forceManyBody().strength(-400)) // Even more repulsion
     .force("center", d3.forceCenter(width / 2, height / 2))
-    .force("collision", d3.forceCollide().radius(18)) // Prevent overlap
-    .force("x", d3.forceX(width / 2).strength(0.1)) // Stronger centering
+    .force("collision", d3.forceCollide().radius(26)) // Even more collision radius
+    .force("x", d3.forceX(width / 2).strength(0.1))
     .force("y", d3.forceY(height / 2).strength(0.1));
 
   // Create links with thinner styling
@@ -293,7 +292,39 @@ window.drawGraphWithFilters = function (filters) {
     .enter()
     .append("line")
     .attr("stroke-width", 1.5) // Thinner lines
-    .attr("stroke-opacity", 0.7) // More subtle
+    .attr("stroke-opacity", d => {
+      // Determine which filter this link matches
+      const sourceNode = filteredNodes.find(n => n.id === (d.source.id || d.source));
+      const targetNode = filteredNodes.find(n => n.id === (d.target.id || d.target));
+      if (!sourceNode || !targetNode) return 0.5;
+
+      // Type filter
+      if (
+        filters.type.length &&
+        sourceNode.type === targetNode.type &&
+        filters.type.includes(sourceNode.type)
+      ) {
+        return 1.0;
+      }
+      // Season filter
+      if (
+        filters.season.length &&
+        sourceNode.season_note === targetNode.season_note &&
+        filters.season.includes(sourceNode.season_note)
+      ) {
+        return 0.7;
+      }
+      // Size filter
+      if (
+        filters.size.length &&
+        sourceNode.size === targetNode.size &&
+        filters.size.includes(sourceNode.size)
+      ) {
+        return 0.5;
+      }
+      // Default
+      return 0.5;
+    })
     .attr("stroke", d => {
       const sourceId = sanitizeId(d.source.id || d.source);
       const targetId = sanitizeId(d.target.id || d.target);
