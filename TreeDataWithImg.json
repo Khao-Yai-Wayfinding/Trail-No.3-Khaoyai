@@ -2,7 +2,8 @@
   "nodes": [
     {
       "id": "EagleWoodAgarwood",
-      "name": "EagleWood, Agarwood",
+      "name": "Kritsanā",
+      "english_name": "EagleWood, Agarwood",
       "scientific": "Aquilaria crassna",
       "season_note": "Summer",
       "type": "Fruit",
@@ -13,7 +14,8 @@
     },
     {
       "id": "Dipterocarpusgracilis",
-      "name": "Dipterocarpus gracilis",
+      "name": "Yang Sian",
+      "english_name": "Dipterocarpus gracilis",
       "scientific": "Dipterocarpus gracilis",
       "season_note": "Winter",
       "type": "Evergreen",
@@ -24,7 +26,8 @@
     },
     {
       "id": "CalamusviminalisWilld",
-      "name": "Calamus viminalis (Willd.)",
+      "name": "Wai",
+      "english_name": "Calamus viminalis (Willd.)",
       "scientific": "Calamus viminalis",
       "season_note": "Winter",
       "type": "Fruit",
@@ -35,7 +38,8 @@
     },
     {
       "id": "WildNutmeg",
-      "name": "Wild Nutmeg",
+      "name": "Chan Thet Pa",
+      "english_name": "Wild Nutmeg",
       "scientific": "Knema globularia",
       "season_note": "Winter",
       "type": "Fruit",
@@ -46,7 +50,8 @@
     },
     {
       "id": "AphanamixispolystachyaWallRParker",
-      "name": "Aphanamixis polystachya (Wall.) R. Parker",
+      "name": "Yom Hom",
+      "english_name": "Aphanamixis polystachya (Wall.) R. Parker",
       "scientific": "Aphanamixis polystachya",
       "season_note": "Winter",
       "type": "Fruit",
@@ -57,7 +62,8 @@
     },
     {
       "id": "Needlewood",
-      "name": "Needlewood",
+      "name": "Kaprao Mai",
+      "english_name": "Needlewood",
       "scientific": "Schima wallichii",
       "season_note": "Winter",
       "type": "Fruit",
@@ -68,7 +74,8 @@
     },
     {
       "id": "MagnoliabailloniiPierre",
-      "name": "Magnolia baillonii (Pierre)",
+      "name": "Champi Pa",
+      "english_name": "Magnolia baillonii (Pierre)",
       "scientific": "Magnolia baillonii",
       "season_note": "Winter",
       "type": "Evergreen",
@@ -79,7 +86,8 @@
     },
     {
       "id": "WaiDaengRenantheracoccineaLour",
-      "name": "“Wai Daeng” Renanthera coccinea Lour.",
+      "name": "Wai Daeng",
+      "english_name": "“Wai Daeng” Renanthera coccinea Lour.",
       "scientific": "Renanthera coccinea",
       "season_note": "Winter",
       "type": "Orchid",
@@ -90,7 +98,8 @@
     },
     {
       "id": "SamekKhaoAgapetesbracteataHookfexCBClarke",
-      "name": "“Samek Khao” Agapetes bracteata Hook. f. ex C. B. Clarke",
+      "name": "Samek Khao",
+      "english_name": "“Samek Khao” Agapetes bracteata Hook. f. ex C. B. Clarke",
       "scientific": "Agapetes bracteata",
       "season_note": "Winter",
       "type": "Shrub",
@@ -101,7 +110,8 @@
     },
     {
       "id": "MoliSiamReevesiapubescensvarsiamensisCraibAnthony",
-      "name": "“Moli Siam” (Reevesia pubescens var. siamensis (Craib) Anthony)",
+      "name": "Moli Siam",
+      "english_name": "“Moli Siam” (Reevesia pubescens var. siamensis (Craib) Anthony)",
       "scientific": "Reevesia pubescens var",
       "season_note": "Winter",
       "type": "Fruit",
@@ -112,7 +122,8 @@
     },
     {
       "id": "KhreuaPhuNgoenArgyreiamollisBurmfChoisy",
-      "name": "“Khreua Phu Ngoen” Argyreia mollis (Burm. f.) Choisy",
+      "name": "Khreua Phu Ngoen",
+      "english_name": "“Khreua Phu Ngoen” Argyreia mollis (Burm. f.) Choisy",
       "scientific": "Argyreia mollis",
       "season_note": "Winter",
       "type": "Vine",
@@ -123,7 +134,8 @@
     },
     {
       "id": "EuangNamTarnDendrobiumheterocarpumLindl",
-      "name": "“Euang Nam Tarn” Dendrobium heterocarpum Lindl.",
+      "name": "Euang Nam Tarn",
+      "english_name": "“Euang Nam Tarn” Dendrobium heterocarpum Lindl.",
       "scientific": "Dendrobium heterocarpum",
       "season_note": "Winter",
       "type": "Orchid",
@@ -134,7 +146,8 @@
     },
     {
       "id": "NerviliakhaoyaicaSuddeeWatthanaSWGale",
-      "name": "Nervilia khaoyaica Suddee (Watthana & S.W. Gale)",
+      "name": "Nervilia Khaoyaica",
+      "english_name": "Nervilia khaoyaica Suddee (Watthana & S.W. Gale)",
       "scientific": "Nervilia khaoyaica",
       "season_note": "Winter",
       "type": "Orchid",
@@ -145,7 +158,8 @@
     },
     {
       "id": "ScutellariakhaoyaiensisAJPaton",
-      "name": "Scutellaria khaoyaiensis A. J. Paton",
+      "name": "Scutellaria Khaoyaiensis",
+      "english_name": "Scutellaria khaoyaiensis A. J. Paton",
       "scientific": "Scutellaria khaoyaiensis",
       "season_note": "Winter",
       "type": "Shrub",
@@ -156,7 +170,8 @@
     },
     {
       "id": "Polypleurumubonense",
-      "name": "Polypleurum ubonense",
+      "name": "Polypleurum Ubonense",
+      "english_name": "Polypleurum ubonense",
       "scientific": "This newly",
       "season_note": "Rainy",
       "type": "Herb",
@@ -167,7 +182,8 @@
     },
     {
       "id": "MonolophussaxicolaKLarsenVeldkampMood",
-      "name": "Monolophus saxicola (K. Larsen) Veldkamp & Mood",
+      "name": "Monolophus Saxicola",
+      "english_name": "Monolophus saxicola (K. Larsen) Veldkamp & Mood",
       "scientific": "Monolophus saxicola",
       "season_note": "Winter",
       "type": "Shrub",
@@ -178,7 +194,8 @@
     },
     {
       "id": "PobaiAntiarisToxicaria",
-      "name": "“Pobai” Antiaris toxicaria",
+      "name": "Pobai",
+      "english_name": "“Pobai” Antiaris toxicaria",
       "scientific": "Antiaris toxicaria",
       "season_note": "Unknown",
       "type": "Deciduous",
@@ -189,7 +206,8 @@
     },
     {
       "id": "SappanwoodCaesalpiniaSappan",
-      "name": "“Si Siet Thet” Sappanwood",
+      "name": "Si Siet Thet",
+      "english_name": "“Si Siet Thet” Sappanwood",
       "scientific": "Caesalpinia sappan",
       "season_note": "Unknown",
       "type": "Shrub",
@@ -200,7 +218,8 @@
     },
     {
       "id": "JavaPlumSyzygiumCumini",
-      "name": "“Waa” Java Plum",
+      "name": "Waa",
+      "english_name": "“Waa” Java Plum",
       "scientific": "Syzygium cumini",
       "season_note": "Summer",
       "type": "Fruit",
@@ -211,7 +230,8 @@
     },
     {
       "id": "YangSianDipterocarpusTuberculatus",
-      "name": "“Yang Sian” Dipterocarpus tuberculatus",
+      "name": "Yang Sian",
+      "english_name": "“Yang Sian” Dipterocarpus tuberculatus",
       "scientific": "Dipterocarpus tuberculatus",
       "season_note": "Rainy",
       "type": "Evergreen",
@@ -222,7 +242,8 @@
     },
     {
       "id": "PorHuChangHibiscusMacrophyllus",
-      "name": "“Por Hu Chang” Hibiscus macrophyllus",
+      "name": "Por Hu Chang",
+      "english_name": "“Por Hu Chang” Hibiscus macrophyllus",
       "scientific": "Hibiscus macrophyllus",
       "season_note": "Unknown",
       "type": "Shrub",
@@ -233,7 +254,8 @@
     },
     {
       "id": "SaiFicusBenghalensis",
-      "name": "“Sai” Banyan Tree",
+      "name": "Sai",
+      "english_name": "“Sai” Banyan Tree",
       "scientific": "Ficus benghalensis",
       "season_note": "All Year",
       "type": "Evergreen",
@@ -244,7 +266,8 @@
     },
     {
       "id": "LueadKwaiBischofiaJavanica",
-      "name": "“Luead Kwai” Bischofia javanica",
+      "name": "Luead Kwai",
+      "english_name": "“Luead Kwai” Bischofia javanica",
       "scientific": "Bischofia javanica",
       "season_note": "Unknown",
       "type": "Deciduous",
@@ -255,7 +278,8 @@
     },
     {
       "id": "TaoNguHaoAristolochiaTagala",
-      "name": "“Tao Ngu Hao” Aristolochia tagala",
+      "name": "Tao Ngu Hao",
+      "english_name": "“Tao Ngu Hao” Aristolochia tagala",
       "scientific": "Aristolochia tagala",
       "season_note": "Unknown",
       "type": "Vine",
@@ -266,7 +290,8 @@
     },
     {
       "id": "ChampiPaMagnoliaHimalayana",
-      "name": "“Champi Pa” Wild Champak",
+      "name": "Champi Pa",
+      "english_name": "“Champi Pa” Wild Champak",
       "scientific": "Magnolia hodgsonii",
       "season_note": "Winter",
       "type": "Evergreen",
@@ -277,7 +302,8 @@
     },
     {
       "id": "YamHomCanangaLatifolia",
-      "name": "“Yam Hom” Wild Ylang-Ylang",
+      "name": "Yam Hom",
+      "english_name": "“Yam Hom” Wild Ylang-Ylang",
       "scientific": "Cananga latifolia",
       "season_note": "Summer",
       "type": "Flowering tree",
@@ -288,7 +314,8 @@
     },
     {
       "id": "KapraoPaOcimumGratissimum",
-      "name": "“Kaprao Pa” Wild Holy Basil",
+      "name": "Kaprao Pa",
+      "english_name": "“Kaprao Pa” Wild Holy Basil",
       "scientific": "Ocimum gratissimum",
       "season_note": "Summer",
       "type": "Herb",
@@ -299,7 +326,8 @@
     },
     {
       "id": "KritsanaAquilariaCrassna",
-      "name": "“Kritsana” Eaglewood",
+      "name": "Kritsanā",
+      "english_name": "“Kritsana” Eaglewood",
       "scientific": "Aquilaria crassna",
       "season_note": "Rainy",
       "type": "Evergreen",
@@ -310,7 +338,8 @@
     },
     {
       "id": "NonnKhiKwaiAcalyphaWilkesiana",
-      "name": "“Nonn Khi Kwai” Acalypha wilkesiana",
+      "name": "Nonn Khi Kwai",
+      "english_name": "“Nonn Khi Kwai” Acalypha wilkesiana",
       "scientific": "Acalypha wilkesiana",
       "season_note": "Unknown",
       "type": "Shrub",
@@ -321,7 +350,8 @@
     },
     {
       "id": "ShoreaRoxburghii",
-      "name": "Shorea roxburghii",
+      "name": "Yang Na",
+      "english_name": "Shorea roxburghii",
       "scientific": "Shorea roxburghii",
       "season_note": "Dry",
       "type": "Deciduous",
@@ -332,7 +362,8 @@
     },
     {
       "id": "YaKhaImperataCylindrica",
-      "name": "“Ya Kha” Cogon Grass",
+      "name": "Ya Kha",
+      "english_name": "“Ya Kha” Cogon Grass",
       "scientific": "Imperata cylindrica",
       "season_note": "All year",
       "type": "Grass",

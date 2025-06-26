@@ -406,7 +406,7 @@ window.drawGraphWithFilters = function (filters) {
     .attr("text-anchor", "middle")
     .attr("dy", ".35em")
     .attr("fill", "#fff")
-    .attr("font-size", "5px") // 🔧 CHANGE THIS VALUE to adjust font size
+    .attr("font-size", "10px") // 🔧 CHANGE THIS VALUE to adjust font size
     .attr("font-family", "Courier New, monospace")
     .attr("pointer-events", "none")
     .style("text-shadow", "1px 1px 1px rgba(0,0,0,0.8)")
