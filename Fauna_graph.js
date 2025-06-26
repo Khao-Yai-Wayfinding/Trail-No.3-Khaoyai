@@ -134,11 +134,12 @@ function updateInfoBox(nodes, selectedId = null) {
   });
 }
 
-window.drawMammalGraph = function (filters) {
-  d3.select("#force-map").selectAll("*").remove();
+// Change drawMammalGraph to accept a container selector (default to #force-map)
+window.drawMammalGraph = function (filters, containerSelector = "#force-map") {
+  d3.select(containerSelector).selectAll("*").remove();
 
   if (!window.FaunaData || !window.FaunaData.nodes) {
-    const container = document.getElementById("force-map");
+    const container = document.querySelector(containerSelector);
     container.innerHTML = `<div style="color:#fff; font-family: monospace; padding:20px; text-align:center;">Loading mammal data...</div>`;
     return;
   }
@@ -153,11 +154,11 @@ window.drawMammalGraph = function (filters) {
 
   const links = createLinks(filteredNodes, filters);
 
-  const container = document.getElementById("force-map");
+  const container = document.querySelector(containerSelector);
   const width = container.clientWidth || 960;
   const height = container.clientHeight || 500;
 
-  const svg = d3.select("#force-map")
+  const svg = d3.select(containerSelector)
     .append("svg")
     .attr("width", width)
     .attr("height", height);
@@ -291,9 +292,15 @@ window.drawMammalGraph = function (filters) {
 // Load mammal data JSON and init graph
 d3.json("FaunaData.json").then(data => {
   window.FaunaData = data;
-  window.drawMammalGraph({ type: [] }); // no filters initially
+  window.drawMammalGraph({ type: [] }, "#force-map");
 }).catch(e => {
   console.error("Failed to load mammal data", e);
   const container = document.getElementById("force-map");
   container.innerHTML = "<div style='color:#f66; text-align:center; padding:20px;'>Failed to load mammal data</div>";
 });
+
+// You need to define this function:
+// This function must call drawMammalGraph with the correct container!
+window.drawFaunaGraph = function(containerSelector) {
+  window.drawMammalGraph({ type: [] }, containerSelector);
+};

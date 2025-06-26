@@ -1,5 +1,3 @@
-// Minimal Timeline: 6 sections, each with 5 horizontal subsections, all info removed
-
 class FloraTimeline {
   constructor(containerId) {
     this.container = document.getElementById(containerId);
@@ -17,8 +15,8 @@ class FloraTimeline {
       flex-direction: row;
       align-items: stretch;
       justify-content: stretch;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px #0004;
+      border-radius: 0px;
+      box-shadow: 0;
       min-height: 180px;
       overflow: hidden;
       position: relative;
