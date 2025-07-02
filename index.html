@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <title>Trail No.3 Flora Map</title>
+  <title>Trail No.3 Flora & Fauna Map</title>
   <style>
     body {
       background: #000;
@@ -34,165 +34,96 @@
 
     /* Mobile Layout */
     @media (max-width: 768px) {
+      body {
+        overflow-y: auto;
+        height: auto;
+        min-height: 100vh;
+      }
+      
+      .page-padding {
+        height: auto;
+        min-height: 100vh;
+        overflow: visible;
+        padding: 10px;
+      }
+      
       .container {
-        grid-template-columns: 1fr;
-        grid-template-rows: 60vh auto 1fr auto;
-        gap: 8px;
+        display: flex !important;
+        flex-direction: column !important;
+        grid-template-columns: none !important;
+        grid-template-rows: none !important;
+        height: auto;
+        min-height: calc(100vh - 20px);
+        gap: 15px;
       }
       
       .map-box {
-        grid-column: 1;
-        grid-row: 1;
-        height: 60vh;
-        min-height: 400px;
-      }
-      
-      .header-section {
-        flex-direction: column;
-        gap: 10px;
-        margin: 10px;
-        align-items: flex-start;
-      }
-      
-      .header-title {
-        font-size: 18px;
-      }
-      
-      .donation-box-inline {
+        order: 1 !important;
+        height: 50vh;
+        min-height: 350px;
+        flex-shrink: 0;
         width: 100%;
-        height: 36px;
-        font-size: 12px;
-        padding: 6px 12px;
-      }
-      
-      .right-column {
-        grid-column: 1;
-        grid-row: 3;
-        height: auto;
-        min-height: 300px;
-        max-height: none;
+        grid-column: unset !important;
+        grid-row: unset !important;
       }
       
       .timeline-box {
-        grid-column: 1;
-        grid-row: 4;
+        order: 2 !important;
         height: 120px;
-      }
-      
-      .filters {
-        flex-wrap: wrap;
-        margin-bottom: 10px;
-        gap: 6px;
-        margin-left: 10px;
-        margin-right: 10px;
-      }
-      
-      .filter-group {
-        min-width: 90px;
-        font-size: 14px;
-        flex: 1;
-      }
-      
-      .filter-label-btn {
-        padding: 6px 12px 6px 8px;
-        font-size: 12px;
-        min-width: 90px;
+        flex-shrink: 0;
         width: 100%;
+        grid-column: unset !important;
+        grid-row: unset !important;
+        margin-bottom: 0;
       }
       
-      .reset-btn {
-        padding: 6px 12px;
-        font-size: 12px;
-        flex: 1;
-        min-width: 90px;
-        height: 36px;
-      }
-      
-      .info-header {
-        font-size: 18px;
-        margin-top: 15px;
+      .right-column {
+        order: 3 !important;
+        height: auto;
+        min-height: 60vh;
+        flex-grow: 1;
+        width: 100%;
+        grid-column: unset !important;
+        grid-row: unset !important;
+        gap: 0;
       }
       
       .info-box {
+        height: auto;
+        min-height: 50vh;
+        max-height: none;
+      }
+      
+      .node-info-list {
         max-height: 50vh;
         overflow-y: auto;
       }
       
-      .node-info-list {
-        max-height: calc(50vh - 100px);
-      }
-      
-      #force-map {
-        margin: 0 8px 8px 8px;
-        min-height: 350px;
-      }
-      
-      /* Make dropdowns more touch-friendly */
-      .dropdown-options {
-        min-width: 120px;
-        max-height: 200px;
-        overflow-y: auto;
-      }
-      
-      .dropdown-options .filter-option {
-        padding: 8px 16px;
-        font-size: 14px;
-        min-height: 32px;
-        display: flex;
-        align-items: center;
-      }
-      
-      /* Better touch targets */
-      .filter-label-btn {
-        min-height: 36px;
-      }
-      
-      /* Improve node interaction on mobile */
-      .node-info-card {
-        min-height: 44px; /* Apple recommended touch target */
-        padding: 8px 12px;
-        font-size: 14px;
-      }
-      
-      .tree-img {
-        max-height: 140px;
-      }
-    }
-
-    /* Tablet specific adjustments */
-    @media (min-width: 769px) and (max-width: 1024px) {
-      .container {
-        grid-template-columns: 3fr 2fr;
+      .filters {
+        flex-wrap: wrap;
+        gap: 8px;
       }
       
       .filter-group {
-        min-width: 110px;
+        min-width: 80px;
       }
       
-      .filter-label-btn {
-        font-size: 14px;
-        padding: 5px 15px 5px 10px;
-      }
-    }
-
-    /* Large screen optimizations */
-    @media (min-width: 1400px) {
       .header-title {
-        font-size: 26px;
-      }
-      
-      .info-header {
-        font-size: 24px;
-      }
-      
-      .filter-label-btn {
         font-size: 16px;
-        padding: 8px 20px 8px 15px;
+      }
+      
+      .timeline-track {
+        min-width: 100%;
+        overflow-x: auto;
+      }
+      
+      .timeline-section {
+        min-width: 120px;
       }
     }
 
     .map-box, .info-box, .timeline-box {
-      border: 2px solid white;
+      border: 1px solid rgba(255, 255, 255, 0.11);
       border-radius: 6px;
       background: black;
       color: white;
@@ -207,20 +138,26 @@
       min-width: 0;
       min-height: 0;
       position: relative;
+      overflow: hidden;
+    }
+
+    .header-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 20px 20px 0 20px;
     }
 
     .header-title {
-      font-size: 22px;
+      font-size: 20px;
       font-weight: bold;
       color: white;
-      text-align: left;
-      margin: 20px 0 0 20px;
       font-family: "Courier New", Courier, monospace;
     }
 
     .header-hr {
       border: none;
-      border-top: 2px solid white;
+      border-top: 1px solid rgba(255, 255, 255, 0.3);
       margin: 8px 0 18px 0;
       width: 100%;
     }
@@ -234,16 +171,17 @@
       font-family: "Courier New", Courier, monospace;
       margin-left: 20px;
       position: relative;
+      flex-wrap: wrap;
     }
 
     .filter-group {
       position: relative;
-      min-width: 120px;
+      min-width: 100px;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       font-family: "Courier New", Courier, monospace;
-      font-size: 16px;
+      font-size: 14px;
     }
 
     .filter-label-btn {
@@ -253,23 +191,23 @@
       width: 100%;
       background: black;
       color: white;
-      border: 1px solid white;
+      border: 1px solid rgba(255, 255, 255, 0.4);
       border-radius: 4px;
-      padding: 6px 18px 6px 12px;
-      font-size: 15px;
+      padding: 6px 12px 6px 8px;
+      font-size: 13px;
       font-weight: bold;
       cursor: pointer;
       user-select: none;
       transition: border-color 0.2s;
       margin-bottom: 0;
-      min-width: 120px;
+      min-width: 100px;
       position: relative;
       font-family: "Courier New", Courier, monospace;
     }
 
     .filter-label-btn .arrow {
       margin-left: auto;
-      font-size: 12px;
+      font-size: 10px;
       transition: transform 0.2s;
     }
 
@@ -281,7 +219,7 @@
       display: none;
       position: absolute;
       background: black;
-      border: 1px solid white;
+      border: 1px solid rgba(255, 255, 255, 0.4);
       border-radius: 4px;
       z-index: 2;
       min-width: 100%;
@@ -290,21 +228,21 @@
       left: 0;
       top: 110%;
       box-shadow: 0 2px 8px rgba(30,144,255,0.15);
-      padding: 8px 0;
+      padding: 6px 0;
       font-family: "Courier New", Courier, monospace;
-      font-size: 16px;
+      font-size: 14px;
     }
 
     .dropdown-options .filter-option {
-      padding: 6px 18px;
+      padding: 4px 12px;
       cursor: pointer;
       border-radius: 4px;
       transition: background 0.2s, color 0.2s;
       display: block;
-      font-size: 15px;
+      font-size: 13px;
       background: black;
       color: white;
-      margin: 2px 8px;
+      margin: 1px 6px;
       font-family: "Courier New", Courier, monospace;
     }
 
@@ -323,8 +261,8 @@
       color: #1e90ff;
       border: 1px solid #1e90ff;
       border-radius: 4px;
-      padding: 6px 18px;
-      font-size: 15px;
+      padding: 6px 12px;
+      font-size: 13px;
       cursor: pointer;
       margin-left: 8px;
       transition: background 0.2s, color 0.2s;
@@ -337,16 +275,17 @@
       color: white;
     }
 
-    #force-map {
+          #force-map {
       width: 100%;
       height: 100%;
       min-height: 300px;
       flex: 1 1 auto;
       background: #000;
-      border-radius: 6px;
-      margin: 0 16px 16px 0px;
+      border-radius: 0;
+      margin: 0;
       position: relative;
       box-sizing: border-box;
+      overflow: hidden;
     }
 
     .right-column {
@@ -366,11 +305,11 @@
       margin-bottom: 0;
       padding: 0 20px 10px 20px;
       max-height: 100%;
-      overflow: hidden; /* Container doesn't scroll, only the list inside */
+      overflow: hidden;
     }
 
     .info-header {
-      font-size: 22px;
+      font-size: 20px;
       font-weight: bold;
       color: white;
       text-align: left;
@@ -385,7 +324,7 @@
 
     .info-hr {
       border: none;
-      border-top: 2px solid white;
+      border-top: 1px solid rgba(255, 255, 255, 0.3);
       margin: 8px -20px 18px -20px;
       width: calc(100% + 40px);
       position: sticky;
@@ -396,29 +335,38 @@
 
     .node-info-list {
       flex: 1 1 auto;
-      overflow-y: auto; /* Enable scrolling */
+      overflow-y: auto;
       display: flex;
       flex-direction: column;
       gap: 8px;
       padding-bottom: 10px;
+      max-height: calc(100vh - 200px);
+      background: black;
+    }
+
+    /* Custom scrollbar styling for all scrollable elements */
+    ::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 2px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    /* Firefox scrollbar */
+    * {
       scrollbar-width: thin;
-      scrollbar-color: white black;
-      max-height: calc(100vh - 200px); /* Set proper max height */
-      background: black; /* Ensure black background */
-    }
-
-    .node-info-list::-webkit-scrollbar {
-      width: 8px;
-      background: black;
-    }
-
-    .node-info-list::-webkit-scrollbar-thumb {
-      background: white;
-      border-radius: 4px;
-    }
-
-    .node-info-list::-webkit-scrollbar-track {
-      background: black;
+      scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
     }
 
     .node-info-card {
@@ -426,29 +374,31 @@
       overflow: hidden;
       text-overflow: ellipsis;
       max-height: 32px;
-      padding: 8px 12px;
+      padding: 6px 10px;
       margin-bottom: 4px;
-      background: black; /* Always black background */
-      border: 1px solid white;
+      background: black;
+      border: 1px solid rgba(255, 255, 255, 0.3);
       border-radius: 6px;
-      font-size: 15px;
+      font-size: 13px;
       cursor: pointer;
       transition: all 0.3s ease;
       display: flex;
       align-items: center;
       position: relative;
-      color: white; /* Always white text */
+      color: white;
     }
 
     .node-info-card .node-title {
       font-weight: bold;
       margin-bottom: 0;
       color: white;
+      display: flex;
+      align-items: center;
     }
 
     .node-info-card .node-details {
       display: none;
-      margin-top: 8px;
+      margin-top: 6px;
       white-space: normal;
       color: white;
     }
@@ -458,11 +408,11 @@
       overflow: visible;
       text-overflow: unset;
       max-height: none;
-      background: black !important; /* Keep black background when selected */
-      color: white !important; /* Keep white text when selected */
-      border-color: white;
-      border-width: 2px;
-      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2); /* White glow instead of blue */
+      background: black !important;
+      color: white !important;
+      border-color: rgba(255, 255, 255, 0.7);
+      border-width: 1px;
+      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
       flex-direction: column;
       align-items: flex-start;
     }
@@ -475,59 +425,142 @@
 
     .tree-img {
       max-width: 100%;
-      max-height: 150px; /* Increase max height */
-      width: 100%; /* Fill the full width */
+      max-height: 120px;
+      width: 100%;
       display: block;
-      margin: 8px 0;
-      border-radius: 6px;
-      object-fit: cover; /* Fill the container while maintaining aspect ratio */
-      border: 1px solid white;
-      mix-blend-mode: normal; /* Normal blend mode for images */
-    }
-
-    /* Text exclusion mode for overlaying text on images */
-    .node-info-card .node-details div {
-      background: rgba(0, 0, 0, 0.8); /* Semi-transparent black background for text */
-      color: white;
-      padding: 4px 8px;
-      margin: 2px 0;
+      margin: 6px 0;
       border-radius: 4px;
-      mix-blend-mode: normal; /* Ensure text is readable */
+      object-fit: cover;
+      border: 1px solid rgba(255, 255, 255, 0.3);
     }
 
-    /* Mobile specific card styling */
-    @media (max-width: 768px) {
-      .node-info-card {
-        font-size: 14px;
-        padding: 6px 10px;
-        background: black;
-        color: white;
-      }
-      
-      .node-info-card.selected-info-card {
-        margin-bottom: 8px;
-        background: black !important;
-        color: white !important;
-      }
-      
-      .tree-img {
-        max-height: 120px; /* Slightly smaller on mobile */
-      }
-      
-      .node-info-list {
-        max-height: calc(100vh - 250px); /* Adjust for mobile */
-      }
-    }
-
+    /* Timeline Styles */
     .timeline-box {
       grid-column: 1 / 3;
       grid-row: 2 / 3;
-      height: 180px;
-      text-align: center;
-      font-size: 17px;
+      height: 120px;
       display: flex;
       align-items: center;
       justify-content: center;
+      position: relative;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 20px 10px;
+    }
+
+    .timeline-track {
+      display: flex;
+      align-items: center;
+      min-width: 1000px;
+      height: 80px;
+      position: relative;
+      background: transparent;
+    }
+
+    .timeline-line {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1.2px;
+      background: rgba(255, 255, 255, 0.5);
+      transform: translateY(-50%);
+    }
+
+    .timeline-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 150px;
+      position: relative;
+      height: 100%;
+      justify-content: center;
+    }
+
+    .timeline-label {
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      white-space: nowrap;
+    }
+
+    .timeline-nodes {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .timeline-node {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .timeline-node:hover {
+      background: rgba(30, 144, 255, 0.8);
+      transform: scale(1.2);
+    }
+
+    .timeline-node.active {
+      background: #1e90ff;
+      box-shadow: 0 0 10px rgba(30, 144, 255, 0.5);
+    }
+
+    .timeline-node.has-species {
+      background: rgba(34, 197, 94, 0.6);
+      border-color: #22c55e;
+    }
+
+    .timeline-node.has-species:hover {
+      background: #22c55e;
+    }
+
+    .donation-box-inline {
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: black;
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 4px;
+      padding: 4px 12px;
+      font-size: 13px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 80px;
+      font-family: "Courier New", Courier, monospace;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .donation-box-inline:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border-color: rgba(255, 255, 255, 0.8);
+    }
+
+    .tooltip {
+      position: absolute;
+      pointer-events: none;
+      font-size: 11px;
+      padding: 6px 8px;
+      background: rgba(0,0,0,0.9);
+      color: white;
+      border-radius: 4px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 1000;
+      border: 1px solid rgba(255,255,255,0.3);
+      font-family: "Courier New", Courier, monospace;
+      max-width: 200px;
+      line-height: 1.3;
     }
 
     .loading-text::after {
@@ -544,83 +577,75 @@
       100% { content: ""; }
     }
 
-    .donation-box-inline {
-      margin-left: auto;
-      margin-right: 20px;
-      height: 38px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: white;
-      color: black;
-      border: 1px solid white;
-      border-radius: 4px;
-      padding: 6px 18px;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-      width: 120px;
-      font-family: "Courier New", Courier, monospace;
-      text-decoration: none;
-      transition: all 0.2s;
+    .category-indicator {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      margin-right: 6px;
+      vertical-align: middle;
     }
 
-    .donation-box-inline:hover {
-      background: black;
-      color: white;
-      border-color: white;
+    .category-indicator.flora {
+      background: #22c55e;
     }
 
-    .tooltip {
-      position: absolute;
-      pointer-events: none;
-      font-size: 11px; /* Smaller font */
-      padding: 8px 10px;
-      background: rgba(0,0,0,0.85);
-      color: white;
-      border-radius: 6px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      z-index: 1000;
-      border: 1px solid rgba(255,255,255,0.3); /* Subtle border */
-      font-family: "Courier New", Courier, monospace;
-      max-width: 200px;
-      line-height: 1.3;
+    .category-indicator.fauna {
+      background: #ef4444;
     }
   </style>
 </head>
 <body>
   <div class="page-padding">
     <div class="container">
-      <!-- Map and Filters -->
       <div class="map-box">
         <div class="header-section">
-          <div class="header-title">Trail No.3 Flora Map</div>
+          <div class="header-title">Trail No.3 Flora & Fauna Map</div>
           <a href="donate.html" target="_blank" class="donation-box-inline">Donate</a>
         </div>
         <hr class="header-hr">
         <div class="filters">
-          <!-- Type Filter -->
-          <div class="filter-group multiselect" data-filter="type">
+          <div class="filter-group multiselect" data-filter="category">
             <button class="filter-label-btn" type="button">
-              Tree Type <span class="arrow">&#9660;</span>
+              Category <span class="arrow">&#9660;</span>
             </button>
             <div class="dropdown-options">
               <span class="filter-option selected" data-value="All">All</span>
+              <span class="filter-option" data-value="Flora">Flora</span>
+              <span class="filter-option" data-value="Fauna">Fauna</span>
+            </div>
+          </div>
+          
+          <div class="filter-group multiselect" data-filter="type">
+            <button class="filter-label-btn" type="button">
+              Type <span class="arrow">&#9660;</span>
+            </button>
+            <div class="dropdown-options">
+              <span class="filter-option selected" data-value="All">All</span>
+              <!-- Flora Types -->
               <span class="filter-option" data-value="Evergreen">Evergreen</span>
               <span class="filter-option" data-value="Deciduous">Deciduous</span>
               <span class="filter-option" data-value="Fruit">Fruit</span>
-              <span class="filter-option" data-value="Coniferous">Coniferous</span>
               <span class="filter-option" data-value="Shrub">Shrub</span>
               <span class="filter-option" data-value="Herb">Herb</span>
               <span class="filter-option" data-value="Vine">Vine</span>
-              <span class="filter-option" data-value="Rattan">Rattan</span>
               <span class="filter-option" data-value="Orchid">Orchid</span>
-              <span class="filter-option" data-value="Palm">Palm</span>
-              <span class="filter-option" data-value="Bamboo">Bamboo</span>
+              <span class="filter-option" data-value="Flowering tree">Flowering tree</span>
+              <span class="filter-option" data-value="Grass">Grass</span>
+              <!-- Fauna Types -->
+              <span class="filter-option" data-value="Large Herbivore">Large Herbivore</span>
+              <span class="filter-option" data-value="Herbivore">Herbivore</span>
+              <span class="filter-option" data-value="Carnivore">Carnivore</span>
+              <span class="filter-option" data-value="Primate">Primate</span>
+              <span class="filter-option" data-value="Rodent">Rodent</span>
+              <span class="filter-option" data-value="Aquatic Mammal">Aquatic Mammal</span>
+              <span class="filter-option" data-value="Bird">Bird</span>
+              <span class="filter-option" data-value="Insect">Insect</span>
+              <span class="filter-option" data-value="Reptile">Reptile</span>
+              <span class="filter-option" data-value="Amphibian">Amphibian</span>
             </div>
           </div>
-          <!-- Season Filter -->
+          
           <div class="filter-group multiselect" data-filter="season">
             <button class="filter-label-btn" type="button">
               Season <span class="arrow">&#9660;</span>
@@ -630,9 +655,10 @@
               <span class="filter-option" data-value="Winter">Winter</span>
               <span class="filter-option" data-value="Summer">Summer</span>
               <span class="filter-option" data-value="Rainy">Rainy</span>
+              <span class="filter-option" data-value="All Year">All Year</span>
             </div>
           </div>
-          <!-- Size Filter -->
+          
           <div class="filter-group multiselect" data-filter="size">
             <button class="filter-label-btn" type="button">
               Size <span class="arrow">&#9660;</span>
@@ -644,44 +670,744 @@
               <span class="filter-option" data-value="Large">Large</span>
             </div>
           </div>
-          <!-- Reset Button - now properly aligned -->
-          <button class="reset-btn" type="button" id="resetFiltersBtn">Reset Filters</button>
+          
+          <button class="reset-btn" type="button" id="resetFiltersBtn">Reset</button>
         </div>
         <div id="force-map"></div>
       </div>
 
-      <!-- Right Column: Info -->
       <div class="right-column">
         <div class="info-box">
           <div class="info-header">Forest Inventory</div>
           <hr class="info-hr">
-          <div class="node-info-list" id="nodeInfoList"></div>
+          <div class="node-info-list" id="nodeInfoList">
+            <div style="color: #aaa; text-align: center; padding: 20px;">
+              <div>🌳 Loading data<span class="loading-text"></span></div>
+              <div style="font-size: 12px; margin-top: 8px;">
+                Please wait while we fetch the information
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="timeline-box">
-      <div class="timeline-box" id="timeline-box"></div>  
+
+      <div class="timeline-box" id="timeline-box">
+        <div class="timeline-track">
+          <div class="timeline-line"></div>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="tooltip" id="tooltip"></div>
 
-  <!-- D3.js -->
-  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
   
-  <!-- Filter UI Logic -->
   <script>
-    function closeAllDropdowns() {
-      document.querySelectorAll('.dropdown-options').forEach(el => el.style.display = "none");
-      document.querySelectorAll('.filter-label-btn').forEach(btn => btn.classList.remove('open'));
+    // Species color mapping
+    var SPECIES_COLORS = {
+      // Flora types
+      'Evergreen': '#22543d',
+      'Deciduous': '#2d7d9a', 
+      'Fruit': '#f6e05e',
+      'Orchid': '#d53f8c',
+      'Shrub': '#319795',
+      'Vine': '#4fd1c7',
+      'Herb': '#68d391',
+      'Flowering tree': '#ed8936',
+      'Grass': '#9ae6b4',
+      
+      // Fauna types - Mammals
+      'Large Herbivore': '#a0522d',
+      'Herbivore': '#9acd32',
+      'Carnivore': '#dc143c',
+      'Primate': '#6495ed',
+      'Rodent': '#ff8c00',
+      'Aquatic Mammal': '#20b2aa',
+      
+      // Fauna types - Other
+      'Bird': '#ffd700',
+      'Insect': '#32cd32',
+      'Reptile': '#8b4513',
+      'Amphibian': '#4682b4'
+    };
+
+    // Timeline assignments
+    var TIMELINE_ASSIGNMENTS = {
+      0: ['EagleWoodAgarwood', 'Dipterocarpusgracilis'],
+      1: ['CalamusviminalisWilld'],
+      2: ['WildNutmeg'],
+      3: ['AphanamixispolystachyaWallRParker'],
+      4: ['Needlewood'],
+      5: ['MagnoliabailloniiPierre']
+    };
+
+    var allFloraData = [];
+    var allFaunaData = [];
+    var activeTimelineNodes = new Set();
+
+    function initializeSystem() {
+      if (typeof d3 === 'undefined') {
+        showD3Error();
+        return;
+      }
+      
+      console.log('✅ D3.js loaded successfully');
+      loadDataSafely();
     }
 
-    document.querySelectorAll('.filter-label-btn').forEach(btn => {
+    function showD3Error() {
+      var container = document.getElementById("force-map");
+      if (container) {
+        container.innerHTML = 
+          '<div style="color: #ff6b6b; text-align: center; padding: 20px; font-family: monospace;">' +
+            '❌ D3.js Library Failed to Load<br/>' +
+            '<div style="font-size: 12px; margin-top: 10px; color: #999;">' +
+              'Check your internet connection or try refreshing the page' +
+            '</div>' +
+          '</div>';
+      }
+    }
+
+    function getSpeciesColor(node) {
+      if (node.category === 'Flora') {
+        return SPECIES_COLORS[node.type] || '#4a5568';
+      } else {
+        return SPECIES_COLORS[node.type] || '#4a5568';
+      }
+    }
+
+    function drawGraph(filters) {
+      if (!filters) filters = {};
+      
+      var container = document.querySelector("#force-map");
+      d3.select("#force-map").selectAll("*").remove();
+
+      if (!allFloraData.length && !allFaunaData.length) {
+        container.innerHTML = '<div style="color:#fff; font-family: monospace; padding:20px; text-align:center;">Loading data...</div>';
+        return;
+      }
+
+      var allData = allFloraData.concat(allFaunaData);
+      
+      // Apply filters
+      if (filters.category && filters.category.length > 0) {
+        allData = allData.filter(function(node) {
+          return filters.category.indexOf(node.category) !== -1;
+        });
+      }
+      if (filters.type && filters.type.length > 0) {
+        allData = allData.filter(function(node) {
+          return filters.type.indexOf(node.type) !== -1;
+        });
+      }
+      if (filters.season && filters.season.length > 0) {
+        allData = allData.filter(function(node) {
+          return filters.season.indexOf(node.season_note) !== -1;
+        });
+      }
+      if (filters.size && filters.size.length > 0) {
+        allData = allData.filter(function(node) {
+          return filters.size.indexOf(node.size) !== -1;
+        });
+      }
+
+      // Apply timeline filter
+      if (activeTimelineNodes.size > 0) {
+        var timelineSpecies = [];
+        activeTimelineNodes.forEach(function(nodeIndex) {
+          if (TIMELINE_ASSIGNMENTS[nodeIndex]) {
+            timelineSpecies = timelineSpecies.concat(TIMELINE_ASSIGNMENTS[nodeIndex]);
+          }
+        });
+        if (timelineSpecies.length > 0) {
+          allData = allData.filter(function(node) {
+            return timelineSpecies.indexOf(node.id) !== -1;
+          });
+        }
+      }
+
+      updateInfoBox(allData);
+
+      var width = container.clientWidth || 960;
+      var height = container.clientHeight || 500;
+
+      var svg = d3.select("#force-map")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+      var zoomable = svg.append("g").attr("class", "zoomable");
+
+      var zoom = d3.zoom()
+        .scaleExtent([0.5, 4])
+        .on("zoom", function(event) {
+          zoomable.attr("transform", event.transform);
+        });
+      svg.call(zoom);
+
+      // Create more organic, natural links
+      var links = [];
+      var maxConnections = 3;
+      
+      for (var i = 0; i < allData.length; i++) {
+        var connectionsCount = 0;
+        
+        for (var j = 0; j < allData.length; j++) {
+          if (i !== j && connectionsCount < maxConnections) {
+            var distance = Math.random();
+            var shouldConnect = false;
+            
+            // Higher chance to connect similar types
+            if (allData[i].category === allData[j].category) {
+              shouldConnect = distance < 0.4;
+            } else {
+              shouldConnect = distance < 0.15;
+            }
+            
+            // Add some randomness for organic feel
+            if (shouldConnect && Math.random() < 0.7) {
+              links.push({ 
+                source: allData[i].id, 
+                target: allData[j].id,
+                distance: 60 + Math.random() * 80
+              });
+              connectionsCount++;
+            }
+          }
+        }
+      }
+
+      var simulation = d3.forceSimulation(allData)
+        .force("link", d3.forceLink(links).id(function(d) { return d.id; }).distance(80).strength(0.3))
+        .force("charge", d3.forceManyBody().strength(-150))
+        .force("center", d3.forceCenter(width / 2, height / 2).strength(1.2))
+        .force("collision", d3.forceCollide().radius(15))
+        .force("x", d3.forceX(width / 2).strength(0.05))
+        .force("y", d3.forceY(height / 2).strength(0.05));
+
+      var linkElements = zoomable.selectAll(".link")
+        .data(links)
+        .enter()
+        .append("line")
+        .attr("class", "link")
+        .attr("stroke", function(d) {
+          // More organic link colors
+          var sourceNode = allData.find(n => n.id === (d.source.id || d.source));
+          var targetNode = allData.find(n => n.id === (d.target.id || d.target));
+          
+          if (sourceNode && targetNode) {
+            if (sourceNode.category === targetNode.category) {
+              return sourceNode.category === 'Flora' ? 
+                'rgba(34, 197, 94, 0.3)' : 'rgba(239, 68, 68, 0.3)';
+            } else {
+              return 'rgba(255, 255, 255, 0.1)';
+            }
+          }
+          return 'rgba(255, 255, 255, 0.1)';
+        })
+        .attr("stroke-width", function(d) {
+          return 0.5 + Math.random() * 1;
+        })
+        .attr("stroke-opacity", function(d) {
+          return 0.2 + Math.random() * 0.3;
+        });
+
+      var nodeElements = zoomable.selectAll(".node")
+        .data(allData)
+        .enter()
+        .append("circle")
+        .attr("class", "node")
+        .attr("r", function(d) { return 6 + Math.random() * 4; })
+        .attr("fill", function(d) { return getSpeciesColor(d); })
+        .attr("stroke", function(d) { 
+          return d.category === 'Flora' ? 'rgba(34, 197, 94, 0.6)' : 'rgba(239, 68, 68, 0.6)'; 
+        })
+        .attr("stroke-width", 0.5)
+        .style("cursor", "pointer")
+        .style("filter", "drop-shadow(0 0 3px rgba(255,255,255,0.1))")
+        .call(d3.drag()
+          .on("start", dragstarted)
+          .on("drag", dragged)
+          .on("end", dragended)
+        );
+
+      var labelElements = zoomable.selectAll(".label")
+        .data(allData)
+        .enter()
+        .append("text")
+        .attr("class", "label")
+        .attr("text-anchor", "middle")
+        .attr("dy", ".35em")
+        .attr("fill", "#fff")
+        .attr("font-size", "8px")
+        .attr("font-family", "Courier New, monospace")
+        .style("pointer-events", "none")
+        .style("text-shadow", "1px 1px 1px rgba(0,0,0,0.8)")
+        .text(function(d) {
+          return d.name.length > 8 ? d.name.substring(0, 8) + "..." : d.name;
+        });
+
+      var tooltip = d3.select("#tooltip");
+      nodeElements
+        .on("mouseover", function(event, d) {
+          // Highlight the hovered node
+          d3.select(this)
+            .transition()
+            .duration(200)
+            .attr("r", 12)
+            .attr("stroke-width", 3);
+            
+          tooltip.transition().duration(200).style("opacity", 0.9);
+          tooltip.html(
+            '<strong>' + d.name + '</strong><br/>' +
+            '<em>' + (d.scientific || 'Unknown') + '</em><br/>' +
+            'Category: ' + d.category + '<br/>' +
+            'Type: ' + (d.type || 'Unknown') + '<br/>' +
+            '<small>Click to view details</small>'
+          )
+            .style("left", (event.pageX + 10) + "px")
+            .style("top", (event.pageY - 10) + "px");
+        })
+        .on("mouseout", function(event, d) {
+          // Reset node size
+          d3.select(this)
+            .transition()
+            .duration(200)
+            .attr("r", 8)
+            .attr("stroke-width", 2);
+            
+          tooltip.transition().duration(500).style("opacity", 0);
+        })
+        .on("click", function(event, d) {
+          console.log('Node clicked:', d.name, d.id);
+          
+          // Visual feedback for clicked node with organic feel
+          d3.selectAll('.node')
+            .transition()
+            .duration(300)
+            .attr("stroke-width", 0.5)
+            .style("filter", "drop-shadow(0 0 3px rgba(255,255,255,0.1))");
+            
+          d3.select(this)
+            .transition()
+            .duration(300)
+            .attr("stroke-width", 2)
+            .attr("stroke", "#1e90ff")
+            .style("filter", "drop-shadow(0 0 8px rgba(30,144,255,0.4))");
+          
+          // Immediately update info box and scroll to selected item
+          updateInfoBox(allData, d.id);
+          
+          // Scroll to selected item in forest inventory
+          setTimeout(function() {
+            var selectedCard = document.querySelector('.node-info-card[data-id="' + d.id + '"]');
+            if (selectedCard) {
+              selectedCard.click();
+              
+              if (window.innerWidth <= 768) {
+                // Mobile: scroll to forest inventory section
+                selectedCard.scrollIntoView({ 
+                  behavior: "smooth", 
+                  block: "start"
+                });
+              } else {
+                // Desktop: center the selected card
+                selectedCard.scrollIntoView({ 
+                  behavior: "smooth", 
+                  block: "center"
+                });
+              }
+            }
+          }, 100);
+          
+          event.stopPropagation();
+        });
+
+      // Clear selection when clicking outside nodes
+      svg.on("click", function() {
+        updateInfoBox(allData);
+      });
+
+      simulation.on("tick", function() {
+        // Enhanced boundary constraints to keep nodes more centered
+        var centerX = width / 2;
+        var centerY = height / 2;
+        var maxDistance = Math.min(width, height) * 0.35; // Keep nodes within 70% of container
+        
+        allData.forEach(function(d) {
+          // Calculate distance from center
+          var dx = d.x - centerX;
+          var dy = d.y - centerY;
+          var distance = Math.sqrt(dx * dx + dy * dy);
+          
+          // If too far from center, pull back
+          if (distance > maxDistance) {
+            var scale = maxDistance / distance;
+            d.x = centerX + dx * scale;
+            d.y = centerY + dy * scale;
+          }
+          
+          // Ensure minimum boundaries
+          d.x = Math.max(30, Math.min(width - 30, d.x));
+          d.y = Math.max(30, Math.min(height - 30, d.y));
+        });
+
+        linkElements
+          .attr("x1", function(d) { return d.source.x; })
+          .attr("y1", function(d) { return d.source.y; })
+          .attr("x2", function(d) { return d.target.x; })
+          .attr("y2", function(d) { return d.target.y; });
+
+        nodeElements
+          .attr("cx", function(d) { return d.x; })
+          .attr("cy", function(d) { return d.y; });
+
+        labelElements
+          .attr("x", function(d) { return d.x; })
+          .attr("y", function(d) { return d.y; });
+      });
+
+      function dragstarted(event, d) {
+        if (!event.active) simulation.alphaTarget(0.1).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+        
+        // Add organic drag feedback
+        d3.select(this)
+          .transition()
+          .duration(200)
+          .attr("r", function(node) { return (6 + Math.random() * 4) * 1.2; })
+          .style("filter", "drop-shadow(0 0 6px rgba(255,255,255,0.3))");
+      }
+
+      function dragged(event, d) {
+        d.fx = event.x;
+        d.fy = event.y;
+      }
+
+      function dragended(event, d) {
+        if (!event.active) simulation.alphaTarget(0);
+        
+        // Reset node appearance
+        d3.select(this)
+          .transition()
+          .duration(300)
+          .attr("r", function(node) { return 6 + Math.random() * 4; })
+          .style("filter", "drop-shadow(0 0 3px rgba(255,255,255,0.1))");
+          
+        if (window.innerWidth < 768) {
+          d.fx = null;
+          d.fy = null;
+        }
+      }
+
+      console.log('✅ Graph created with ' + allData.length + ' nodes and ' + links.length + ' links');
+    }
+
+    function updateInfoBox(nodes, selectedId) {
+      var list = document.getElementById("nodeInfoList");
+      if (!list) return;
+      list.innerHTML = "";
+
+      if (!nodes.length) {
+        list.innerHTML = '<div style="color:#aaa; text-align:center; padding:20px;">No species found.<br><small style="font-size:11px; margin-top:8px; display:block;">Note: Currently showing mammals only. Birds, insects, reptiles & amphibians coming soon!</small></div>';
+        return;
+      }
+
+      // Sort by category (Flora first, then Fauna) and then by name
+      var sortedNodes = nodes.sort(function(a, b) {
+        if (a.category !== b.category) {
+          return a.category === 'Flora' ? -1 : 1;
+        }
+        return a.name.localeCompare(b.name);
+      });
+
+      sortedNodes.forEach(function(node) {
+        var card = document.createElement("div");
+        card.className = "node-info-card";
+        card.setAttribute("data-id", node.id);
+        card.style.borderColor = getSpeciesColor(node);
+
+        var titleDiv = document.createElement("div");
+        titleDiv.className = "node-title";
+        
+        // Add category indicator
+        var indicator = document.createElement("span");
+        indicator.className = 'category-indicator ' + (node.category ? node.category.toLowerCase() : 'flora');
+        titleDiv.appendChild(indicator);
+        titleDiv.appendChild(document.createTextNode(node.name));
+
+        var detailsDiv = document.createElement("div");
+        detailsDiv.className = "node-details";
+        detailsDiv.style.display = (selectedId === node.id) ? "block" : "none";
+
+        // Add image if available with enhanced fallback system
+        if (node.img && typeof node.img === "string" && node.img.trim() !== "") {
+          var img = document.createElement("img");
+          img.className = "tree-img";
+          
+          // Smart image path detection with multiple fallbacks
+          var imgPath = node.img;
+          if (node.category === 'Fauna') {
+            if (!imgPath.includes('/')) {
+              imgPath = 'FaunaPic/' + imgPath;
+            }
+          } else {
+            if (!imgPath.includes('/')) {
+              imgPath = 'TreePic3/' + imgPath;
+            }
+          }
+          
+          img.src = imgPath;
+          img.alt = node.name;
+          
+          // Enhanced fallback system for fauna images
+          var fallbackAttempts = 0;
+          img.onerror = function() {
+            fallbackAttempts++;
+            
+            if (node.category === 'Fauna') {
+              if (fallbackAttempts === 1 && imgPath.includes('FaunaPic/')) {
+                // Try AnimalPic folder
+                this.src = imgPath.replace('FaunaPic/', 'AnimalPic/');
+                return;
+              } else if (fallbackAttempts === 2) {
+                // Try common Thai animal name patterns
+                var thaiNameMap = {
+                  'asian_elephant': 'ชาง04_ตวผJPG.jpg',
+                  'gaur': 'กระทง01jpg.jpg',
+                  'dhole': 'หมาใน03jpg.jpg',
+                  'leopard_cat': 'แมวดาวpng.jpg',
+                  'asian_black_bear': 'หมควาย01png.jpg',
+                  'northern_slow_loris': 'ลงลม01JPG.jpg',
+                  'black_giant_squirrel': 'พญากระรอกดำ01jpg.jpg',
+                  'smoothcoated_otter': 'นากใหญขนเรยบ03_04_APM0113_วงศาคณานาก_2020jpg.jpg',
+                  'binturong': 'หมขอ03JPG.jpg',
+                  'serow': 'เลยงผา05JPG.jpg',
+                  'malayan_porcupine': 'เมน02png.jpg',
+                  'barking_deer_muntjac': 'เกง01png.jpg',
+                  'northern_pigtailed_macaque': 'ลงกงเหนอ01_by_Phanakornpng.jpg',
+                  'pileated_gibbon': 'ชะนมงกฏ03jpg.jpg',
+                  'lar_gibbon_whitehanded_gibbon': 'ชะนมอขาว05_รางวลดเดน_สะพานเรอนยอดjpg.jpg'
+                };
+                
+                var thaiName = thaiNameMap[node.id];
+                if (thaiName) {
+                  this.src = 'AnimalPic/' + thaiName;
+                  return;
+                }
+              }
+            }
+            
+            // Final fallback - hide image
+            this.style.display = "none";
+            console.log('Image not found for:', node.name, 'after', fallbackAttempts, 'attempts');
+          };
+          
+          detailsDiv.appendChild(img);
+        }
+
+        var details = [
+          { label: "English Name", value: node.english_name },
+          { label: "Scientific", value: node.scientific },
+          { label: "Category", value: node.category },
+          { label: "Type", value: node.type },
+          { label: "Season", value: node.season_note },
+          { label: "Size", value: node.size }
+        ];
+
+        details.forEach(function(detail) {
+          if (detail.value && detail.value !== node.category && detail.value !== node.name) {
+            var div = document.createElement("div");
+            div.innerHTML = '<b>' + detail.label + ':</b> ' + detail.value;
+            div.style.marginBottom = "4px";
+            div.style.fontSize = "12px";
+            detailsDiv.appendChild(div);
+          }
+        });
+
+        if (node.description) {
+          var descElement = document.createElement("div");
+          descElement.innerHTML = '<b>Description:</b> ' + node.description.substring(0, 200) + '...';
+          descElement.style.marginBottom = "4px";
+          descElement.style.fontSize = "11px";
+          descElement.style.lineHeight = "1.3";
+          detailsDiv.appendChild(descElement);
+        }
+
+        card.appendChild(titleDiv);
+        card.appendChild(detailsDiv);
+        list.appendChild(card);
+
+        // Add click handler for each card with enhanced responsiveness
+        card.addEventListener('click', function(e) {
+          e.stopPropagation();
+          
+          // Remove selection from all cards
+          document.querySelectorAll('.node-info-card').forEach(function(c) {
+            c.classList.remove('selected-info-card');
+            var details = c.querySelector('.node-details');
+            if (details) details.style.display = 'none';
+          });
+          
+          // Add selection to clicked card
+          this.classList.add('selected-info-card');
+          var thisDetails = this.querySelector('.node-details');
+          if (thisDetails) {
+            thisDetails.style.display = 'block';
+            
+            // Smooth scroll to show the expanded card
+            setTimeout(function() {
+              if (window.innerWidth <= 768) {
+                // Mobile: scroll the expanded card into view
+                card.scrollIntoView({ 
+                  behavior: "smooth", 
+                  block: "start"
+                });
+              } else {
+                // Desktop: center the card
+                card.scrollIntoView({ 
+                  behavior: "smooth", 
+                  block: "center"
+                });
+              }
+            }, 100);
+          }
+          
+          // Highlight corresponding node in graph
+          var nodeId = this.getAttribute('data-id');
+          d3.selectAll('.node').attr("stroke-width", 2);
+          d3.selectAll('.node').filter(function(d) { 
+            return d.id === nodeId; 
+          }).attr("stroke-width", 4).attr("stroke", "#1e90ff");
+          
+          console.log('Forest inventory card clicked:', nodeId);
+        });
+      });
+    }
+
+    function createTimeline() {
+      var timelineTrack = document.querySelector('.timeline-track');
+      if (!timelineTrack) return;
+
+      var kmLabels = ['0 km', '0.5 km', '1.5 km', '2.5 km', '3.5 km', '3.9 km'];
+      
+      for (var i = 0; i < 6; i++) {
+        var section = document.createElement('div');
+        section.className = 'timeline-section';
+
+        var label = document.createElement('div');
+        label.className = 'timeline-label';
+        label.textContent = kmLabels[i];
+        section.appendChild(label);
+
+        var nodesContainer = document.createElement('div');
+        nodesContainer.className = 'timeline-nodes';
+
+        for (var j = 0; j < 5; j++) {
+          var nodeIndex = i * 5 + j;
+          var node = document.createElement('div');
+          node.className = 'timeline-node';
+          node.dataset.globalIndex = nodeIndex;
+
+          if (TIMELINE_ASSIGNMENTS[nodeIndex] && TIMELINE_ASSIGNMENTS[nodeIndex].length > 0) {
+            node.classList.add('has-species');
+          }
+
+          node.addEventListener('click', function() {
+            var index = parseInt(this.dataset.globalIndex);
+            toggleTimelineNode(index, this);
+          });
+          
+          node.addEventListener('mouseenter', function() {
+            var index = parseInt(this.dataset.globalIndex);
+            showTimelineTooltip(index, this);
+          });
+          
+          node.addEventListener('mouseleave', function() {
+            hideTimelineTooltip();
+          });
+
+          nodesContainer.appendChild(node);
+        }
+
+        section.appendChild(nodesContainer);
+        timelineTrack.appendChild(section);
+      }
+
+      // var endSection = document.createElement('div');
+      // endSection.className = 'timeline-section';
+      // endSection.style.minWidth = '60px';
+      
+      // var endLabel = document.createElement('div');
+      // endLabel.className = 'timeline-label';
+      // endLabel.textContent = '4.2 km';
+      // endSection.appendChild(endLabel);
+      
+      // timelineTrack.appendChild(endSection);
+    }
+
+    function toggleTimelineNode(nodeIndex, nodeElement) {
+      if (activeTimelineNodes.has(nodeIndex)) {
+        activeTimelineNodes.delete(nodeIndex);
+        nodeElement.classList.remove('active');
+      } else {
+        activeTimelineNodes.add(nodeIndex);
+        nodeElement.classList.add('active');
+      }
+      
+      console.log('Timeline node ' + nodeIndex + ' toggled. Active nodes:', Array.from(activeTimelineNodes));
+      drawGraph(getSelectedFilters());
+    }
+
+    function showTimelineTooltip(nodeIndex, nodeElement) {
+      var tooltip = document.getElementById('tooltip');
+      if (!tooltip) return;
+
+      // var kmPos = (nodeIndex / 30) * 4.2;
+      var assignedSpecies = TIMELINE_ASSIGNMENTS[nodeIndex] || [];
+      
+      var content = '<strong>Position ' + (nodeIndex + 1) + '</strong><br/>';
+      content += 'Distance: ' + kmPos.toFixed(1) + ' km<br/>';
+      
+      if (assignedSpecies.length > 0) {
+        content += '<em>' + assignedSpecies.length + ' species assigned</em>';
+      } else {
+        content += '<em>No species assigned</em>';
+      }
+      
+      tooltip.innerHTML = content;
+      tooltip.style.opacity = '0.9';
+      
+      var rect = nodeElement.getBoundingClientRect();
+      tooltip.style.left = (rect.left + rect.width / 2 - 100) + 'px';
+      tooltip.style.top = (rect.top - 80) + 'px';
+    }
+
+    function hideTimelineTooltip() {
+      var tooltip = document.getElementById('tooltip');
+      if (tooltip) {
+        tooltip.style.opacity = '0';
+      }
+    }
+
+    function closeAllDropdowns() {
+      document.querySelectorAll('.dropdown-options').forEach(function(el) {
+        el.style.display = "none";
+      });
+      document.querySelectorAll('.filter-label-btn').forEach(function(btn) {
+        btn.classList.remove('open');
+      });
+    }
+
+    // Filter event handlers
+    document.querySelectorAll('.filter-label-btn').forEach(function(btn) {
       btn.addEventListener('click', function(e) {
         e.stopPropagation();
-        const group = btn.closest('.filter-group');
-        const dropdown = group.querySelector('.dropdown-options');
-        const isOpen = dropdown.style.display === "block";
+        var group = btn.closest('.filter-group');
+        var dropdown = group.querySelector('.dropdown-options');
+        var isOpen = dropdown.style.display === "block";
         closeAllDropdowns();
         if (!isOpen) {
           dropdown.style.display = "block";
@@ -696,165 +1422,193 @@
       }
     });
 
-    document.querySelectorAll('.dropdown-options .filter-option').forEach(option => {
+    document.querySelectorAll('.dropdown-options .filter-option').forEach(function(option) {
       option.addEventListener('click', function(e) {
         e.stopPropagation();
-        const dropdown = option.parentElement;
-        const options = dropdown.querySelectorAll('.filter-option');
+        var dropdown = option.parentElement;
+        var options = dropdown.querySelectorAll('.filter-option');
         if (option.dataset.value === "All") {
-          options.forEach(opt => opt.classList.remove('selected'));
+          options.forEach(function(opt) {
+            opt.classList.remove('selected');
+          });
           option.classList.add('selected');
         } else {
           dropdown.querySelector('.filter-option[data-value="All"]').classList.remove('selected');
           option.classList.toggle('selected');
-          const anySelected = Array.from(options).slice(1).some(opt => opt.classList.contains('selected'));
+          var anySelected = Array.from(options).slice(1).some(function(opt) {
+            return opt.classList.contains('selected');
+          });
           if (!anySelected) {
             options[0].classList.add('selected');
           }
         }
-        updateGraphWithFilters();
+        drawGraph(getSelectedFilters());
       });
     });
 
     document.getElementById('resetFiltersBtn').addEventListener('click', function() {
-      document.querySelectorAll('.dropdown-options').forEach(dropdown => {
-        dropdown.querySelectorAll('.filter-option').forEach(opt => opt.classList.remove('selected'));
-        const allOption = dropdown.querySelector('.filter-option[data-value="All"]');
+      document.querySelectorAll('.dropdown-options').forEach(function(dropdown) {
+        dropdown.querySelectorAll('.filter-option').forEach(function(opt) {
+          opt.classList.remove('selected');
+        });
+        var allOption = dropdown.querySelector('.filter-option[data-value="All"]');
         if (allOption) allOption.classList.add('selected');
       });
-      if (window.TreeData && window.TreeData.nodes) {
-        window.TreeData.nodes.forEach(n => { n.fx = null; n.fy = null; });
-      }
+      
+      activeTimelineNodes.clear();
+      document.querySelectorAll('.timeline-node').forEach(function(node) {
+        node.classList.remove('active');
+      });
+      
       closeAllDropdowns();
-      updateGraphWithFilters();
+      drawGraph(getSelectedFilters());
     });
 
     function getSelectedFilters() {
-      const filters = {};
-      document.querySelectorAll('.filter-group').forEach(group => {
-        const filterKey = group.getAttribute('data-filter');
-        const selected = Array.from(group.querySelectorAll('.filter-option.selected')).map(opt => opt.dataset.value);
-        filters[filterKey] = selected.includes("All") ? [] : selected;
+      var filters = {};
+      document.querySelectorAll('.filter-group').forEach(function(group) {
+        var filterKey = group.getAttribute('data-filter');
+        var selected = Array.from(group.querySelectorAll('.filter-option.selected')).map(function(opt) {
+          return opt.dataset.value;
+        });
+        filters[filterKey] = selected.indexOf("All") !== -1 ? [] : selected;
       });
       return filters;
     }
 
-    function updateGraphWithFilters() {
-      if (window.drawGraphWithFilters) {
-        const filters = getSelectedFilters();
-        window.drawGraphWithFilters(filters);
+    function loadDataSafely() {
+      console.log("🔄 Starting data load...");
+      
+      function loadJSON(url) {
+        return fetch(url)
+          .then(function(response) {
+            console.log('📡 Fetching: ' + url);
+            if (!response.ok) {
+              throw new Error('HTTP ' + response.status + ': ' + response.statusText);
+            }
+            return response.text();
+          })
+          .then(function(text) {
+            if (text.trim().charAt(0) === '<') {
+              throw new Error('Server returned HTML instead of JSON (probably 404)');
+            }
+            var data = JSON.parse(text);
+            console.log('✅ Successfully loaded: ' + url);
+            return data;
+          })
+          .catch(function(error) {
+            console.error('❌ Failed to load ' + url + ':', error.message);
+            return { nodes: [] };
+          });
       }
+
+      Promise.all([
+        loadJSON("TreeDataWithImg.json"),
+        loadJSON("FaunaData.json")
+      ])
+      .then(function(results) {
+        var treeData = results[0];
+        var faunaData = results[1];
+
+        console.log("✅ Data loading completed");
+        
+        allFloraData = (treeData.nodes || []).map(function(node) {
+          return Object.assign({}, node, { category: 'Flora' });
+        });
+        allFaunaData = (faunaData.nodes || []).map(function(node) {
+          return Object.assign({}, node, { category: 'Fauna' });
+        });
+        
+        console.log('🌳 Flora: ' + allFloraData.length + ' species');
+        console.log('🦁 Fauna: ' + allFaunaData.length + ' species');
+        
+        if (allFloraData.length === 0 && allFaunaData.length === 0) {
+          console.log("📝 No data files found, using sample data for demo");
+          createSampleData();
+        }
+        
+        createTimeline();
+        drawGraph(getSelectedFilters());
+      })
+      .catch(function(error) {
+        console.error("❌ Critical error loading data:", error);
+        showDataError(error.message);
+      });
+    }
+
+    function createSampleData() {
+      allFloraData = [
+        { id: 'sample_tree1', name: 'Sample Tree 1', type: 'Evergreen', category: 'Flora', scientific: 'Samplius treeus', season_note: 'Winter', size: 'Large' },
+        { id: 'sample_tree2', name: 'Sample Tree 2', type: 'Fruit', category: 'Flora', scientific: 'Samplius fruitus', season_note: 'Summer', size: 'Medium' },
+        { id: 'sample_shrub1', name: 'Sample Shrub', type: 'Shrub', category: 'Flora', scientific: 'Samplius shrubius', season_note: 'Rainy', size: 'Small' },
+        { id: 'sample_orchid1', name: 'Sample Orchid', type: 'Orchid', category: 'Flora', scientific: 'Samplius orchidus', season_note: 'Winter', size: 'Small' }
+      ];
+      
+      allFaunaData = [
+        { id: 'sample_elephant', name: 'Sample Elephant', category: 'Fauna', type: 'Large Herbivore', scientific: 'Elephas samplius', description: 'Large herbivorous mammal' },
+        { id: 'sample_gibbon', name: 'Sample Gibbon', category: 'Fauna', type: 'Primate', scientific: 'Hylobates samplius', description: 'Arboreal primate' },
+        { id: 'sample_deer', name: 'Sample Deer', category: 'Fauna', type: 'Herbivore', scientific: 'Cervus samplius', description: 'Forest herbivore' },
+        { id: 'sample_bird', name: 'Sample Bird', category: 'Fauna', type: 'Bird', scientific: 'Avius samplius', description: 'Forest bird species' },
+        { id: 'sample_insect', name: 'Sample Insect', category: 'Fauna', type: 'Insect', scientific: 'Insectus samplius', description: 'Forest insect' },
+        { id: 'sample_reptile', name: 'Sample Reptile', category: 'Fauna', type: 'Reptile', scientific: 'Reptilus samplius', description: 'Forest reptile' },
+        { id: 'sample_amphibian', name: 'Sample Amphibian', category: 'Fauna', type: 'Amphibian', scientific: 'Amphibius samplius', description: 'Forest amphibian' }
+      ];
+      
+      console.log("📋 Sample data created for demonstration");
+    }
+
+    function showDataError(errorMessage) {
+      var container = document.getElementById("force-map");
+      if (container) {
+        container.innerHTML = 
+          '<div style="color: #ff6b6b; text-align: center; padding: 20px; font-family: monospace;">' +
+            '❌ Data Loading Error<br/>' +
+            '<div style="font-size: 12px; margin-top: 10px; color: #999;">' +
+              errorMessage + '<br/><br/>' +
+              'Make sure these files exist in your project:<br/>' +
+              '• TreeDataWithImg.json<br/>' +
+              '• FaunaData.json' +
+            '</div>' +
+            '<button onclick="location.reload()" style="margin-top: 15px; padding: 8px 16px; background: #1e90ff; color: white; border: none; border-radius: 4px; cursor: pointer;">' +
+              'Retry' +
+            '</button>' +
+          '</div>';
+      }
+      
+      var infoList = document.getElementById("nodeInfoList");
+      if (infoList) {
+        infoList.innerHTML = 
+          '<div style="color: #ff6b6b; text-align: center; padding: 20px;">' +
+            '❌ Failed to load species data<br/>' +
+            '<div style="font-size: 12px; margin-top: 8px; color: #999;">' +
+              'Check browser console for details' +
+            '</div>' +
+          '</div>';
+      }
+    }
+
+    // Initialize system
+    if (typeof d3 === 'undefined') {
+      console.error('D3.js failed to load, trying alternative CDN...');
+      var script = document.createElement('script');
+      script.src = 'https://unpkg.com/d3@7/dist/d3.min.js';
+      script.onload = function() {
+        console.log('✅ D3.js loaded from fallback CDN');
+        initializeSystem();
+      };
+      script.onerror = function() {
+        console.error('❌ All D3.js CDNs failed');
+        showD3Error();
+      };
+      document.head.appendChild(script);
+    } else {
+      console.log('✅ D3.js loaded successfully');
+      initializeSystem();
     }
 
     document.addEventListener("DOMContentLoaded", function() {
       console.log("🌐 DOM loaded, initializing interface...");
-      
-      // Show initial loading state
-      const infoList = document.getElementById("nodeInfoList");
-      if (infoList) {
-        infoList.innerHTML = `
-          <div style="color: #aaa; text-align: center; padding: 20px;">
-            <div>🌳 Loading flora data<span class="loading-text"></span></div>
-            <div style="font-size: 12px; margin-top: 8px;">
-              Please wait while we fetch the tree information
-            </div>
-          </div>
-        `;
-      }
-      
-      // Try to update graph (will show loading message if data not ready)
-      updateGraphWithFilters();
     });
   </script>
-
-  <!-- Main Graph Logic -->
-  <script src="graph.js"></script>
-
-  <script src="timeline.js"></script>
-
-  
-
-<!-- Enhanced integration script -->
-<script>
-// Enhanced integration between timeline and graph
-(function() {
-  // Wait for both systems to be ready
-  function waitForSystems() {
-    if (window.TreeDataLoaded && window.FloraTimeline && window.drawGraphWithFilters) {
-      setupTimelineGraphIntegration();
-    } else {
-      setTimeout(waitForSystems, 100);
-    }
-  }
-  
-  function setupTimelineGraphIntegration() {
-    console.log('🔗 Setting up timeline-graph integration');
-    
-    // Override the timeline's filter application to work with your existing system
-    const originalApplyFilters = window.FloraTimeline.applyFiltersToGraph;
-    
-    window.FloraTimeline.applyFiltersToGraph = function(timelineFilters) {
-      // Get current UI filter state
-      const currentFilters = getSelectedFilters();
-      
-      // Apply timeline filters while preserving UI selections
-      const combinedFilters = {
-        type: timelineFilters.type.length > 0 ? timelineFilters.type : currentFilters.type,
-        season: timelineFilters.season.length > 0 ? timelineFilters.season : currentFilters.season,
-        size: currentFilters.size // Always preserve size filter
-      };
-      
-      console.log('🎯 Timeline applying combined filters:', combinedFilters);
-      
-      // Update the graph
-      window.drawGraphWithFilters(combinedFilters);
-      
-      // Optionally update filter UI to show what's active
-      updateFilterUIForTimeline(timelineFilters);
-    };
-    
-    // Function to update filter UI when timeline is active
-    function updateFilterUIForTimeline(timelineFilters) {
-      // Visual indication that timeline is controlling filters
-      const filterGroups = document.querySelectorAll('.filter-group');
-      filterGroups.forEach(group => {
-        const filterType = group.getAttribute('data-filter');
-        if (timelineFilters[filterType] && timelineFilters[filterType].length > 0) {
-          group.style.opacity = '0.7';
-          group.style.pointerEvents = 'none';
-        } else {
-          group.style.opacity = '1';
-          group.style.pointerEvents = 'auto';
-        }
-      });
-    }
-    
-    // Reset timeline when main reset button is clicked
-    const resetBtn = document.getElementById('resetFiltersBtn');
-    if (resetBtn) {
-      const originalReset = resetBtn.onclick;
-      resetBtn.addEventListener('click', function() {
-        if (window.FloraTimeline) {
-          window.FloraTimeline.reset();
-          
-          // Reset filter UI opacity
-          document.querySelectorAll('.filter-group').forEach(group => {
-            group.style.opacity = '1';
-            group.style.pointerEvents = 'auto';
-          });
-        }
-      });
-    }
-    
-    console.log('✅ Timeline-graph integration complete');
-  }
-  
-  // Start the integration process
-  waitForSystems();
-})();
-
-</script>
-
-
 </body>
 </html>

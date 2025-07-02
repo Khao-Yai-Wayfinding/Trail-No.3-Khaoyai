@@ -4,130 +4,246 @@
       "id": "asian_elephant",
       "name": "Asian Elephant",
       "scientific": "Elephas maximus",
-      "description": "Scientific Name : Elephas maximus The elephant is the biggest mammal found in Khao Yai National Park in an estimated population of 140-200. The subspecies found in the Park is the mainland Asian variety,Elephas maximus indicus.These elephants have an average Mostly with a shoulder height of 2-4 metr...",
-      "img": "asian_elephant.jpg",
-      "_generated_at": "2025-06-25T15:07:23.962361"
+      "season_note": "All Year",
+      "type": "Large Herbivore",
+      "size": "Small",
+      "_generated_at": "2025-06-27T16:01:11.311737",
+      "description": "The elephant is the biggest mammal found in Khao Yai National Park in an estimated population of 140-200. The subspecies found in the Park is the mainland Asian variety,Elephas maximus indicus.These elephants have an average Mostly with a shoulder height of 2-4 metres, weight of 3,000-5000kg and ave...",
+      "img": "asian_elephant.jpg"
     },
     {
       "id": "gaur",
       "name": "Gaur",
       "scientific": "Bos gaurus",
-      "description": "Scientific Name : Bos gaurus This big herbivore can conceal itself in nature and adapt to different environments. They can be found in many forest types near water as they have an insatiable thirst. Their diet is leaves, grass and salt licks, and they will alternate between grazing and sleeping thro...",
-      "img": "gaur.jpg",
-      "_generated_at": "2025-06-25T15:07:24.373468"
+      "season_note": "All Year",
+      "type": "Herbivore",
+      "size": "Large",
+      "_generated_at": "2025-06-27T16:01:12.204818",
+      "description": "This big herbivore can conceal itself in nature and adapt to different environments. They can be found in many forest types near water as they have an insatiable thirst. Their diet is leaves, grass and salt licks, and they will alternate between grazing and sleeping throughout the day. The gaur is a...",
+      "img": "gaur.jpg"
     },
     {
       "id": "dhole",
       "name": "Dhole",
       "scientific": "Cuon alpinus",
-      "description": "Scientific Name : Cuon alpinus The dhole, one of two wild canines in Thailand, is the only predator of deer in Khao Yai National Park. It is larger than a fox and proportioned like a dog, weighing 10-21kg. The females are smaller. It has a long body and coloured red-brown with white-yellow cheeks, c...",
-      "img": "dhole.jpg",
-      "_generated_at": "2025-06-25T15:07:24.900234"
+      "season_note": "All Year",
+      "type": "Carnivore",
+      "size": "Small",
+      "_generated_at": "2025-06-27T16:01:12.961065",
+      "description": "The dhole, one of two wild canines in Thailand, is the only predator of deer in Khao Yai National Park. It is larger than a fox and proportioned like a dog, weighing 10-21kg. The females are smaller. It has a long body and coloured red-brown with white-yellow cheeks, chin, throat and chest. It has s...",
+      "img": "dhole.jpg"
     },
     {
       "id": "sambar_deer",
       "name": "Sambar Deer",
       "scientific": "Rusa unicolor",
-      "description": "Scientific Name : Rusa unicolor Sambar Deer is the largest deer in Thailand and Southeast Asia with a shoulder height of 140-160cm and a weight range of 185-220kg. The stag is larger than the hind and they have short, dark-brown fur. It has a shaggy and brown-yellow coat which is denser and less bri...",
-      "img": "sambar_deer.jpg",
-      "_generated_at": "2025-06-25T15:07:26.121771"
+      "season_note": "All Year",
+      "type": "Herbivore",
+      "size": "Large",
+      "_generated_at": "2025-06-27T16:01:13.853070",
+      "description": "Sambar Deer is the largest deer in Thailand and Southeast Asia with a shoulder height of 140-160cm and a weight range of 185-220kg. The stag is larger than the hind and they have short, dark-brown fur. It has a shaggy and brown-yellow coat which is denser and less bright than the muntjac Khao Yai’s ...",
+      "img": "sambar_deer.jpg"
     },
     {
       "id": "barking_deer_muntjac",
       "name": "Barking Deer/ Muntjac",
       "scientific": "Muntiacus muntjak",
-      "description": "Scientific Name : Muntiacus muntjak This is a small deer about 1 metre long and 50cm tall, weighing 14-18kg. The stag has small antlers with two branches about 15 cm long, while the hinds are without antlers at all. The coat is a red-brown and it is identifiable from large tear-glands and deep-set e...",
-      "img": null,
-      "_generated_at": "2025-06-25T15:07:27.096907"
+      "season_note": "All Year",
+      "type": "Herbivore",
+      "size": "Small",
+      "_generated_at": "2025-06-27T16:01:14.745393",
+      "description": "This is a small deer about 1 metre long and 50cm tall, weighing 14-18kg. The stag has small antlers with two branches about 15 cm long, while the hinds are without antlers at all. The coat is a red-brown and it is identifiable from large tear-glands and deep-set eyes. The stag has “tusks” to help wi...",
+      "img": "barking_deer_muntjac.jpg"
     },
     {
-      "id": "lar_gibbon_whitehanded_gibbon",
+      "id": "lar_gibbon_white_handed_gibbon",
       "name": "Lar Gibbon / White-handed Gibbon",
       "scientific": "Hylobates lar",
-      "description": "Scientific Name :  Hylobates lar The Lar gibbon has both white and black hands, while the back of its hands and feet are white, with a white line around its face. The face and ears are black, hands are long and it has a slim body with no tail. It has a lifespan of 30 years and the Lar gibbon family ...",
-      "img": null,
-      "_generated_at": "2025-06-25T15:07:28.084904"
+      "season_note": "All Year",
+      "type": "Primate",
+      "size": "Medium",
+      "_generated_at": "2025-06-27T16:01:15.671861",
+      "description": "The Lar gibbon has both white and black hands, while the back of its hands and feet are white, with a white line around its face. The face and ears are black, hands are long and it has a slim body with no tail. It has a lifespan of 30 years and the Lar gibbon family consists of the two parents and t...",
+      "img": "lar_gibbon_white_handed_gibbon.jpg"
     },
     {
       "id": "pileated_gibbon",
       "name": "Pileated Gibbon",
       "scientific": "Hylobates pileatus",
-      "description": "Scientific Name : Hylobates pileatus Males are black and females are white, but newborn babies are creamy white. By the age of 4-6 months, the chest hair becomes darker in a triangle shape pointing downward, while hair on the head changes to black, at the middle in a circle. At the age of 3-4, the m...",
-      "img": null,
-      "_generated_at": "2025-06-25T15:07:28.709924"
+      "season_note": "All Year",
+      "type": "Primate",
+      "size": "Medium",
+      "_generated_at": "2025-06-27T16:01:16.625231",
+      "description": "Males are black and females are white, but newborn babies are creamy white. By the age of 4-6 months, the chest hair becomes darker in a triangle shape pointing downward, while hair on the head changes to black, at the middle in a circle. At the age of 3-4, the male’s hair changes to black all over ...",
+      "img": "pileated_gibbon.jpg"
     },
     {
-      "id": "northern_pigtailed_macaque",
+      "id": "northern_pig_tailed_macaque",
       "name": "Northern Pig-tailed Macaque",
       "scientific": "Macaca leonina",
-      "description": "Scientific Name : Macaca leonina A short and plump monkey with short grey or brown hair and a long face. The hair on the head is similarly short and grey or brown with a tuft like the bottom of a shell, with paler hair on the belly and a rather short tail. The female is smaller with less hair coveri...",
-      "img": null,
-      "_generated_at": "2025-06-25T15:07:30.604240"
+      "season_note": "All Year",
+      "type": "Primate",
+      "size": "Small",
+      "_generated_at": "2025-06-27T16:01:17.484339",
+      "description": "A short and plump monkey with short grey or brown hair and a long face. The hair on the head is similarly short and grey or brown with a tuft like the bottom of a shell, with paler hair on the belly and a rather short tail. The female is smaller with less hair covering the forehead than the male. Ma...",
+      "img": "northern_pig_tailed_macaque.jpg"
     },
     {
       "id": "leopard_cat",
       "name": "Leopard Cat",
       "scientific": "Prionailurus bengalensis",
-      "description": "Scientific Name : Prionailurus bengalensis The leopard cat is the size of a house cat but somewhat slimmer, with a weight of 3-7kg. The body is 44-107cm long and the tail 23-44cm long. It has a black-light brown coat and white belly, with rose-shaped markings on its body and tail. The tip of its tai...",
-      "img": "leopard_cat.jpg",
-      "_generated_at": "2025-06-25T15:07:32.212178"
+      "season_note": "All Year",
+      "type": "Carnivore",
+      "size": "Small",
+      "_generated_at": "2025-06-27T16:01:18.303139",
+      "description": "The leopard cat is the size of a house cat but somewhat slimmer, with a weight of 3-7kg. The body is 44-107cm long and the tail 23-44cm long. It has a black-light brown coat and white belly, with rose-shaped markings on its body and tail. The tip of its tail is in sections. 4 black parallel stripes ...",
+      "img": "leopard_cat.jpg"
     },
     {
       "id": "asian_black_bear",
       "name": "Asian Black Bear",
       "scientific": "Ursus thibetanus",
-      "description": "Scientific Name :  Ursus thibetanus The Asian black bear is a large bear about 120-150cm long, weighing 100-160kg. Its fur is long and coarse, and black all over, with a V-shape under its throat. The bear, which walks on its heels, has large ears, a black nose, and curved sharp claws. It has a long ...",
-      "img": "asian_black_bear.jpg",
-      "_generated_at": "2025-06-25T15:07:33.937246"
+      "season_note": "All Year",
+      "type": "Carnivore",
+      "size": "Medium",
+      "_generated_at": "2025-06-27T16:01:19.133354",
+      "description": "The Asian black bear is a large bear about 120-150cm long, weighing 100-160kg. Its fur is long and coarse, and black all over, with a V-shape under its throat. The bear, which walks on its heels, has large ears, a black nose, and curved sharp claws. It has a long muzzle and a short tail, with white ...",
+      "img": "asian_black_bear.jpg"
     },
     {
       "id": "serow",
       "name": "Serow",
       "scientific": "Capriconis sumatraensis",
-      "description": "Scientific Name : Capriconis sumatraensis The Serow is one of Thailand’s protected animals. It looks something like a sheep with short body, long legs and long black coat which may have streaks of white. It has a mane of stiff hair on its neck that runs from its head to the base of its tail, but is ...",
-      "img": "serow.jpg",
-      "_generated_at": "2025-06-25T15:07:34.313368"
+      "season_note": "All Year",
+      "type": "Herbivore",
+      "size": "Medium",
+      "_generated_at": "2025-06-27T16:01:20.033191",
+      "description": "The Serow is one of Thailand’s protected animals. It looks something like a sheep with short body, long legs and long black coat which may have streaks of white. It has a mane of stiff hair on its neck that runs from its head to the base of its tail, but is clearly visible from its head to its back....",
+      "img": "serow.jpg"
     },
     {
       "id": "malayan_porcupine",
       "name": "Malayan Porcupine",
       "scientific": "Hystrix brachyura",
-      "description": "Scientific Name : Hystrix brachyura As rodents, porcupines are related to rats and squirrels. They have large and stout bodies. They have a lifespan of 20 years and are 65-73cm long, and weigh up to 27kg. They have a long head and nose. Fur on the face, neck and belly is fine and brown. From the sid...",
-      "img": "malayan_porcupine.jpg",
-      "_generated_at": "2025-06-25T15:07:35.328021"
+      "season_note": "All Year",
+      "type": "Rodent",
+      "size": "Medium",
+      "_generated_at": "2025-06-27T16:01:20.865135",
+      "description": "As rodents, porcupines are related to rats and squirrels. They have large and stout bodies. They have a lifespan of 20 years and are 65-73cm long, and weigh up to 27kg. They have a long head and nose. Fur on the face, neck and belly is fine and brown. From the side and the back of the neck to the to...",
+      "img": "malayan_porcupine.jpg"
     },
     {
       "id": "black_giant_squirrel",
       "name": "Black Giant Squirrel",
       "scientific": "Ratufa bicolor",
-      "description": "Scientific Name : Ratufa bicolor The black giant squirrel is the largest squirrel in Thailand with a weight of 1-1.6kg. Fully grown, the head and body are 33-37.5cm long, with the long and bushy tail adding another 42.5-46cm. The body and tail are mostly black, with some individuals having brown hau...",
-      "img": "black_giant_squirrel.jpg",
-      "_generated_at": "2025-06-25T15:07:35.702234"
+      "season_note": "All Year",
+      "type": "Rodent",
+      "size": "Small",
+      "_generated_at": "2025-06-27T16:01:21.723064",
+      "description": "The black giant squirrel is the largest squirrel in Thailand with a weight of 1-1.6kg. Fully grown, the head and body are 33-37.5cm long, with the long and bushy tail adding another 42.5-46cm. The body and tail are mostly black, with some individuals having brown haunches or at the base of the tail....",
+      "img": "black_giant_squirrel.jpg"
     },
     {
-      "id": "smoothcoated_otter",
+      "id": "smooth_coated_otter",
       "name": "Smooth-coated Otter",
       "scientific": "Lutrogale perspicillata",
-      "description": "Scientific Name : Lutrogale perspicillata This otter has a smooth coat and the end of its tail is clearly flattened. It has straight whiskers. Lower jaw, cheeks, throat  and upper chest are yellow-white while the upper body is dark brown, and the lower body is lighter, either brown or grey. The tail...",
-      "img": "smoothcoated_otter.jpg",
-      "_generated_at": "2025-06-25T15:07:37.308509"
+      "season_note": "All Year",
+      "type": "Aquatic Mammal",
+      "size": "Medium",
+      "_generated_at": "2025-06-27T16:01:22.663249",
+      "description": "This otter has a smooth coat and the end of its tail is clearly flattened. It has straight whiskers. Lower jaw, cheeks, throat  and upper chest are yellow-white while the upper body is dark brown, and the lower body is lighter, either brown or grey. The tail is very long, more than half the length o...",
+      "img": "smooth_coated_otter.jpg"
     },
     {
       "id": "northern_slow_loris",
       "name": "Northern Slow Loris",
       "scientific": "Nycticebus bengalensis",
-      "description": "Scientific Name : Nycticebus bengalensis This mammal is actually a primate in the Lorisidae family, and can be found in all regions of Thailand. The Northern slow loris was only recently recognized as a separate species. It weighs 900-1400 g. Its ear lobes are clearly visible with the ears buried in...",
-      "img": "northern_slow_loris.jpg",
-      "_generated_at": "2025-06-25T15:07:38.240083"
+      "season_note": "All Year",
+      "type": "Primate",
+      "size": "Medium",
+      "_generated_at": "2025-06-27T16:01:25.815942",
+      "description": "This mammal is actually a primate in the Lorisidae family, and can be found in all regions of Thailand. The Northern slow loris was only recently recognized as a separate species. It weighs 900-1400 g. Its ear lobes are clearly visible with the ears buried in the fur on the head. The fur colour can ...",
+      "img": "northern_slow_loris.jpg"
     },
     {
       "id": "binturong",
       "name": "Binturong",
       "scientific": "Arctictis binturong",
-      "description": "Scientific Name : Arctictis binturong This carnivore is a viverrid in the same family as civets and genets. Its face resembles a bear and it is sometimes called a “bearcat”, in Thai “Meekhor”. It has a thick coat of coarse black hair. The tail is bushy like a squirrel, earning another Thai name, “Me...",
-      "img": "binturong.jpg",
-      "_generated_at": "2025-06-25T15:07:38.655958"
+      "season_note": "All Year",
+      "type": "Carnivore",
+      "size": "Small",
+      "_generated_at": "2025-06-27T16:01:27.167991",
+      "description": "This carnivore is a viverrid in the same family as civets and genets. Its face resembles a bear and it is sometimes called a “bearcat”, in Thai “Meekhor”. It has a thick coat of coarse black hair. The tail is bushy like a squirrel, earning another Thai name, “Mee-krarork”. The tail is prehensile and...",
+      "img": "binturong.jpg"
     }
   ],
-  "links": []
+  "links": [
+    {
+      "source": "gaur",
+      "target": "sambar_deer",
+      "type": "same_type",
+      "strength": 0.8
+    },
+    {
+      "source": "sambar_deer",
+      "target": "barking_deer_muntjac",
+      "type": "same_type",
+      "strength": 0.8
+    },
+    {
+      "source": "barking_deer_muntjac",
+      "target": "serow",
+      "type": "same_type",
+      "strength": 0.8
+    },
+    {
+      "source": "dhole",
+      "target": "leopard_cat",
+      "type": "same_type",
+      "strength": 0.8
+    },
+    {
+      "source": "leopard_cat",
+      "target": "asian_black_bear",
+      "type": "same_type",
+      "strength": 0.8
+    },
+    {
+      "source": "asian_black_bear",
+      "target": "binturong",
+      "type": "same_type",
+      "strength": 0.8
+    },
+    {
+      "source": "lar_gibbon_white_handed_gibbon",
+      "target": "pileated_gibbon",
+      "type": "same_type",
+      "strength": 0.8
+    },
+    {
+      "source": "pileated_gibbon",
+      "target": "northern_pig_tailed_macaque",
+      "type": "same_type",
+      "strength": 0.8
+    },
+    {
+      "source": "northern_pig_tailed_macaque",
+      "target": "northern_slow_loris",
+      "type": "same_type",
+      "strength": 0.8
+    },
+    {
+      "source": "malayan_porcupine",
+      "target": "black_giant_squirrel",
+      "type": "same_type",
+      "strength": 0.8
+    }
+  ],
+  "metadata": {
+    "source": "Khao Yai National Park Official Website",
+    "scraped_at": "2025-06-27T16:01:27.847237",
+    "total_species": 16,
+    "url": "https://khaoyainationalpark.com/en/discover/fauna/mammals",
+    "type": "fauna"
+  }
 }
