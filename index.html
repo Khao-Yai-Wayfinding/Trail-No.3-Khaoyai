@@ -37,88 +37,41 @@
       body {
         overflow-y: auto;
         height: auto;
-        min-height: 100vh;
       }
       
       .page-padding {
         height: auto;
-        min-height: 100vh;
         overflow: visible;
         padding: 10px;
       }
       
       .container {
-        display: flex !important;
-        flex-direction: column !important;
-        grid-template-columns: none !important;
-        grid-template-rows: none !important;
+        display: flex;
+        flex-direction: column;
         height: auto;
-        min-height: calc(100vh - 20px);
+        min-height: 100vh;
         gap: 15px;
       }
       
       .map-box {
-        order: 1 !important;
+        order: 1;
         height: 50vh;
         min-height: 350px;
         flex-shrink: 0;
-        width: 100%;
-        grid-column: unset !important;
-        grid-row: unset !important;
       }
       
       .timeline-box {
-        order: 2 !important;
+        order: 2;
         height: 120px;
         flex-shrink: 0;
-        width: 100%;
-        grid-column: unset !important;
-        grid-row: unset !important;
-        margin-bottom: 0;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
       }
       
       .right-column {
-        order: 3 !important;
+        order: 3;
         height: auto;
-        min-height: 60vh;
         flex-grow: 1;
-        width: 100%;
-        grid-column: unset !important;
-        grid-row: unset !important;
-        gap: 0;
-      }
-      
-      .info-box {
-        height: auto;
-        min-height: 50vh;
-        max-height: none;
-      }
-      
-      .node-info-list {
-        max-height: 50vh;
-        overflow-y: auto;
-      }
-      
-      .filters {
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-      
-      .filter-group {
-        min-width: 80px;
-      }
-      
-      .header-title {
-        font-size: 16px;
-      }
-      
-      .timeline-track {
-        min-width: 100%;
-        overflow-x: auto;
-      }
-      
-      .timeline-section {
-        min-width: 120px;
       }
     }
 
@@ -135,8 +88,6 @@
 
     .map-box {
       padding: 0;
-      min-width: 0;
-      min-height: 0;
       position: relative;
       overflow: hidden;
     }
@@ -152,7 +103,6 @@
       font-size: 20px;
       font-weight: bold;
       color: white;
-      font-family: "Courier New", Courier, monospace;
     }
 
     .header-hr {
@@ -165,23 +115,16 @@
     .filters {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 12px;
       margin-bottom: 20px;
-      justify-content: flex-start;
-      font-family: "Courier New", Courier, monospace;
       margin-left: 20px;
-      position: relative;
+      margin-right: 20px;
       flex-wrap: wrap;
     }
 
     .filter-group {
       position: relative;
-      min-width: 100px;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      font-family: "Courier New", Courier, monospace;
-      font-size: 14px;
+      min-width: 110px;
     }
 
     .filter-label-btn {
@@ -193,20 +136,20 @@
       color: white;
       border: 1px solid rgba(255, 255, 255, 0.4);
       border-radius: 4px;
-      padding: 6px 12px 6px 8px;
+      padding: 8px 14px;
       font-size: 13px;
-      font-weight: bold;
       cursor: pointer;
-      user-select: none;
-      transition: border-color 0.2s;
-      margin-bottom: 0;
-      min-width: 100px;
-      position: relative;
       font-family: "Courier New", Courier, monospace;
+      transition: all 0.2s ease;
+    }
+
+    .filter-label-btn:hover {
+      border-color: rgba(255, 255, 255, 0.6);
+      background: rgba(255, 255, 255, 0.05);
     }
 
     .filter-label-btn .arrow {
-      margin-left: auto;
+      margin-left: 8px;
       font-size: 10px;
       transition: transform 0.2s;
     }
@@ -221,39 +164,43 @@
       background: black;
       border: 1px solid rgba(255, 255, 255, 0.4);
       border-radius: 4px;
-      z-index: 2;
+      z-index: 10;
       min-width: 100%;
-      margin-top: 2px;
-      flex-direction: column;
+      top: 100%;
       left: 0;
-      top: 110%;
-      box-shadow: 0 2px 8px rgba(30,144,255,0.15);
-      padding: 6px 0;
-      font-family: "Courier New", Courier, monospace;
-      font-size: 14px;
+      margin-top: 2px;
+      padding: 8px 0;
+      max-height: 300px;
+      overflow-y: auto;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     }
 
-    .dropdown-options .filter-option {
-      padding: 4px 12px;
-      cursor: pointer;
-      border-radius: 4px;
-      transition: background 0.2s, color 0.2s;
+    .dropdown-options.show {
       display: block;
-      font-size: 13px;
-      background: black;
-      color: white;
-      margin: 1px 6px;
-      font-family: "Courier New", Courier, monospace;
     }
 
-    .dropdown-options .filter-option.selected {
+    .filter-option {
+      display: block;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 13px;
+      font-family: "Courier New", Courier, monospace;
+      white-space: nowrap;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .filter-option:last-child {
+      border-bottom: none;
+    }
+
+    .filter-option:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .filter-option.selected {
       background: white;
       color: black;
-    }
-
-    .dropdown-options .filter-option:hover {
-      background: #333;
-      color: white;
+      font-weight: bold;
     }
 
     .reset-btn {
@@ -264,9 +211,6 @@
       padding: 6px 12px;
       font-size: 13px;
       cursor: pointer;
-      margin-left: 8px;
-      transition: background 0.2s, color 0.2s;
-      align-self: flex-end;
       font-family: "Courier New", Courier, monospace;
     }
 
@@ -275,17 +219,12 @@
       color: white;
     }
 
-          #force-map {
+    #force-map {
       width: 100%;
       height: 100%;
       min-height: 300px;
-      flex: 1 1 auto;
+      flex: 1;
       background: #000;
-      border-radius: 0;
-      margin: 0;
-      position: relative;
-      box-sizing: border-box;
-      overflow: hidden;
     }
 
     .right-column {
@@ -294,17 +233,13 @@
       display: flex;
       flex-direction: column;
       height: 100%;
-      min-width: 0;
-      min-height: 0;
       gap: 18px;
     }
 
     .info-box {
-      flex: 1 1 0;
+      flex: 1;
       min-height: 180px;
-      margin-bottom: 0;
       padding: 0 20px 10px 20px;
-      max-height: 100%;
       overflow: hidden;
     }
 
@@ -312,14 +247,8 @@
       font-size: 20px;
       font-weight: bold;
       color: white;
-      text-align: left;
       margin-top: 20px;
       margin-bottom: 0;
-      font-family: "Courier New", Courier, monospace;
-      position: sticky;
-      top: 0;
-      background: black;
-      z-index: 2;
     }
 
     .info-hr {
@@ -327,53 +256,33 @@
       border-top: 1px solid rgba(255, 255, 255, 0.3);
       margin: 8px -20px 18px -20px;
       width: calc(100% + 40px);
-      position: sticky;
-      top: 48px;
-      background: black;
-      z-index: 2;
     }
 
     .node-info-list {
-      flex: 1 1 auto;
+      flex: 1;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
       gap: 8px;
       padding-bottom: 10px;
       max-height: calc(100vh - 200px);
-      background: black;
     }
 
-    /* Custom scrollbar styling for all scrollable elements */
     ::-webkit-scrollbar {
-      width: 4px;
-      height: 4px;
+      width: 6px;
+      height: 6px;
     }
 
     ::-webkit-scrollbar-track {
-      background: transparent;
+      background: rgba(255, 255, 255, 0.1);
     }
 
     ::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 2px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: rgba(255, 255, 255, 0.4);
-    }
-
-    /* Firefox scrollbar */
-    * {
-      scrollbar-width: thin;
-      scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 3px;
     }
 
     .node-info-card {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-height: 32px;
       padding: 6px 10px;
       margin-bottom: 4px;
       background: black;
@@ -382,16 +291,11 @@
       font-size: 13px;
       cursor: pointer;
       transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      position: relative;
       color: white;
     }
 
     .node-info-card .node-title {
       font-weight: bold;
-      margin-bottom: 0;
-      color: white;
       display: flex;
       align-items: center;
     }
@@ -399,28 +303,18 @@
     .node-info-card .node-details {
       display: none;
       margin-top: 6px;
-      white-space: normal;
       color: white;
     }
 
     .node-info-card.selected-info-card {
-      white-space: normal;
-      overflow: visible;
-      text-overflow: unset;
-      max-height: none;
-      background: black !important;
-      color: white !important;
+      background: black;
+      color: white;
       border-color: rgba(255, 255, 255, 0.7);
-      border-width: 1px;
       box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
-      flex-direction: column;
-      align-items: flex-start;
     }
 
     .node-info-card.selected-info-card .node-details {
       display: block;
-      width: 100%;
-      color: white;
     }
 
     .tree-img {
@@ -434,27 +328,27 @@
       border: 1px solid rgba(255, 255, 255, 0.3);
     }
 
-    /* Timeline Styles */
     .timeline-box {
       grid-column: 1 / 3;
       grid-row: 2 / 3;
       height: 120px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      position: relative;
+      justify-content: flex-start;
       overflow-x: auto;
       overflow-y: hidden;
       padding: 20px 10px;
+      -webkit-overflow-scrolling: touch;
     }
 
     .timeline-track {
       display: flex;
       align-items: center;
-      min-width: 1000px;
+      min-width: 1200px;
+      width: max-content;
       height: 80px;
       position: relative;
-      background: transparent;
+      padding: 0 20px;
     }
 
     .timeline-line {
@@ -471,10 +365,11 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      min-width: 150px;
+      min-width: 180px;
       position: relative;
       height: 100%;
       justify-content: center;
+      padding: 0 10px;
     }
 
     .timeline-label {
@@ -485,40 +380,34 @@
       white-space: nowrap;
     }
 
-    .timeline-nodes {
+    .timeline-species {
       display: flex;
-      gap: 8px;
+      flex-wrap: wrap;
+      gap: 4px;
       margin-top: 10px;
+      justify-content: center;
+      max-width: 170px;
     }
 
-    .timeline-node {
-      width: 12px;
-      height: 12px;
+    .timeline-species-node {
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.4);
+      background: rgba(34, 197, 94, 0.6);
+      border: 1px solid #22c55e;
       cursor: pointer;
       transition: all 0.3s ease;
-      position: relative;
     }
 
-    .timeline-node:hover {
-      background: rgba(30, 144, 255, 0.8);
+    .timeline-species-node:hover {
+      background: #22c55e;
       transform: scale(1.2);
     }
 
-    .timeline-node.active {
+    .timeline-species-node.active {
       background: #1e90ff;
+      border-color: #1e90ff;
       box-shadow: 0 0 10px rgba(30, 144, 255, 0.5);
-    }
-
-    .timeline-node.has-species {
-      background: rgba(34, 197, 94, 0.6);
-      border-color: #22c55e;
-    }
-
-    .timeline-node.has-species:hover {
-      background: #22c55e;
     }
 
     .donation-box-inline {
@@ -532,10 +421,8 @@
       border-radius: 4px;
       padding: 4px 12px;
       font-size: 13px;
-      font-weight: bold;
       cursor: pointer;
       width: 80px;
-      font-family: "Courier New", Courier, monospace;
       text-decoration: none;
       transition: all 0.2s;
     }
@@ -558,23 +445,8 @@
       transition: opacity 0.3s ease;
       z-index: 1000;
       border: 1px solid rgba(255,255,255,0.3);
-      font-family: "Courier New", Courier, monospace;
       max-width: 200px;
       line-height: 1.3;
-    }
-
-    .loading-text::after {
-      content: "";
-      display: inline-block;
-      animation: dots 1.2s steps(4, end) infinite;
-    }
-
-    @keyframes dots {
-      0% { content: ""; }
-      25% { content: "."; }
-      50% { content: ".."; }
-      75% { content: "..."; }
-      100% { content: ""; }
     }
 
     .category-indicator {
@@ -593,6 +465,53 @@
     .category-indicator.fauna {
       background: #ef4444;
     }
+
+    .loading-text::after {
+      content: "";
+      display: inline-block;
+      animation: dots 1.2s steps(4, end) infinite;
+    }
+
+    @keyframes dots {
+      0% { content: ""; }
+      25% { content: "."; }
+      50% { content: ".."; }
+      75% { content: "..."; }
+      100% { content: ""; }
+    }
+
+    /* Mobile timeline scrolling fix */
+    @media (max-width: 768px) {
+      .timeline-box {
+        overflow-x: scroll;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(0, 0, 0, 0.5) transparent;
+        padding: 20px 5px;
+      }
+      
+      /* Timeline scrollbar styling for mobile */
+      .timeline-box::-webkit-scrollbar {
+        height: 8px;
+      }
+      
+      .timeline-box::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      
+      .timeline-box::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 4px;
+      }
+      
+      .timeline-box::-webkit-scrollbar-thumb:hover {
+        background: rgba(0, 0, 0, 0.7);
+      }
+      
+      .timeline-track {
+        min-width: 1000px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -601,13 +520,16 @@
       <div class="map-box">
         <div class="header-section">
           <div class="header-title">Trail No.3 Flora & Fauna Map</div>
-          <a href="donate.html" target="_blank" class="donation-box-inline">Donate</a>
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <button id="langToggle" class="donation-box-inline" style="width: 60px;">EN</button>
+            <a href="donate.html" target="_blank" class="donation-box-inline">Donate</a>
+          </div>
         </div>
         <hr class="header-hr">
         <div class="filters">
-          <div class="filter-group multiselect" data-filter="category">
+          <div class="filter-group" data-filter="category">
             <button class="filter-label-btn" type="button">
-              Category <span class="arrow">&#9660;</span>
+              Category <span class="arrow">▼</span>
             </button>
             <div class="dropdown-options">
               <span class="filter-option selected" data-value="All">All</span>
@@ -616,58 +538,30 @@
             </div>
           </div>
           
-          <div class="filter-group multiselect" data-filter="type">
+          <div class="filter-group" data-filter="type">
             <button class="filter-label-btn" type="button">
-              Type <span class="arrow">&#9660;</span>
+              Type <span class="arrow">▼</span>
             </button>
-            <div class="dropdown-options">
+            <div class="dropdown-options" id="type-options">
               <span class="filter-option selected" data-value="All">All</span>
-              <!-- Flora Types -->
-              <span class="filter-option" data-value="Evergreen">Evergreen</span>
-              <span class="filter-option" data-value="Deciduous">Deciduous</span>
-              <span class="filter-option" data-value="Fruit">Fruit</span>
-              <span class="filter-option" data-value="Shrub">Shrub</span>
-              <span class="filter-option" data-value="Herb">Herb</span>
-              <span class="filter-option" data-value="Vine">Vine</span>
-              <span class="filter-option" data-value="Orchid">Orchid</span>
-              <span class="filter-option" data-value="Flowering tree">Flowering tree</span>
-              <span class="filter-option" data-value="Grass">Grass</span>
-              <!-- Fauna Types -->
-              <span class="filter-option" data-value="Large Herbivore">Large Herbivore</span>
-              <span class="filter-option" data-value="Herbivore">Herbivore</span>
-              <span class="filter-option" data-value="Carnivore">Carnivore</span>
-              <span class="filter-option" data-value="Primate">Primate</span>
-              <span class="filter-option" data-value="Rodent">Rodent</span>
-              <span class="filter-option" data-value="Aquatic Mammal">Aquatic Mammal</span>
-              <span class="filter-option" data-value="Bird">Bird</span>
-              <span class="filter-option" data-value="Insect">Insect</span>
-              <span class="filter-option" data-value="Reptile">Reptile</span>
-              <span class="filter-option" data-value="Amphibian">Amphibian</span>
             </div>
           </div>
           
-          <div class="filter-group multiselect" data-filter="season">
+          <div class="filter-group" data-filter="season">
             <button class="filter-label-btn" type="button">
-              Season <span class="arrow">&#9660;</span>
+              Season <span class="arrow">▼</span>
             </button>
-            <div class="dropdown-options">
+            <div class="dropdown-options" id="season-options">
               <span class="filter-option selected" data-value="All">All</span>
-              <span class="filter-option" data-value="Winter">Winter</span>
-              <span class="filter-option" data-value="Summer">Summer</span>
-              <span class="filter-option" data-value="Rainy">Rainy</span>
-              <span class="filter-option" data-value="All Year">All Year</span>
             </div>
           </div>
           
-          <div class="filter-group multiselect" data-filter="size">
+          <div class="filter-group" data-filter="size">
             <button class="filter-label-btn" type="button">
-              Size <span class="arrow">&#9660;</span>
+              Size <span class="arrow">▼</span>
             </button>
-            <div class="dropdown-options">
+            <div class="dropdown-options" id="size-options">
               <span class="filter-option selected" data-value="All">All</span>
-              <span class="filter-option" data-value="Small">Small</span>
-              <span class="filter-option" data-value="Medium">Medium</span>
-              <span class="filter-option" data-value="Large">Large</span>
             </div>
           </div>
           
@@ -694,6 +588,54 @@
       <div class="timeline-box" id="timeline-box">
         <div class="timeline-track">
           <div class="timeline-line"></div>
+          
+          <div class="timeline-section" data-segment="0km-0.5km">
+            <div class="timeline-label">0 km - 0.5 km</div>
+            <div class="timeline-species">
+              <div class="timeline-species-node" data-species-id="Kenny and Maki" title="Kenny and Maki"></div>
+              <div class="timeline-species-node" data-species-id="Needlewood" title="Needlewood"></div>
+              <div class="timeline-species-node" data-species-id="PobaiAntiarisToxicaria" title="Pobai"></div>
+              <div class="timeline-species-node" data-species-id="SappanwoodCaesalpiniaSappan" title="Si Siet Thet"></div>
+              <div class="timeline-species-node" data-species-id="JavaPlumSyzygiumCumini" title="Waa"></div>
+            </div>
+          </div>
+
+          <div class="timeline-section" data-segment="0.5km-1.5km">
+            <div class="timeline-label">0.5 km - 1.5 km</div>
+            <div class="timeline-species">
+              <div class="timeline-species-node" data-species-id="Mimi" title="Mimi"></div>
+              <div class="timeline-species-node" data-species-id="Dipterocarpusgracilis" title="Yang Sian"></div>
+              <div class="timeline-species-node" data-species-id="PorHuChangHibiscusMacrophyllus" title="Por Hu Chang"></div>
+              <div class="timeline-species-node" data-species-id="Nut" title="Nut"></div>
+              <div class="timeline-species-node" data-species-id="SaiFicusBenghalensis" title="Sai (Banyan)"></div>
+            </div>
+          </div>
+
+          <div class="timeline-section" data-segment="1.5km-2.5km">
+            <div class="timeline-label">1.5 km - 2.5 km</div>
+            <div class="timeline-species">
+              <div class="timeline-species-node" data-species-id="Tangmo" title="Tangmo"></div>
+              <div class="timeline-species-node" data-species-id="gaur" title="Gaur"></div>
+            </div>
+          </div>
+
+          <div class="timeline-section" data-segment="2.5km-3.5km">
+            <div class="timeline-label">2.5 km - 3.5 km</div>
+            <div class="timeline-species">
+              <div class="timeline-species-node" data-species-id="Bel_and_Mag" title="Bel and Mag"></div>
+              <div class="timeline-species-node" data-species-id="ObservationTower" title="Observation Tower"></div>
+              <div class="timeline-species-node" data-species-id="Salt_lick" title="Salt Lick"></div>
+              <div class="timeline-species-node" data-species-id="asian_elephant" title="Asian Elephant"></div>
+              <div class="timeline-species-node" data-species-id="Nori" title="Nori"></div>
+            </div>
+          </div>
+
+          <div class="timeline-section" data-segment="3.5km-3.9km">
+            <div class="timeline-label">3.5 km - 3.9 km</div>
+            <div class="timeline-species">
+              <div class="timeline-species-node" data-species-id="YaKhaImperataCylindrica" title="Ya Kha (Cogon Grass)"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -704,9 +646,211 @@
   <script src="https://d3js.org/d3.v7.min.js"></script>
   
   <script>
-    // Species color mapping
-    var SPECIES_COLORS = {
-      // Flora types
+    // Global variables
+    let allFloraData = [];
+    let allFaunaData = [];
+    let activeTimelineSpecies = new Set();
+    let simulation = null;
+    let nodePositions = new Map(); // Store node positions for persistence
+    let currentLanguage = 'en'; // Track current language
+
+    // Language translations
+    const translations = {
+      en: {
+        title: "Trail No.3 Flora & Fauna Map",
+        category: "Category",
+        type: "Type",
+        season: "Season",
+        size: "Size",
+        reset: "Reset",
+        forestInventory: "Forest Inventory",
+        loading: "Loading data",
+        pleaseWait: "Please wait while we fetch the information",
+        noSpecies: "No species found.",
+        tryAdjusting: "Try adjusting filters",
+        all: "All",
+        flora: "Flora",
+        fauna: "Fauna",
+        englishName: "English Name",
+        scientific: "Scientific",
+        categoryLabel: "Category",
+        typeLabel: "Type",
+        seasonLabel: "Season",
+        sizeLabel: "Size",
+        description: "Description",
+        // Value translations
+        evergreen: "Evergreen",
+        deciduous: "Deciduous",
+        fruit: "Fruit",
+        orchid: "Orchid",
+        shrub: "Shrub",
+        vine: "Vine",
+        herb: "Herb",
+        grass: "Grass",
+        highlight: "Highlight",
+        allYear: "All Year",
+        summer: "Summer",
+        winter: "Winter",
+        rainy: "Rainy",
+        dry: "Dry",
+        unknown: "Unknown",
+        large: "Large",
+        medium: "Medium",
+        small: "Small",
+        largeHerbivore: "Large Herbivore",
+        herbivore: "Herbivore",
+        carnivore: "Carnivore",
+        primate: "Primate",
+        rodent: "Rodent",
+        aquaticMammal: "Aquatic Mammal"
+      },
+      th: {
+        title: "แผนที่พืชและสัตว์เส้นทางที่ 3",
+        category: "หมวดหมู่",
+        type: "ประเภท",
+        season: "ฤดูกาล",
+        size: "ขนาด",
+        reset: "รีเซ็ต",
+        forestInventory: "สารบันป่า",
+        loading: "กำลังโหลดข้อมูล",
+        pleaseWait: "กรุณารอสักครู่ขณะที่เราดึงข้อมูล",
+        noSpecies: "ไม่พบสายพันธุ์",
+        tryAdjusting: "ลองปรับตัวกรอง",
+        all: "ทั้งหมด",
+        flora: "พืช",
+        fauna: "สัตว์",
+        englishName: "ชื่อภาษาอังกฤษ",
+        scientific: "ชื่อวิทยาศาสตร์",
+        categoryLabel: "หมวดหมู่",
+        typeLabel: "ประเภท",
+        seasonLabel: "ฤดูกาล",
+        sizeLabel: "ขนาด",
+        description: "คำอธิบาย",
+        // Value translations
+        evergreen: "ไม้ยืนต้น",
+        deciduous: "ไม้ผลัดใบ",
+        fruit: "ผลไม้",
+        orchid: "กล้วยไม้",
+        shrub: "พุ่มไม้",
+        vine: "เถาวัลย์",
+        herb: "สมุนไพร",
+        grass: "หญ้า",
+        highlight: "จุดสำคัญ",
+        allYear: "ตลอดปี",
+        summer: "ฤดูร้อน",
+        winter: "ฤดูหนาว",
+        rainy: "ฤดูฝน",
+        dry: "ฤดูแล้ง",
+        unknown: "ไม่ทราบ",
+        large: "ใหญ่",
+        medium: "กลาง",
+        small: "เล็ก",
+        largeHerbivore: "สัตว์กินพืชขนาดใหญ่",
+        herbivore: "สัตว์กินพืช",
+        carnivore: "สัตว์กินเนื้อ",
+        primate: "ไพรเมท",
+        rodent: "สัตว์กัดแทะ",
+        aquaticMammal: "สัตว์เลี้ยงลูกด้วยนมในน้ำ"
+      }
+    };
+
+    function translateValue(value) {
+      if (!value) return value;
+      const t = translations[currentLanguage];
+      const lowerValue = value.toLowerCase().replace(/\s+/g, '');
+      
+      // Map common values to translation keys
+      const valueMap = {
+        'evergreen': t.evergreen,
+        'deciduous': t.deciduous,
+        'fruit': t.fruit,
+        'orchid': t.orchid,
+        'shrub': t.shrub,
+        'vine': t.vine,
+        'herb': t.herb,
+        'grass': t.grass,
+        'highlight': t.highlight,
+        'allyear': t.allYear,
+        'summer': t.summer,
+        'winter': t.winter,
+        'rainy': t.rainy,
+        'dry': t.dry,
+        'unknown': t.unknown,
+        'large': t.large,
+        'medium': t.medium,
+        'small': t.small,
+        'largeherbivore': t.largeHerbivore,
+        'herbivore': t.herbivore,
+        'carnivore': t.carnivore,
+        'primate': t.primate,
+        'rodent': t.rodent,
+        'aquaticmammal': t.aquaticMammal
+      };
+      
+      return valueMap[lowerValue] || value;
+    }
+
+    function updateLanguage() {
+      const t = translations[currentLanguage];
+      
+      // Update header title
+      document.querySelector('.header-title').textContent = t.title;
+      
+      // Update filter labels
+      document.querySelector('[data-filter="category"] .filter-label-btn').innerHTML = `${t.category} <span class="arrow">▼</span>`;
+      document.querySelector('[data-filter="type"] .filter-label-btn').innerHTML = `${t.type} <span class="arrow">▼</span>`;
+      document.querySelector('[data-filter="season"] .filter-label-btn').innerHTML = `${t.season} <span class="arrow">▼</span>`;
+      document.querySelector('[data-filter="size"] .filter-label-btn').innerHTML = `${t.size} <span class="arrow">▼</span>`;
+      
+      // Update reset button
+      document.getElementById('resetFiltersBtn').textContent = t.reset;
+      
+      // Update forest inventory header
+      document.querySelector('.info-header').textContent = t.forestInventory;
+      
+      // Update "All" options in dropdowns
+      document.querySelectorAll('.filter-option[data-value="All"]').forEach(option => {
+        option.textContent = t.all;
+      });
+      
+      // Update category options
+      const floraOption = document.querySelector('.filter-option[data-value="Flora"]');
+      const faunaOption = document.querySelector('.filter-option[data-value="Fauna"]');
+      if (floraOption) floraOption.textContent = t.flora;
+      if (faunaOption) faunaOption.textContent = t.fauna;
+      
+      // Update loading text if visible
+      const loadingDiv = document.querySelector('.node-info-list div[style*="color: #aaa"]');
+      if (loadingDiv) {
+        loadingDiv.innerHTML = `
+          <div>🌳 ${t.loading}<span class="loading-text"></span></div>
+          <div style="font-size: 12px; margin-top: 8px;">
+            ${t.pleaseWait}
+          </div>
+        `;
+      }
+      
+      // Update "no species found" text if visible
+      const noSpeciesDiv = document.querySelector('.node-info-list div[style*="text-align:center"]');
+      if (noSpeciesDiv && noSpeciesDiv.textContent.includes('No species found')) {
+        noSpeciesDiv.innerHTML = `${t.noSpecies}<br><small>${t.tryAdjusting}</small>`;
+      }
+      
+      // Update language button
+      document.getElementById('langToggle').textContent = currentLanguage === 'en' ? 'TH' : 'EN';
+    }
+
+    // Timeline assignments
+    const TIMELINE_ASSIGNMENTS = {
+      '0km-0.5km': ['Kenny and Maki', 'Needlewood', 'PobaiAntiarisToxicaria', 'SappanwoodCaesalpiniaSappan', 'JavaPlumSyzygiumCumini', 'Needlewood'],
+      '0.5km-1.5km': ['Mimi','Dipterocarpusgracilis', 'PorHuChangHibiscusMacrophyllus', 'Nut', 'SaiFicusBenghalensis'],
+      '1.5km-2.5km': ['Tangmo', 'gaur'],
+      '2.5km-3.5km': ['Bel_and_Mag', 'ObservationTower', 'Salt_lick','asian_elephant', 'Nori'],
+      '3.5km-3.9km': ['YaKhaImperataCylindrica']
+    };
+
+    // Species colors
+    const SPECIES_COLORS = {
       'Evergreen': '#22543d',
       'Deciduous': '#2d7d9a', 
       'Fruit': '#f6e05e',
@@ -716,510 +860,478 @@
       'Herb': '#68d391',
       'Flowering tree': '#ed8936',
       'Grass': '#9ae6b4',
-      
-      // Fauna types - Mammals
+      'Highlight': '#24fbed',
       'Large Herbivore': '#a0522d',
       'Herbivore': '#9acd32',
       'Carnivore': '#dc143c',
       'Primate': '#6495ed',
       'Rodent': '#ff8c00',
-      'Aquatic Mammal': '#20b2aa',
-      
-      // Fauna types - Other
-      'Bird': '#ffd700',
-      'Insect': '#32cd32',
-      'Reptile': '#8b4513',
-      'Amphibian': '#4682b4'
+      'Aquatic Mammal': '#20b2aa'
     };
-
-    // Timeline assignments
-    var TIMELINE_ASSIGNMENTS = {
-      0: ['EagleWoodAgarwood', 'Dipterocarpusgracilis'],
-      1: ['CalamusviminalisWilld'],
-      2: ['WildNutmeg'],
-      3: ['AphanamixispolystachyaWallRParker'],
-      4: ['Needlewood'],
-      5: ['MagnoliabailloniiPierre']
-    };
-
-    var allFloraData = [];
-    var allFaunaData = [];
-    var activeTimelineNodes = new Set();
-
-    function initializeSystem() {
-      if (typeof d3 === 'undefined') {
-        showD3Error();
-        return;
-      }
-      
-      console.log('✅ D3.js loaded successfully');
-      loadDataSafely();
-    }
-
-    function showD3Error() {
-      var container = document.getElementById("force-map");
-      if (container) {
-        container.innerHTML = 
-          '<div style="color: #ff6b6b; text-align: center; padding: 20px; font-family: monospace;">' +
-            '❌ D3.js Library Failed to Load<br/>' +
-            '<div style="font-size: 12px; margin-top: 10px; color: #999;">' +
-              'Check your internet connection or try refreshing the page' +
-            '</div>' +
-          '</div>';
-      }
-    }
 
     function getSpeciesColor(node) {
-      if (node.category === 'Flora') {
-        return SPECIES_COLORS[node.type] || '#4a5568';
-      } else {
-        return SPECIES_COLORS[node.type] || '#4a5568';
-      }
+      return SPECIES_COLORS[node.type] || '#4a5568';
     }
 
-    function drawGraph(filters) {
-      if (!filters) filters = {};
+    function createPlaceholderImage(category, name) {
+      const placeholder = document.createElement('div');
+      placeholder.style.cssText = `
+        width: 100%;
+        height: 120px;
+        background: ${category === 'Flora' ? '#22c55e20' : '#ef444420'};
+        border: 1px dashed ${category === 'Flora' ? '#22c55e' : '#ef4444'};
+        border-radius: 4px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #666;
+        font-size: 11px;
+        margin: 6px 0;
+        text-align: center;
+      `;
+      placeholder.innerHTML = `
+        <div style="font-weight: bold;">${category}</div>
+        <div style="font-size: 10px; margin-top: 4px;">${name}</div>
+      `;
+      return placeholder;
+    }
+
+    function createImageElement(node) {
+      if (!node.img || node.img.trim() === '') {
+        return createPlaceholderImage(node.category, node.name);
+      }
       
-      var container = document.querySelector("#force-map");
+      const img = document.createElement("img");
+      img.className = "tree-img";
+      
+      let imgPath = node.img;
+      if (node.category === 'Fauna') {
+        imgPath = imgPath.includes('/') ? imgPath : 'FaunaPic/' + imgPath;
+      } else {
+        imgPath = imgPath.includes('/') ? imgPath : 'TreePic3/' + imgPath;
+      }
+      
+      img.src = imgPath;
+      img.alt = node.name;
+      
+      img.onerror = function() {
+        console.log('Image failed to load:', imgPath);
+        const placeholder = createPlaceholderImage(node.category, node.name);
+        this.parentNode.replaceChild(placeholder, this);
+      };
+      
+      return img;
+    }
+
+    function populateFilterOptions() {
+      const types = new Set();
+      const seasons = new Set();
+      const sizes = new Set();
+
+      // Collect unique values from both flora and fauna - only from nodes that exist
+      [...allFloraData, ...allFaunaData].forEach(node => {
+        if (node.type && node.type.trim() !== '') {
+          types.add(node.type);
+          console.log('Adding type:', node.type, 'from node:', node.name);
+        }
+        if (node.season_note && node.season_note.trim() !== '') seasons.add(node.season_note);
+        if (node.size && node.size.trim() !== '') sizes.add(node.size);
+      });
+
+      console.log('All types found:', Array.from(types));
+      const t = translations[currentLanguage];
+
+      // Update type dropdown - only include types that have nodes
+      const typeDropdown = document.getElementById('type-options');
+      typeDropdown.innerHTML = '';
+      
+      // Add "All" option first
+      const allOption = document.createElement('span');
+      allOption.className = 'filter-option selected';
+      allOption.dataset.value = 'All';
+      allOption.textContent = t.all;
+      typeDropdown.appendChild(allOption);
+      
+      // Add unique types
+      Array.from(types).sort().forEach(type => {
+        const hasNodes = [...allFloraData, ...allFaunaData].some(node => node.type === type);
+        if (hasNodes) {
+          const option = document.createElement('span');
+          option.className = 'filter-option';
+          option.dataset.value = type;
+          option.textContent = type;
+          typeDropdown.appendChild(option);
+          console.log('Added type option:', type);
+        }
+      });
+
+      // Update season dropdown - only include seasons that have nodes
+      const seasonDropdown = document.getElementById('season-options');
+      seasonDropdown.innerHTML = '';
+      
+      const allSeasonOption = document.createElement('span');
+      allSeasonOption.className = 'filter-option selected';
+      allSeasonOption.dataset.value = 'All';
+      allSeasonOption.textContent = t.all;
+      seasonDropdown.appendChild(allSeasonOption);
+      
+      Array.from(seasons).sort().forEach(season => {
+        const hasNodes = [...allFloraData, ...allFaunaData].some(node => node.season_note === season);
+        if (hasNodes) {
+          const option = document.createElement('span');
+          option.className = 'filter-option';
+          option.dataset.value = season;
+          option.textContent = season;
+          seasonDropdown.appendChild(option);
+        }
+      });
+
+      // Update size dropdown - only include sizes that have nodes
+      const sizeDropdown = document.getElementById('size-options');
+      sizeDropdown.innerHTML = '';
+      
+      const allSizeOption = document.createElement('span');
+      allSizeOption.className = 'filter-option selected';
+      allSizeOption.dataset.value = 'All';
+      allSizeOption.textContent = t.all;
+      sizeDropdown.appendChild(allSizeOption);
+      
+      Array.from(sizes).sort().forEach(size => {
+        const hasNodes = [...allFloraData, ...allFaunaData].some(node => node.size === size);
+        if (hasNodes) {
+          const option = document.createElement('span');
+          option.className = 'filter-option';
+          option.dataset.value = size;
+          option.textContent = size;
+          sizeDropdown.appendChild(option);
+        }
+      });
+
+      // Update category dropdown with translations
+      const categoryDropdown = document.querySelector('[data-filter="category"] .dropdown-options');
+      const floraOption = categoryDropdown.querySelector('.filter-option[data-value="Flora"]');
+      const faunaOption = categoryDropdown.querySelector('.filter-option[data-value="Fauna"]');
+      const allCategoryOption = categoryDropdown.querySelector('.filter-option[data-value="All"]');
+      
+      if (allCategoryOption) allCategoryOption.textContent = t.all;
+      if (floraOption) floraOption.textContent = t.flora;
+      if (faunaOption) faunaOption.textContent = t.fauna;
+
+      // Re-attach event listeners to ALL options including Flora/Fauna
+      console.log('Populating filter options and attaching listeners...');
+      attachFilterEventListeners();
+    }
+
+    function drawGraph(filters = {}) {
+      const container = document.querySelector("#force-map");
       d3.select("#force-map").selectAll("*").remove();
 
       if (!allFloraData.length && !allFaunaData.length) {
-        container.innerHTML = '<div style="color:#fff; font-family: monospace; padding:20px; text-align:center;">Loading data...</div>';
+        container.innerHTML = '<div style="color:#fff; padding:20px; text-align:center;">Loading data...</div>';
         return;
       }
 
-      var allData = allFloraData.concat(allFaunaData);
+      let allData = allFloraData.concat(allFaunaData);
       
       // Apply filters
       if (filters.category && filters.category.length > 0) {
-        allData = allData.filter(function(node) {
-          return filters.category.indexOf(node.category) !== -1;
-        });
+        allData = allData.filter(node => filters.category.includes(node.category));
       }
       if (filters.type && filters.type.length > 0) {
-        allData = allData.filter(function(node) {
-          return filters.type.indexOf(node.type) !== -1;
-        });
+        allData = allData.filter(node => filters.type.includes(node.type));
       }
       if (filters.season && filters.season.length > 0) {
-        allData = allData.filter(function(node) {
-          return filters.season.indexOf(node.season_note) !== -1;
-        });
+        allData = allData.filter(node => filters.season.includes(node.season_note));
       }
       if (filters.size && filters.size.length > 0) {
-        allData = allData.filter(function(node) {
-          return filters.size.indexOf(node.size) !== -1;
+        allData = allData.filter(node => filters.size.includes(node.size));
+      }
+
+      // Apply timeline filter with highlight effect
+      if (activeTimelineSpecies.size > 0) {
+        // Don't filter out nodes, just apply visual effects
+        allData.forEach(node => {
+          if (activeTimelineSpecies.has(node.id)) {
+            node.isHighlighted = true;
+          } else {
+            node.isHighlighted = false;
+          }
+        });
+      } else {
+        // Reset all highlights
+        allData.forEach(node => {
+          node.isHighlighted = false;
         });
       }
 
-      // Apply timeline filter
-      if (activeTimelineNodes.size > 0) {
-        var timelineSpecies = [];
-        activeTimelineNodes.forEach(function(nodeIndex) {
-          if (TIMELINE_ASSIGNMENTS[nodeIndex]) {
-            timelineSpecies = timelineSpecies.concat(TIMELINE_ASSIGNMENTS[nodeIndex]);
-          }
-        });
-        if (timelineSpecies.length > 0) {
-          allData = allData.filter(function(node) {
-            return timelineSpecies.indexOf(node.id) !== -1;
-          });
+      // Restore node positions if available
+      allData.forEach(node => {
+        const savedPos = nodePositions.get(node.id);
+        if (savedPos) {
+          node.x = savedPos.x;
+          node.y = savedPos.y;
         }
-      }
+      });
 
       updateInfoBox(allData);
 
-      var width = container.clientWidth || 960;
-      var height = container.clientHeight || 500;
+      const width = container.clientWidth || 960;
+      const height = container.clientHeight || 500;
 
-      var svg = d3.select("#force-map")
+      const svg = d3.select("#force-map")
         .append("svg")
         .attr("width", width)
         .attr("height", height);
 
-      var zoomable = svg.append("g").attr("class", "zoomable");
+      // Create gradient definitions
+      const defs = svg.append("defs");
 
-      var zoom = d3.zoom()
+      const zoomable = svg.append("g").attr("class", "zoomable");
+
+      const zoom = d3.zoom()
         .scaleExtent([0.5, 4])
         .on("zoom", function(event) {
           zoomable.attr("transform", event.transform);
         });
       svg.call(zoom);
 
-      // Create more organic, natural links
-      var links = [];
-      var maxConnections = 3;
-      
-      for (var i = 0; i < allData.length; i++) {
-        var connectionsCount = 0;
-        
-        for (var j = 0; j < allData.length; j++) {
-          if (i !== j && connectionsCount < maxConnections) {
-            var distance = Math.random();
-            var shouldConnect = false;
+      svg.call(
+  zoom.transform,
+  d3.zoomIdentity
+    .translate(width / 2, height / 2)
+    .scale(2.5)
+    .translate(-width / 2, -height / 2)
+);
+
+      // Create links
+      const links = [];
+      for (let i = 0; i < allData.length; i++) {
+        for (let j = i + 1; j < allData.length; j++) {
+          if (Math.random() < 0.3) {
+            const sourceNode = allData[i];
+            const targetNode = allData[j];
+            const gradientId = `gradient-${sourceNode.id}-${targetNode.id}`;
             
-            // Higher chance to connect similar types
-            if (allData[i].category === allData[j].category) {
-              shouldConnect = distance < 0.4;
-            } else {
-              shouldConnect = distance < 0.15;
-            }
+            links.push({ 
+              source: sourceNode.id, 
+              target: targetNode.id,
+              gradientId: gradientId
+            });
+
+            // Create gradient for this link
+            const gradient = defs.append("linearGradient")
+              .attr("id", gradientId)
+              .attr("x1", "0%")
+              .attr("y1", "0%")
+              .attr("x2", "100%")
+              .attr("y2", "0%");
             
-            // Add some randomness for organic feel
-            if (shouldConnect && Math.random() < 0.7) {
-              links.push({ 
-                source: allData[i].id, 
-                target: allData[j].id,
-                distance: 60 + Math.random() * 80
-              });
-              connectionsCount++;
-            }
+            gradient.append("stop")
+              .attr("offset", "0%")
+              .attr("stop-color", getSpeciesColor(sourceNode));
+            
+            gradient.append("stop")
+              .attr("offset", "100%")
+              .attr("stop-color", getSpeciesColor(targetNode));
           }
         }
       }
 
-      var simulation = d3.forceSimulation(allData)
-        .force("link", d3.forceLink(links).id(function(d) { return d.id; }).distance(80).strength(0.3))
+      simulation = d3.forceSimulation(allData)
+        .force("link", d3.forceLink(links).id(d => d.id).distance(80).strength(0.3))
         .force("charge", d3.forceManyBody().strength(-150))
-        .force("center", d3.forceCenter(width / 2, height / 2).strength(1.2))
-        .force("collision", d3.forceCollide().radius(15))
-        .force("x", d3.forceX(width / 2).strength(0.05))
-        .force("y", d3.forceY(height / 2).strength(0.05));
+        .force("center", d3.forceCenter(width / 2, height / 2))
+        .force("collision", d3.forceCollide().radius(15));
 
-      var linkElements = zoomable.selectAll(".link")
+      const linkElements = zoomable.selectAll(".link")
         .data(links)
         .enter()
         .append("line")
         .attr("class", "link")
-        .attr("stroke", function(d) {
-          // More organic link colors
-          var sourceNode = allData.find(n => n.id === (d.source.id || d.source));
-          var targetNode = allData.find(n => n.id === (d.target.id || d.target));
-          
-          if (sourceNode && targetNode) {
-            if (sourceNode.category === targetNode.category) {
-              return sourceNode.category === 'Flora' ? 
-                'rgba(34, 197, 94, 0.3)' : 'rgba(239, 68, 68, 0.3)';
-            } else {
-              return 'rgba(255, 255, 255, 0.1)';
-            }
-          }
-          return 'rgba(255, 255, 255, 0.1)';
-        })
-        .attr("stroke-width", function(d) {
-          return 0.5 + Math.random() * 1;
-        })
-        .attr("stroke-opacity", function(d) {
-          return 0.2 + Math.random() * 0.3;
-        });
+        .attr("stroke", d => `url(#${d.gradientId})`)
+        .attr("stroke-width", 0.5)
+        .attr("stroke-opacity", 0.7);
 
-      var nodeElements = zoomable.selectAll(".node")
+      const nodeElements = zoomable.selectAll(".node")
         .data(allData)
         .enter()
         .append("circle")
         .attr("class", "node")
-        .attr("r", function(d) { return 6 + Math.random() * 4; })
-        .attr("fill", function(d) { return getSpeciesColor(d); })
-        .attr("stroke", function(d) { 
-          return d.category === 'Flora' ? 'rgba(34, 197, 94, 0.6)' : 'rgba(239, 68, 68, 0.6)'; 
-        })
-        .attr("stroke-width", 0.5)
-        .style("cursor", "pointer")
-        .style("filter", "drop-shadow(0 0 3px rgba(255,255,255,0.1))")
+        .attr("r", 8)
+        .attr("fill", d => d.isHighlighted ? getSpeciesColor(d) : (activeTimelineSpecies.size > 0 ? '#444' : getSpeciesColor(d)))
+        .attr("stroke", d => d.isHighlighted ? (d.category === 'Flora' ? '#22c55e' : '#ef4444') : (activeTimelineSpecies.size > 0 ? '#666' : (d.category === 'Flora' ? '#22c55e' : '#ef4444')))
+        .attr("stroke-width", d => d.isHighlighted ? 1 : 2)
+        .attr("opacity", d => d.isHighlighted ? 1 : (activeTimelineSpecies.size > 0 ? 0.3 : 1))
+        .style("cursor", "grab")
         .call(d3.drag()
-          .on("start", dragstarted)
-          .on("drag", dragged)
-          .on("end", dragended)
+          .on("start", function(event, d) {
+            // Change cursor to grabbing
+            d3.select(this).style("cursor", "grabbing");
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+          })
+          .on("drag", function(event, d) {
+            // Update node position
+            d.fx = event.x;
+            d.fy = event.y;
+            // Store position for persistence
+            nodePositions.set(d.id, { x: event.x, y: event.y });
+          })
+          .on("end", function(event, d) {
+            // Reset cursor
+            d3.select(this).style("cursor", "grab");
+            if (!event.active) simulation.alphaTarget(0);
+            // Keep the node fixed at dragged position
+            d.fx = event.x;
+            d.fy = event.y;
+            // Update stored position
+            nodePositions.set(d.id, { x: event.x, y: event.y });
+          })
         );
 
-      var labelElements = zoomable.selectAll(".label")
+      const labelElements = zoomable.selectAll(".label")
         .data(allData)
         .enter()
         .append("text")
         .attr("class", "label")
         .attr("text-anchor", "middle")
         .attr("dy", ".35em")
-        .attr("fill", "#fff")
+        .attr("fill", d => d.isHighlighted ? "#fff" : (activeTimelineSpecies.size > 0 ? "#888" : "#fff"))
         .attr("font-size", "8px")
-        .attr("font-family", "Courier New, monospace")
         .style("pointer-events", "none")
-        .style("text-shadow", "1px 1px 1px rgba(0,0,0,0.8)")
-        .text(function(d) {
-          return d.name.length > 8 ? d.name.substring(0, 8) + "..." : d.name;
-        });
+        .attr("opacity", d => d.isHighlighted ? 1 : (activeTimelineSpecies.size > 0 ? 0.4 : 1))
+        .text(d => d.name.length > 8 ? d.name.substring(0, 8) + "..." : d.name);
 
-      var tooltip = d3.select("#tooltip");
+      const tooltip = d3.select("#tooltip");
+      
       nodeElements
         .on("mouseover", function(event, d) {
-          // Highlight the hovered node
-          d3.select(this)
-            .transition()
-            .duration(200)
-            .attr("r", 12)
-            .attr("stroke-width", 3);
-            
+          d3.select(this).attr("r", 12);
           tooltip.transition().duration(200).style("opacity", 0.9);
           tooltip.html(
             '<strong>' + d.name + '</strong><br/>' +
             '<em>' + (d.scientific || 'Unknown') + '</em><br/>' +
             'Category: ' + d.category + '<br/>' +
-            'Type: ' + (d.type || 'Unknown') + '<br/>' +
-            '<small>Click to view details</small>'
+            'Type: ' + (d.type || 'Unknown')
           )
             .style("left", (event.pageX + 10) + "px")
             .style("top", (event.pageY - 10) + "px");
         })
-        .on("mouseout", function(event, d) {
-          // Reset node size
-          d3.select(this)
-            .transition()
-            .duration(200)
-            .attr("r", 8)
-            .attr("stroke-width", 2);
-            
+        .on("mouseout", function() {
+          d3.select(this).attr("r", 8);
           tooltip.transition().duration(500).style("opacity", 0);
         })
         .on("click", function(event, d) {
-          console.log('Node clicked:', d.name, d.id);
-          
-          // Visual feedback for clicked node with organic feel
-          d3.selectAll('.node')
-            .transition()
-            .duration(300)
-            .attr("stroke-width", 0.5)
-            .style("filter", "drop-shadow(0 0 3px rgba(255,255,255,0.1))");
-            
-          d3.select(this)
-            .transition()
-            .duration(300)
-            .attr("stroke-width", 2)
-            .attr("stroke", "#1e90ff")
-            .style("filter", "drop-shadow(0 0 8px rgba(30,144,255,0.4))");
-          
-          // Immediately update info box and scroll to selected item
           updateInfoBox(allData, d.id);
-          
-          // Scroll to selected item in forest inventory
-          setTimeout(function() {
-            var selectedCard = document.querySelector('.node-info-card[data-id="' + d.id + '"]');
+          setTimeout(() => {
+            const selectedCard = document.querySelector('.node-info-card[data-id="' + d.id + '"]');
             if (selectedCard) {
               selectedCard.click();
               
+              // Mobile-specific scroll behavior
               if (window.innerWidth <= 768) {
-                // Mobile: scroll to forest inventory section
-                selectedCard.scrollIntoView({ 
-                  behavior: "smooth", 
-                  block: "start"
-                });
+                // Scroll to forest inventory section smoothly
+                const inventorySection = document.querySelector('.info-box');
+                if (inventorySection) {
+                  inventorySection.scrollIntoView({ 
+                    behavior: "smooth", 
+                    block: "start" 
+                  });
+                  
+                  // Then scroll to the specific card after a delay
+                  setTimeout(() => {
+                    selectedCard.scrollIntoView({ 
+                      behavior: "smooth", 
+                      block: "start" 
+                    });
+                  }, 300);
+                }
               } else {
-                // Desktop: center the selected card
-                selectedCard.scrollIntoView({ 
-                  behavior: "smooth", 
-                  block: "center"
-                });
+                // Desktop behavior
+                selectedCard.scrollIntoView({ behavior: "smooth", block: "center" });
               }
             }
           }, 100);
-          
-          event.stopPropagation();
         });
 
-      // Clear selection when clicking outside nodes
-      svg.on("click", function() {
-        updateInfoBox(allData);
-      });
-
       simulation.on("tick", function() {
-        // Enhanced boundary constraints to keep nodes more centered
-        var centerX = width / 2;
-        var centerY = height / 2;
-        var maxDistance = Math.min(width, height) * 0.35; // Keep nodes within 70% of container
-        
-        allData.forEach(function(d) {
-          // Calculate distance from center
-          var dx = d.x - centerX;
-          var dy = d.y - centerY;
-          var distance = Math.sqrt(dx * dx + dy * dy);
-          
-          // If too far from center, pull back
-          if (distance > maxDistance) {
-            var scale = maxDistance / distance;
-            d.x = centerX + dx * scale;
-            d.y = centerY + dy * scale;
-          }
-          
-          // Ensure minimum boundaries
-          d.x = Math.max(30, Math.min(width - 30, d.x));
-          d.y = Math.max(30, Math.min(height - 30, d.y));
+        // Apply boundary constraints
+        allData.forEach(d => {
+          d.x = Math.max(15, Math.min(width - 15, d.x));
+          d.y = Math.max(15, Math.min(height - 15, d.y));
         });
 
         linkElements
-          .attr("x1", function(d) { return d.source.x; })
-          .attr("y1", function(d) { return d.source.y; })
-          .attr("x2", function(d) { return d.target.x; })
-          .attr("y2", function(d) { return d.target.y; });
+          .attr("x1", d => d.source.x)
+          .attr("y1", d => d.source.y)
+          .attr("x2", d => d.target.x)
+          .attr("y2", d => d.target.y);
 
         nodeElements
-          .attr("cx", function(d) { return d.x; })
-          .attr("cy", function(d) { return d.y; });
+          .attr("cx", d => d.x)
+          .attr("cy", d => d.y);
 
         labelElements
-          .attr("x", function(d) { return d.x; })
-          .attr("y", function(d) { return d.y; });
+          .attr("x", d => d.x)
+          .attr("y", d => d.y);
       });
-
-      function dragstarted(event, d) {
-        if (!event.active) simulation.alphaTarget(0.1).restart();
-        d.fx = d.x;
-        d.fy = d.y;
-        
-        // Add organic drag feedback
-        d3.select(this)
-          .transition()
-          .duration(200)
-          .attr("r", function(node) { return (6 + Math.random() * 4) * 1.2; })
-          .style("filter", "drop-shadow(0 0 6px rgba(255,255,255,0.3))");
-      }
-
-      function dragged(event, d) {
-        d.fx = event.x;
-        d.fy = event.y;
-      }
-
-      function dragended(event, d) {
-        if (!event.active) simulation.alphaTarget(0);
-        
-        // Reset node appearance
-        d3.select(this)
-          .transition()
-          .duration(300)
-          .attr("r", function(node) { return 6 + Math.random() * 4; })
-          .style("filter", "drop-shadow(0 0 3px rgba(255,255,255,0.1))");
-          
-        if (window.innerWidth < 768) {
-          d.fx = null;
-          d.fy = null;
-        }
-      }
-
-      console.log('✅ Graph created with ' + allData.length + ' nodes and ' + links.length + ' links');
     }
 
     function updateInfoBox(nodes, selectedId) {
-      var list = document.getElementById("nodeInfoList");
+      const list = document.getElementById("nodeInfoList");
       if (!list) return;
       list.innerHTML = "";
 
+      const t = translations[currentLanguage];
+
       if (!nodes.length) {
-        list.innerHTML = '<div style="color:#aaa; text-align:center; padding:20px;">No species found.<br><small style="font-size:11px; margin-top:8px; display:block;">Note: Currently showing mammals only. Birds, insects, reptiles & amphibians coming soon!</small></div>';
+        list.innerHTML = `<div style="color:#aaa; text-align:center; padding:20px;">${t.noSpecies}<br><small>${t.tryAdjusting}</small></div>`;
         return;
       }
 
-      // Sort by category (Flora first, then Fauna) and then by name
-      var sortedNodes = nodes.sort(function(a, b) {
+      const sortedNodes = nodes.sort((a, b) => {
         if (a.category !== b.category) {
           return a.category === 'Flora' ? -1 : 1;
         }
         return a.name.localeCompare(b.name);
       });
 
-      sortedNodes.forEach(function(node) {
-        var card = document.createElement("div");
+      sortedNodes.forEach(node => {
+        const card = document.createElement("div");
         card.className = "node-info-card";
         card.setAttribute("data-id", node.id);
         card.style.borderColor = getSpeciesColor(node);
 
-        var titleDiv = document.createElement("div");
+        const titleDiv = document.createElement("div");
         titleDiv.className = "node-title";
         
-        // Add category indicator
-        var indicator = document.createElement("span");
+        const indicator = document.createElement("span");
         indicator.className = 'category-indicator ' + (node.category ? node.category.toLowerCase() : 'flora');
         titleDiv.appendChild(indicator);
         titleDiv.appendChild(document.createTextNode(node.name));
 
-        var detailsDiv = document.createElement("div");
+        const detailsDiv = document.createElement("div");
         detailsDiv.className = "node-details";
         detailsDiv.style.display = (selectedId === node.id) ? "block" : "none";
 
-        // Add image if available with enhanced fallback system
-        if (node.img && typeof node.img === "string" && node.img.trim() !== "") {
-          var img = document.createElement("img");
-          img.className = "tree-img";
-          
-          // Smart image path detection with multiple fallbacks
-          var imgPath = node.img;
-          if (node.category === 'Fauna') {
-            if (!imgPath.includes('/')) {
-              imgPath = 'FaunaPic/' + imgPath;
-            }
-          } else {
-            if (!imgPath.includes('/')) {
-              imgPath = 'TreePic3/' + imgPath;
-            }
-          }
-          
-          img.src = imgPath;
-          img.alt = node.name;
-          
-          // Enhanced fallback system for fauna images
-          var fallbackAttempts = 0;
-          img.onerror = function() {
-            fallbackAttempts++;
-            
-            if (node.category === 'Fauna') {
-              if (fallbackAttempts === 1 && imgPath.includes('FaunaPic/')) {
-                // Try AnimalPic folder
-                this.src = imgPath.replace('FaunaPic/', 'AnimalPic/');
-                return;
-              } else if (fallbackAttempts === 2) {
-                // Try common Thai animal name patterns
-                var thaiNameMap = {
-                  'asian_elephant': 'ชาง04_ตวผJPG.jpg',
-                  'gaur': 'กระทง01jpg.jpg',
-                  'dhole': 'หมาใน03jpg.jpg',
-                  'leopard_cat': 'แมวดาวpng.jpg',
-                  'asian_black_bear': 'หมควาย01png.jpg',
-                  'northern_slow_loris': 'ลงลม01JPG.jpg',
-                  'black_giant_squirrel': 'พญากระรอกดำ01jpg.jpg',
-                  'smoothcoated_otter': 'นากใหญขนเรยบ03_04_APM0113_วงศาคณานาก_2020jpg.jpg',
-                  'binturong': 'หมขอ03JPG.jpg',
-                  'serow': 'เลยงผา05JPG.jpg',
-                  'malayan_porcupine': 'เมน02png.jpg',
-                  'barking_deer_muntjac': 'เกง01png.jpg',
-                  'northern_pigtailed_macaque': 'ลงกงเหนอ01_by_Phanakornpng.jpg',
-                  'pileated_gibbon': 'ชะนมงกฏ03jpg.jpg',
-                  'lar_gibbon_whitehanded_gibbon': 'ชะนมอขาว05_รางวลดเดน_สะพานเรอนยอดjpg.jpg'
-                };
-                
-                var thaiName = thaiNameMap[node.id];
-                if (thaiName) {
-                  this.src = 'AnimalPic/' + thaiName;
-                  return;
-                }
-              }
-            }
-            
-            // Final fallback - hide image
-            this.style.display = "none";
-            console.log('Image not found for:', node.name, 'after', fallbackAttempts, 'attempts');
-          };
-          
-          detailsDiv.appendChild(img);
-        }
+        // Add image
+        const imageElement = createImageElement(node);
+        detailsDiv.appendChild(imageElement);
 
-        var details = [
-          { label: "English Name", value: node.english_name },
-          { label: "Scientific", value: node.scientific },
-          { label: "Category", value: node.category },
-          { label: "Type", value: node.type },
-          { label: "Season", value: node.season_note },
-          { label: "Size", value: node.size }
+        const details = [
+          { label: t.englishName, value: node.english_name },
+          { label: t.scientific, value: node.scientific },
+          { label: t.categoryLabel, value: translateValue(node.category) },
+          { label: t.typeLabel, value: translateValue(node.type) },
+          { label: t.seasonLabel, value: translateValue(node.season_note) },
+          { label: t.sizeLabel, value: translateValue(node.size) }
         ];
 
-        details.forEach(function(detail) {
+        details.forEach(detail => {
           if (detail.value && detail.value !== node.category && detail.value !== node.name) {
-            var div = document.createElement("div");
+            const div = document.createElement("div");
             div.innerHTML = '<b>' + detail.label + ':</b> ' + detail.value;
             div.style.marginBottom = "4px";
             div.style.fontSize = "12px";
@@ -1228,8 +1340,9 @@
         });
 
         if (node.description) {
-          var descElement = document.createElement("div");
-          descElement.innerHTML = '<b>Description:</b> ' + node.description.substring(0, 200) + '...';
+          const descElement = document.createElement("div");
+          const translatedDesc = currentLanguage === 'th' ? (node.description_th || node.description) : node.description;
+          descElement.innerHTML = '<b>' + t.description + ':</b> ' + translatedDesc.substring(0, 200) + '...';
           descElement.style.marginBottom = "4px";
           descElement.style.fontSize = "11px";
           descElement.style.lineHeight = "1.3";
@@ -1240,375 +1353,353 @@
         card.appendChild(detailsDiv);
         list.appendChild(card);
 
-        // Add click handler for each card with enhanced responsiveness
         card.addEventListener('click', function(e) {
           e.stopPropagation();
           
-          // Remove selection from all cards
-          document.querySelectorAll('.node-info-card').forEach(function(c) {
+          document.querySelectorAll('.node-info-card').forEach(c => {
             c.classList.remove('selected-info-card');
-            var details = c.querySelector('.node-details');
+            const details = c.querySelector('.node-details');
             if (details) details.style.display = 'none';
           });
           
-          // Add selection to clicked card
           this.classList.add('selected-info-card');
-          var thisDetails = this.querySelector('.node-details');
+          const thisDetails = this.querySelector('.node-details');
           if (thisDetails) {
             thisDetails.style.display = 'block';
-            
-            // Smooth scroll to show the expanded card
-            setTimeout(function() {
+            setTimeout(() => {
               if (window.innerWidth <= 768) {
-                // Mobile: scroll the expanded card into view
+                // Mobile: scroll the expanded card to top of viewport
                 card.scrollIntoView({ 
                   behavior: "smooth", 
-                  block: "start"
+                  block: "start" 
                 });
               } else {
                 // Desktop: center the card
                 card.scrollIntoView({ 
                   behavior: "smooth", 
-                  block: "center"
+                  block: "center" 
                 });
               }
             }, 100);
           }
-          
-          // Highlight corresponding node in graph
-          var nodeId = this.getAttribute('data-id');
-          d3.selectAll('.node').attr("stroke-width", 2);
-          d3.selectAll('.node').filter(function(d) { 
-            return d.id === nodeId; 
-          }).attr("stroke-width", 4).attr("stroke", "#1e90ff");
-          
-          console.log('Forest inventory card clicked:', nodeId);
         });
       });
     }
 
-    function createTimeline() {
-      var timelineTrack = document.querySelector('.timeline-track');
-      if (!timelineTrack) return;
-
-      var kmLabels = ['0 km', '0.5 km', '1.5 km', '2.5 km', '3.5 km', '3.9 km'];
+    function initializeTimeline() {
+      const allSpeciesIds = allFloraData.concat(allFaunaData).map(d => d.id);
       
-      for (var i = 0; i < 6; i++) {
-        var section = document.createElement('div');
-        section.className = 'timeline-section';
-
-        var label = document.createElement('div');
-        label.className = 'timeline-label';
-        label.textContent = kmLabels[i];
-        section.appendChild(label);
-
-        var nodesContainer = document.createElement('div');
-        nodesContainer.className = 'timeline-nodes';
-
-        for (var j = 0; j < 5; j++) {
-          var nodeIndex = i * 5 + j;
-          var node = document.createElement('div');
-          node.className = 'timeline-node';
-          node.dataset.globalIndex = nodeIndex;
-
-          if (TIMELINE_ASSIGNMENTS[nodeIndex] && TIMELINE_ASSIGNMENTS[nodeIndex].length > 0) {
-            node.classList.add('has-species');
-          }
-
-          node.addEventListener('click', function() {
-            var index = parseInt(this.dataset.globalIndex);
-            toggleTimelineNode(index, this);
-          });
-          
-          node.addEventListener('mouseenter', function() {
-            var index = parseInt(this.dataset.globalIndex);
-            showTimelineTooltip(index, this);
-          });
-          
-          node.addEventListener('mouseleave', function() {
-            hideTimelineTooltip();
-          });
-
-          nodesContainer.appendChild(node);
+      document.querySelectorAll('.timeline-species-node').forEach(node => {
+        const speciesId = node.getAttribute('data-species-id');
+        const exists = allSpeciesIds.includes(speciesId);
+        
+        if (exists) {
+          node.style.background = 'rgba(34, 197, 94, 0.8)';
+          node.style.borderColor = '#22c55e';
+          node.style.cursor = 'pointer';
+        } else {
+          node.style.background = 'rgba(255, 68, 68, 0.5)';
+          node.style.borderColor = '#ef4444';
+          node.style.cursor = 'not-allowed';
         }
-
-        section.appendChild(nodesContainer);
-        timelineTrack.appendChild(section);
-      }
-
-      // var endSection = document.createElement('div');
-      // endSection.className = 'timeline-section';
-      // endSection.style.minWidth = '60px';
-      
-      // var endLabel = document.createElement('div');
-      // endLabel.className = 'timeline-label';
-      // endLabel.textContent = '4.2 km';
-      // endSection.appendChild(endLabel);
-      
-      // timelineTrack.appendChild(endSection);
-    }
-
-    function toggleTimelineNode(nodeIndex, nodeElement) {
-      if (activeTimelineNodes.has(nodeIndex)) {
-        activeTimelineNodes.delete(nodeIndex);
-        nodeElement.classList.remove('active');
-      } else {
-        activeTimelineNodes.add(nodeIndex);
-        nodeElement.classList.add('active');
-      }
-      
-      console.log('Timeline node ' + nodeIndex + ' toggled. Active nodes:', Array.from(activeTimelineNodes));
-      drawGraph(getSelectedFilters());
-    }
-
-    function showTimelineTooltip(nodeIndex, nodeElement) {
-      var tooltip = document.getElementById('tooltip');
-      if (!tooltip) return;
-
-      // var kmPos = (nodeIndex / 30) * 4.2;
-      var assignedSpecies = TIMELINE_ASSIGNMENTS[nodeIndex] || [];
-      
-      var content = '<strong>Position ' + (nodeIndex + 1) + '</strong><br/>';
-      content += 'Distance: ' + kmPos.toFixed(1) + ' km<br/>';
-      
-      if (assignedSpecies.length > 0) {
-        content += '<em>' + assignedSpecies.length + ' species assigned</em>';
-      } else {
-        content += '<em>No species assigned</em>';
-      }
-      
-      tooltip.innerHTML = content;
-      tooltip.style.opacity = '0.9';
-      
-      var rect = nodeElement.getBoundingClientRect();
-      tooltip.style.left = (rect.left + rect.width / 2 - 100) + 'px';
-      tooltip.style.top = (rect.top - 80) + 'px';
-    }
-
-    function hideTimelineTooltip() {
-      var tooltip = document.getElementById('tooltip');
-      if (tooltip) {
-        tooltip.style.opacity = '0';
-      }
+        
+        node.addEventListener('mouseenter', function() {
+          const tooltip = document.getElementById('tooltip');
+          tooltip.innerHTML = '<strong>' + speciesId + '</strong><br/>' + 
+            (exists ? '<em>Click to filter</em>' : '<em>Not found</em>');
+          tooltip.style.opacity = '0.9';
+          const rect = this.getBoundingClientRect();
+          tooltip.style.left = (rect.left + rect.width / 2 - 50) + 'px';
+          tooltip.style.top = (rect.top - 50) + 'px';
+        });
+        
+        node.addEventListener('mouseleave', function() {
+          const tooltip = document.getElementById('tooltip');
+          tooltip.style.opacity = '0';
+        });
+        
+        node.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          if (!exists) return;
+          
+          if (activeTimelineSpecies.has(speciesId)) {
+            activeTimelineSpecies.delete(speciesId);
+            this.classList.remove('active');
+            this.style.background = 'rgba(34, 197, 94, 0.8)';
+            this.style.boxShadow = 'none';
+          } else {
+            activeTimelineSpecies.add(speciesId);
+            this.classList.add('active');
+            this.style.background = '#1e90ff';
+            this.style.boxShadow = '0 0 10px rgba(30, 144, 255, 0.5)';
+          }
+          
+          drawGraph(getSelectedFilters());
+          
+          setTimeout(() => {
+            const card = document.querySelector('.node-info-card[data-id="' + speciesId + '"]');
+            if (card) {
+              card.click();
+              
+              // Mobile-specific scroll behavior for timeline clicks
+              if (window.innerWidth <= 768) {
+                // First scroll to forest inventory section
+                const inventorySection = document.querySelector('.info-box');
+                if (inventorySection) {
+                  inventorySection.scrollIntoView({ 
+                    behavior: "smooth", 
+                    block: "start" 
+                  });
+                  
+                  // Then scroll to the specific card
+                  setTimeout(() => {
+                    card.scrollIntoView({ 
+                      behavior: "smooth", 
+                      block: "start" 
+                    });
+                  }, 300);
+                }
+              } else {
+                // Desktop behavior
+                card.scrollIntoView({ behavior: "smooth", block: "center" });
+              }
+            }
+          }, 200);
+        });
+      });
     }
 
     function closeAllDropdowns() {
-      document.querySelectorAll('.dropdown-options').forEach(function(el) {
-        el.style.display = "none";
+      document.querySelectorAll('.dropdown-options').forEach(el => {
+        el.classList.remove('show');
       });
-      document.querySelectorAll('.filter-label-btn').forEach(function(btn) {
+      document.querySelectorAll('.filter-label-btn').forEach(btn => {
         btn.classList.remove('open');
       });
     }
 
-    // Filter event handlers
-    document.querySelectorAll('.filter-label-btn').forEach(function(btn) {
-      btn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        var group = btn.closest('.filter-group');
-        var dropdown = group.querySelector('.dropdown-options');
-        var isOpen = dropdown.style.display === "block";
-        closeAllDropdowns();
-        if (!isOpen) {
-          dropdown.style.display = "block";
-          btn.classList.add('open');
-        }
-      });
-    });
-
-    document.addEventListener("click", function(event) {
-      if (!event.target.closest('.filter-group')) {
-        closeAllDropdowns();
-      }
-    });
-
-    document.querySelectorAll('.dropdown-options .filter-option').forEach(function(option) {
-      option.addEventListener('click', function(e) {
-        e.stopPropagation();
-        var dropdown = option.parentElement;
-        var options = dropdown.querySelectorAll('.filter-option');
-        if (option.dataset.value === "All") {
-          options.forEach(function(opt) {
-            opt.classList.remove('selected');
-          });
-          option.classList.add('selected');
-        } else {
-          dropdown.querySelector('.filter-option[data-value="All"]').classList.remove('selected');
-          option.classList.toggle('selected');
-          var anySelected = Array.from(options).slice(1).some(function(opt) {
-            return opt.classList.contains('selected');
-          });
-          if (!anySelected) {
-            options[0].classList.add('selected');
-          }
-        }
-        drawGraph(getSelectedFilters());
-      });
-    });
-
-    document.getElementById('resetFiltersBtn').addEventListener('click', function() {
-      document.querySelectorAll('.dropdown-options').forEach(function(dropdown) {
-        dropdown.querySelectorAll('.filter-option').forEach(function(opt) {
-          opt.classList.remove('selected');
-        });
-        var allOption = dropdown.querySelector('.filter-option[data-value="All"]');
-        if (allOption) allOption.classList.add('selected');
-      });
-      
-      activeTimelineNodes.clear();
-      document.querySelectorAll('.timeline-node').forEach(function(node) {
-        node.classList.remove('active');
-      });
-      
-      closeAllDropdowns();
-      drawGraph(getSelectedFilters());
-    });
-
     function getSelectedFilters() {
-      var filters = {};
-      document.querySelectorAll('.filter-group').forEach(function(group) {
-        var filterKey = group.getAttribute('data-filter');
-        var selected = Array.from(group.querySelectorAll('.filter-option.selected')).map(function(opt) {
-          return opt.dataset.value;
-        });
-        filters[filterKey] = selected.indexOf("All") !== -1 ? [] : selected;
+      const filters = {};
+      document.querySelectorAll('.filter-group').forEach(group => {
+        const filterKey = group.getAttribute('data-filter');
+        const selected = Array.from(group.querySelectorAll('.filter-option.selected')).map(opt => opt.dataset.value);
+        filters[filterKey] = selected.includes("All") ? [] : selected;
       });
       return filters;
     }
 
-    function loadDataSafely() {
-      console.log("🔄 Starting data load...");
+    function attachFilterEventListeners() {
+      // Remove existing listeners first
+      document.querySelectorAll('.dropdown-options .filter-option').forEach(option => {
+        option.replaceWith(option.cloneNode(true));
+      });
       
-      function loadJSON(url) {
-        return fetch(url)
-          .then(function(response) {
-            console.log('📡 Fetching: ' + url);
-            if (!response.ok) {
-              throw new Error('HTTP ' + response.status + ': ' + response.statusText);
+      // Add new listeners
+      document.querySelectorAll('.dropdown-options .filter-option').forEach(option => {
+        option.addEventListener('click', function(e) {
+          e.stopPropagation();
+          console.log('Filter clicked:', this.dataset.value);
+          
+          const dropdown = option.parentElement;
+          const options = dropdown.querySelectorAll('.filter-option');
+          
+          if (option.dataset.value === "All") {
+            // Select "All" and deselect others
+            options.forEach(opt => opt.classList.remove('selected'));
+            option.classList.add('selected');
+          } else {
+            // Deselect "All" and toggle this option
+            const allOption = dropdown.querySelector('.filter-option[data-value="All"]');
+            if (allOption) allOption.classList.remove('selected');
+            
+            option.classList.toggle('selected');
+            
+            // If no options selected, select "All"
+            const anySelected = Array.from(options).slice(1).some(opt => opt.classList.contains('selected'));
+            if (!anySelected && allOption) {
+              allOption.classList.add('selected');
             }
-            return response.text();
-          })
-          .then(function(text) {
-            if (text.trim().charAt(0) === '<') {
-              throw new Error('Server returned HTML instead of JSON (probably 404)');
-            }
-            var data = JSON.parse(text);
-            console.log('✅ Successfully loaded: ' + url);
-            return data;
-          })
-          .catch(function(error) {
-            console.error('❌ Failed to load ' + url + ':', error.message);
-            return { nodes: [] };
-          });
-      }
-
-      Promise.all([
-        loadJSON("TreeDataWithImg.json"),
-        loadJSON("FaunaData.json")
-      ])
-      .then(function(results) {
-        var treeData = results[0];
-        var faunaData = results[1];
-
-        console.log("✅ Data loading completed");
-        
-        allFloraData = (treeData.nodes || []).map(function(node) {
-          return Object.assign({}, node, { category: 'Flora' });
+          }
+          
+          // Update the graph
+          drawGraph(getSelectedFilters());
+          closeAllDropdowns();
         });
-        allFaunaData = (faunaData.nodes || []).map(function(node) {
-          return Object.assign({}, node, { category: 'Fauna' });
-        });
-        
-        console.log('🌳 Flora: ' + allFloraData.length + ' species');
-        console.log('🦁 Fauna: ' + allFaunaData.length + ' species');
-        
-        if (allFloraData.length === 0 && allFaunaData.length === 0) {
-          console.log("📝 No data files found, using sample data for demo");
-          createSampleData();
-        }
-        
-        createTimeline();
-        drawGraph(getSelectedFilters());
-      })
-      .catch(function(error) {
-        console.error("❌ Critical error loading data:", error);
-        showDataError(error.message);
       });
     }
 
-    function createSampleData() {
-      allFloraData = [
-        { id: 'sample_tree1', name: 'Sample Tree 1', type: 'Evergreen', category: 'Flora', scientific: 'Samplius treeus', season_note: 'Winter', size: 'Large' },
-        { id: 'sample_tree2', name: 'Sample Tree 2', type: 'Fruit', category: 'Flora', scientific: 'Samplius fruitus', season_note: 'Summer', size: 'Medium' },
-        { id: 'sample_shrub1', name: 'Sample Shrub', type: 'Shrub', category: 'Flora', scientific: 'Samplius shrubius', season_note: 'Rainy', size: 'Small' },
-        { id: 'sample_orchid1', name: 'Sample Orchid', type: 'Orchid', category: 'Flora', scientific: 'Samplius orchidus', season_note: 'Winter', size: 'Small' }
-      ];
+    function loadData() {
+      console.log("Loading data...");
       
-      allFaunaData = [
-        { id: 'sample_elephant', name: 'Sample Elephant', category: 'Fauna', type: 'Large Herbivore', scientific: 'Elephas samplius', description: 'Large herbivorous mammal' },
-        { id: 'sample_gibbon', name: 'Sample Gibbon', category: 'Fauna', type: 'Primate', scientific: 'Hylobates samplius', description: 'Arboreal primate' },
-        { id: 'sample_deer', name: 'Sample Deer', category: 'Fauna', type: 'Herbivore', scientific: 'Cervus samplius', description: 'Forest herbivore' },
-        { id: 'sample_bird', name: 'Sample Bird', category: 'Fauna', type: 'Bird', scientific: 'Avius samplius', description: 'Forest bird species' },
-        { id: 'sample_insect', name: 'Sample Insect', category: 'Fauna', type: 'Insect', scientific: 'Insectus samplius', description: 'Forest insect' },
-        { id: 'sample_reptile', name: 'Sample Reptile', category: 'Fauna', type: 'Reptile', scientific: 'Reptilus samplius', description: 'Forest reptile' },
-        { id: 'sample_amphibian', name: 'Sample Amphibian', category: 'Fauna', type: 'Amphibian', scientific: 'Amphibius samplius', description: 'Forest amphibian' }
-      ];
-      
-      console.log("📋 Sample data created for demonstration");
-    }
-
-    function showDataError(errorMessage) {
-      var container = document.getElementById("force-map");
-      if (container) {
-        container.innerHTML = 
-          '<div style="color: #ff6b6b; text-align: center; padding: 20px; font-family: monospace;">' +
-            '❌ Data Loading Error<br/>' +
-            '<div style="font-size: 12px; margin-top: 10px; color: #999;">' +
-              errorMessage + '<br/><br/>' +
-              'Make sure these files exist in your project:<br/>' +
-              '• TreeDataWithImg.json<br/>' +
-              '• FaunaData.json' +
-            '</div>' +
-            '<button onclick="location.reload()" style="margin-top: 15px; padding: 8px 16px; background: #1e90ff; color: white; border: none; border-radius: 4px; cursor: pointer;">' +
-              'Retry' +
-            '</button>' +
-          '</div>';
-      }
-      
-      var infoList = document.getElementById("nodeInfoList");
-      if (infoList) {
-        infoList.innerHTML = 
-          '<div style="color: #ff6b6b; text-align: center; padding: 20px;">' +
-            '❌ Failed to load species data<br/>' +
-            '<div style="font-size: 12px; margin-top: 8px; color: #999;">' +
-              'Check browser console for details' +
-            '</div>' +
-          '</div>';
-      }
-    }
-
-    // Initialize system
-    if (typeof d3 === 'undefined') {
-      console.error('D3.js failed to load, trying alternative CDN...');
-      var script = document.createElement('script');
-      script.src = 'https://unpkg.com/d3@7/dist/d3.min.js';
-      script.onload = function() {
-        console.log('✅ D3.js loaded from fallback CDN');
-        initializeSystem();
+      // Complete TreeDataWithImg.json data
+      const treeDataFromDoc = {
+        "nodes": [
+          {"id": "EagleWoodAgarwood", "name": "Kritsanā", "english_name": "EagleWood, Agarwood", "scientific": "Aquilaria crassna", "season_note": "Summer", "type": "Fruit", "size": "Large", "description": "Scientific Name : Aquilaria crassna Pierre ex LecomteFamily : Thymelaeaceae An evergreen tree growing to 30m tall, having ellipsoid leaves with sparse hairs, and scented white flowers in bunches of 4-...", "img": "EagleWood_Agarwood.jpg"},
+          {"id": "Dipterocarpusgracilis", "name": "Yang Sian", "english_name": "Dipterocarpus gracilis", "scientific": "Dipterocarpus gracilis", "season_note": "Winter", "type": "Evergreen", "size": "Large", "description": "Scientific Name :Dipterocarpus gracilis BlumeFamily : Dipterocarpaceae A tall dipterocarp found in evergreen forest. Its tall canopy is buffeted by wind and so relies on wind for seed dispersal. Its s...", "img": "Dipterocarpus_gracilis.jpg"},
+          {"id": "CalamusviminalisWilld", "name": "Wai", "english_name": "Calamus viminalis (Willd.)", "scientific": "Calamus viminalis", "season_note": "Winter", "type": "Fruit", "size": "Large", "description": "Scientific Name:Calamus viminalis Willd.Family :  Arecaceae A species of palm with strong spathes covered with sharp thorns. The tissue inside is soft, crispy, white and with a bitter taste. The leave...", "img": "Calamus_viminalis_Willd.png"},
+          {"id": "WildNutmeg", "name": "Chan Thet Pa", "english_name": "Wild Nutmeg", "scientific": "Knema globularia", "season_note": "Winter", "type": "Fruit", "size": "Large", "description": "Scientific Name:Knema globularia (Lam.) Warb.Family : Myristicaceae A hardy perennial growing to 10-25 meters tall. At the crown of this tree is a tall, rounded bush, and the bark is brown, inside pin...", "img": "Wild_Nutmeg.png"},
+          {"id": "AphanamixispolystachyaWallRParker", "name": "Yom Hom", "english_name": "Aphanamixis polystachya (Wall.) R. Parker", "scientific": "Aphanamixis polystachya", "season_note": "Winter", "type": "Fruit", "size": "Large", "description": "Scientific Name:Aphanamixis polystachya (Wall.) R. ParkerFamily : Meliaceae Large evergreen tree with a dense crown and leaves growing in 3-7 pairs. Small round yellowish flowers and spherical fruit, ...", "img": "Aphanamixis_polystachya_(Wall.)_R._Parker.png"},
+          {"id": "Needlewood", "name": "Kaprao Mai", "english_name": "Needlewood", "scientific": "Schima wallichii", "season_note": "Winter", "type": "Fruit", "size": "Large", "description": "Scientific Name:Schima wallichii (DC.) Korth.Family : Theaceae A tall evergreen tree standing 35 meters high, having a dense crown with single leaves in a spiral. Buds have stems and flower singly or ...", "img": "Needlewood.jpg"},
+          {"id": "MagnoliabailloniiPierre", "name": "Champi Pa", "english_name": "Magnolia baillonii (Pierre)", "scientific": "Magnolia baillonii", "season_note": "Winter", "type": "Evergreen", "size": "Large", "description": "Scientific Name:Magnolia baillonii PierreFamily : Magnoliaceae A tall 35 meters tree with ovoid leaves coming to short points with hair underneath. The white scented and curved flowers come out in bun...", "img": "Magnolia_baillonii.jpg"},
+          {"id": "WaiDaengRenantheracoccineaLour", "name": "Wai Daeng", "english_name": "Wai Daeng Renanthera coccinea Lour.", "scientific": "Renanthera coccinea", "season_note": "Winter", "type": "Orchid", "size": "Small", "description": "Scientific Name:Renanthera coccinea Lour.Family : Orchidaceae This is an orchid growing from rock crevices and is found throughout clearings of dry forest in Khao Yai National Park, The orchids grow i...", "img": "Wai_Daeng.jpg"},
+          {"id": "SamekKhaoAgapetesbracteataHookfexCBClarke", "name": "Samek Khao", "english_name": "Samek Khao Agapetes bracteata Hook. f. ex C. B. Clarke", "scientific": "Agapetes bracteata", "season_note": "Winter", "type": "Shrub", "size": "Small", "description": "Scientific Name:Agapetes bracteata Hook. f. ex C. B. ClarkeFamily : Ericaceae A single-habitat plant in Thailand, it is a round bush some 2m high with hair at the end of its branches, axils, infloresc...", "img": "Samek_Khao_Agapetes_bracteata_Hook_f_ex_C_B_Clarke.png"},
+          {"id": "MoliSiamReevesiapubescensvarsiamensisCraibAnthony", "name": "Moli Siam", "english_name": "Moli Siam (Reevesia pubescens var. siamensis (Craib) Anthony)", "scientific": "Reevesia pubescens var", "season_note": "Winter", "type": "Fruit", "size": "Large", "description": "Scientific Name:Reevesia pubescens var. siamensis (Craib) AnthonyFamily : Sterculiaceae A single habitat plant in Thailand, it is a handsome plant standing 5-12 meters tall. Young leaves and flowers a...", "img": "Moli_Siam.jpg"},
+          {"id": "KhreuaPhuNgoenArgyreiamollisBurmfChoisy", "name": "Khreua Phu Ngoen", "english_name": "Khreua Phu Ngoen Argyreia mollis (Burm. f.) Choisy", "scientific": "Argyreia mollis", "season_note": "Winter", "type": "Vine", "size": "Medium", "description": "Scientific Name:Argyreia mollis (Burm. f.) ChoisyFamily : Convolvulaceae A climber with hard stems, which can scale up to 10m. The young branches have a fine white-brown hair. The oval fruits have poi...", "img": "Khreua_Phu_Ngoen.jpg"},
+          {"id": "EuangNamTarnDendrobiumheterocarpumLindl", "name": "Euang Nam Tarn", "english_name": "Euang Nam Tarn Dendrobium heterocarpum Lindl.", "scientific": "Dendrobium heterocarpum", "season_note": "Winter", "type": "Orchid", "size": "Small", "description": "Scientific Name:Dendrobium heterocarpum Lindl.Family : Orchidaceae An epiphyte orchid 15-30cm long in the shape of a spear, 1.5-2.5cm wide and 10-16cm long. It flowers in short bunches with 2-5 floret...", "img": "Euang_Nam_Tarn.jpg"},
+          {"id": "NerviliakhaoyaicaSuddeeWatthanaSWGale", "name": "Wan Paen Din Yen Khao Yai", "english_name": "Nervilia khaoyaica Suddee (Watthana & S.W. Gale)", "scientific": "Nervilia khaoyaica", "season_note": "Winter", "type": "Orchid", "size": "Small", "description": "Scientific Name:Nervilia khaoyaica Suddee (Watthana & S.W. Gale)Family : Nervilia This is an orchid growing from the soil on the mountains at an average elevation of 733 meters and measures 9 cm. from...", "img": "Nervilia_khaoyaica_Suddee.jpg"},
+          {"id": "ScutellariakhaoyaiensisAJPaton", "name": "Yah Kahng Luey Khao Yai", "english_name": "Scutellaria khaoyaiensis A. J. Paton", "scientific": "Scutellaria khaoyaiensis", "season_note": "Winter", "type": "Shrub", "size": "Large", "description": "Scientific Name:Scutellaria khaoyaiensis A. J. PatonFamily : Lamiaceae A newly discovered annual species, 20-40cm tall, with inflorescences appearing at the end of a shoot. Petals at the base are fuse...", "img": "Scutellaria_khaoyaiensis.jpg"},
+          {"id": "Polypleurumubonense", "name": "Dork Mai Hin", "english_name": "Polypleurum ubonense", "scientific": "Polypleurum ubonense", "season_note": "Rainy", "type": "Herb", "size": "Small", "description": "This newly-reported species is a herbaceous perennial whose roots are hard plates and leaves are small and scaly. The flowers are very small,...", "img": "Polypleurum_ubonense.jpg"},
+          {"id": "MonolophussaxicolaKLarsenVeldkampMood", "name": "Por Hin Lueang", "english_name": "Monolophus saxicola (K. Larsen) Veldkamp & Mood", "scientific": "Monolophus saxicola", "season_note": "Winter", "type": "Shrub", "size": "Small", "description": "Scientific Name:Monolophus saxicola (K. Larsen) Veldkamp & MoodFamily : Zingiberaceae An annual growing on moist rock with yellow flowers", "img": "Monolophus_saxicola.png"},
+          {"id": "PobaiAntiarisToxicaria", "name": "Pobai", "english_name": "Pobai Antiaris toxicaria", "scientific": "Antiaris toxicaria", "season_note": "Unknown", "type": "Deciduous", "size": "Large", "description": "A tall deciduous tree known for its toxic latex. Found in tropical forests and used in traditional medicine.", "img": "Pobai.jpg"},
+          {"id": "SappanwoodCaesalpiniaSappan", "name": "Si Siet Thet", "english_name": "Si Siet Thet Sappanwood", "scientific": "Caesalpinia sappan", "season_note": "Unknown", "type": "Shrub", "size": "Medium", "description": "A medicinal shrub used for red dye and herbal remedies. Common in Southeast Asia.", "img": "sisietthet.jpg"},
+          {"id": "JavaPlumSyzygiumCumini", "name": "Waa", "english_name": "Waa Java Plum", "scientific": "Syzygium cumini", "season_note": "Summer", "type": "Fruit", "size": "Large", "description": "Evergreen tropical tree bearing edible purple fruits. Widely cultivated in Asia.", "img": "Waa.jpg"},
+          {"id": "PorHuChangHibiscusMacrophyllus", "name": "Por Hu Chang", "english_name": "Por Hu Chang Hibiscus macrophyllus", "scientific": "Hibiscus macrophyllus", "season_note": "Unknown", "type": "Shrub", "size": "Medium", "description": "A broad-leaved shrub native to Thai forests, with medicinal uses.", "img": "Porhuchang.png"},
+          {"id": "SaiFicusBenghalensis", "name": "Sai", "english_name": "Sai Banyan Tree", "scientific": "Ficus benghalensis", "season_note": "All Year", "type": "Evergreen", "size": "Large", "description": "A majestic fig tree with aerial roots. Considered sacred in many cultures.", "description_th": "ต้นไผ่ใหญ่ที่มีรากอากาศ ถือว่าเป็นต้นไม้ศักดิ์สิทธิ์ในหลายวัฒนธรรม", "img": "banyantree.jpeg"},
+          {"id": "LueadKwaiBischofiaJavanica", "name": "Luead Kwai", "english_name": "Luead Kwai Bischofia javanica", "scientific": "Bischofia javanica", "season_note": "Unknown", "type": "Deciduous", "size": "Large", "description": "Fast-growing tree with reddish wood. Often found in tropical lowland forests.", "img": "LueadKwai.jpg"},
+          {"id": "TaoNguHaoAristolochiaTagala", "name": "Tao Ngu Hao", "english_name": "Tao Ngu Hao Aristolochia tagala", "scientific": "Aristolochia tagala", "season_note": "Unknown", "type": "Vine", "size": "Medium", "description": "A climbing vine known for its snake-like flower patterns. Used in traditional remedies.", "img": "TaoNguHao.jpg"},
+          {"id": "YamHomCanangaLatifolia", "name": "Yam Hom", "english_name": "Yam Hom Wild Ylang-Ylang", "scientific": "Cananga latifolia", "season_note": "Summer", "type": "Flowering tree", "size": "Large", "description": "Aromatic tree with flowers used in perfumes and oils.", "img": "YamHom.jpg"},
+          {"id": "NonnKhiKwaiAcalyphaWilkesiana", "name": "Nonn Khi Kwai", "english_name": "Nonn Khi Kwai Acalypha wilkesiana", "scientific": "Acalypha wilkesiana", "season_note": "Unknown", "type": "Shrub", "size": "Small", "description": "A colorful-leaved ornamental shrub, used in hedges and landscaping.", "img": "NonnKhiKwai.jpg"},
+          {"id": "ShoreaRoxburghii", "name": "Yang Na", "english_name": "Yang Gurjan", "scientific": "Shorea roxburghii", "season_note": "Dry", "type": "Deciduous", "size": "Large", "description": "A high-value timber tree found in dry dipterocarp forests.", "img": "YangNa.png"},
+          {"id": "YaKhaImperataCylindrica", "name": "Ya Kha", "english_name": "Cogon Grass", "scientific": "Imperata cylindrica", "season_note": "All Year", "type": "Grass", "size": "Small", "description": "A tough perennial grass found in disturbed forest areas, used for thatching and erosion control.", "img": "YaKha.jpg"},
+          
+          {"id": "ObservationTower", "name": "Observation Tower", "english_name": "Observation Tower", "scientific": "Observation Tower", "season_note": "All Year", "type": "Highlight", "size": "Large", "description": "A lookout tower providing panoramic views of the forest and wildlife.", "img": null},
+          {"id": "Salt_lick", "name": "Salt lick", "season_note": "All Year", "type": "Highlight", "description": "Mineral deposit for animals", "img": null},
+        
+          {"id": "Kenny and Maki", "name": "Kenny and Maki", "season_note": "All Year", "type": "Highlight", "description": "Special location", "img": null},
+          {"id": "Mimi", "name": "Mimi", "season_note": "All Year", "type": "Highlight", "description": "Special location", "img": null},
+          {"id": "Nut", "name": "Nut", "season_note": "All Year", "type": "Highlight", "description": "Special location", "img": null},
+          {"id": "Tangmo", "name": "Tangmo", "season_note": "All Year", "type": "Highlight", "description": "Special location", "img": null},
+          {"id": "Bel_and_Mag", "name": "Bel and Mag", "season_note": "All Year", "type": "Highlight", "description": "Special location", "img": null},
+          {"id": "Nori", "name": "Web of Wonders Wayfinding", "season_note": "All Year", "type": "Highlight", "description": "Khao Yai's trail 3 is transformed. A digital website and new signs offer deep insights, connecting visitors to nature's vibrant, resilient story.", "img": "Webofwonders.png"}
+          
+        ]
       };
-      script.onerror = function() {
-        console.error('❌ All D3.js CDNs failed');
-        showD3Error();
+
+      // Complete FaunaData.json data  
+      const faunaDataFromDoc = {
+        "nodes": [
+          {"id": "asian_elephant", "name": "Asian Elephant", "scientific": "Elephas maximus", "season_note": "All Year", "type": "Large Herbivore", "size": "Large", "description": "The elephant is the biggest mammal found in Khao Yai National Park in an estimated population of 140-200. The subspecies found in the Park is the mainland Asian variety,Elephas maximus indicus.These elephants have an average Mostly with a shoulder height of 2-4 metres, weight of 3,000-5000kg and ave...", "description_th": "ช้างเป็นสัตว์เลี้ยงลูกด้วยนมที่ใหญ่ที่สุดในอุทยานแห่งชาติเขาใหญ่ มีประชากรประมาณ 140-200 ตัว เป็นช้างเอเชียแผ่นดินใหญ่ มีความสูงเฉลี่ย 2-4 เมตร น้ำหนัก 3,000-5,000 กิโลกรัม", "img": "asian_elephant.jpg"},
+          {"id": "gaur", "name": "Gaur", "scientific": "Bos gaurus", "season_note": "All Year", "type": "Herbivore", "size": "Large", "description": "This big herbivore can conceal itself in nature and adapt to different environments. They can be found in many forest types near water as they have an insatiable thirst. Their diet is leaves, grass and salt licks, and they will alternate between grazing and sleeping throughout the day. The gaur is a...", "description_th": "สัตว์กินพืชขนาดใหญ่ที่สามารถซ่อนตัวในธรรมชาติและปรับตัวกับสภาพแวดล้อมที่แตกต่างกัน พบได้ในป่าหลายประเภทใกล้แหล่งน้ำ อาหารคือใบไม้ หญ้า และเกลือป่า", "img": "gaur.jpg"},
+          {"id": "dhole", "name": "Dhole", "scientific": "Cuon alpinus", "season_note": "All Year", "type": "Carnivore", "size": "Medium", "description": "The dhole, one of two wild canines in Thailand, is the only predator of deer in Khao Yai National Park. It is larger than a fox and proportioned like a dog, weighing 10-21kg. The females are smaller. It has a long body and coloured red-brown with white-yellow cheeks, chin, throat and chest. It has s...", "description_th": "หมาป่าเอเชีย เป็นหนึ่งในสองชนิดของสุนัขป่าในประเทศไทย เป็นผู้ล่าเกือของเขาใหญ่ มีขนาดใหญ่กว่าจิ้งจอก น้ำหนัก 10-21 กิโลกรัม มีสีน้ำตาลแดงและแก้มสีขาวเหลือง", "img": "dhole.jpg"},
+          {"id": "sambar_deer", "name": "Sambar Deer", "scientific": "Rusa unicolor", "season_note": "All Year", "type": "Herbivore", "size": "Large", "description": "Sambar Deer is the largest deer in Thailand and Southeast Asia with a shoulder height of 140-160cm and a weight range of 185-220kg. The stag is larger than the hind and they have short, dark-brown fur. It has a shaggy and brown-yellow coat which is denser and less bright than the muntjac Khao Yai's ...", "img": "sambar_deer.jpg"},
+          {"id": "barking_deer_muntjac", "name": "Barking Deer/ Muntjac", "scientific": "Muntiacus muntjak", "season_note": "All Year", "type": "Herbivore", "size": "Small", "description": "This is a small deer about 1 metre long and 50cm tall, weighing 14-18kg. The stag has small antlers with two branches about 15 cm long, while the hinds are without antlers at all. The coat is a red-brown and it is identifiable from large tear-glands and deep-set eyes. The stag has \"tusks\" to help wi...", "img": "barking_deer_muntjac.jpg"},
+          {"id": "lar_gibbon_white_handed_gibbon", "name": "Lar Gibbon / White-handed Gibbon", "scientific": "Hylobates lar", "season_note": "All Year", "type": "Primate", "size": "Medium", "description": "The Lar gibbon has both white and black hands, while the back of its hands and feet are white, with a white line around its face. The face and ears are black, hands are long and it has a slim body with no tail. It has a lifespan of 30 years and the Lar gibbon family consists of the two parents and t...", "img": "lar_gibbon_white_handed_gibbon.jpg"},
+          {"id": "pileated_gibbon", "name": "Pileated Gibbon", "scientific": "Hylobates pileatus", "season_note": "All Year", "type": "Primate", "size": "Medium", "description": "Males are black and females are white, but newborn babies are creamy white. By the age of 4-6 months, the chest hair becomes darker in a triangle shape pointing downward, while hair on the head changes to black, at the middle in a circle. At the age of 3-4, the male's hair changes to black all over ...", "img": "pileated_gibbon.jpg"},
+          {"id": "northern_pig_tailed_macaque", "name": "Northern Pig-tailed Macaque", "scientific": "Macaca leonina", "season_note": "All Year", "type": "Primate", "size": "Small", "description": "A short and plump monkey with short grey or brown hair and a long face. The hair on the head is similarly short and grey or brown with a tuft like the bottom of a shell, with paler hair on the belly and a rather short tail. The female is smaller with less hair covering the forehead than the male. Ma...", "img": "northern_pig_tailed_macaque.jpg"},
+          {"id": "leopard_cat", "name": "Leopard Cat", "scientific": "Prionailurus bengalensis", "season_note": "All Year", "type": "Carnivore", "size": "Small", "description": "The leopard cat is the size of a house cat but somewhat slimmer, with a weight of 3-7kg. The body is 44-107cm long and the tail 23-44cm long. It has a black-light brown coat and white belly, with rose-shaped markings on its body and tail. The tip of its tail is in sections. 4 black parallel stripes ...", "img": "leopard_cat.jpg"},
+          {"id": "asian_black_bear", "name": "Asian Black Bear", "scientific": "Ursus thibetanus", "season_note": "All Year", "type": "Carnivore", "size": "Large", "description": "The Asian black bear is a large bear about 120-150cm long, weighing 100-160kg. Its fur is long and coarse, and black all over, with a V-shape under its throat. The bear, which walks on its heels, has large ears, a black nose, and curved sharp claws. It has a long muzzle and a short tail, with white ...", "img": "asian_black_bear.jpg"},
+          {"id": "serow", "name": "Serow", "scientific": "Capriconis sumatraensis", "season_note": "All Year", "type": "Herbivore", "size": "Medium", "description": "The Serow is one of Thailand's protected animals. It looks something like a sheep with short body, long legs and long black coat which may have streaks of white. It has a mane of stiff hair on its neck that runs from its head to the base of its tail, but is clearly visible from its head to its back....", "img": "serow.jpg"},
+          {"id": "malayan_porcupine", "name": "Malayan Porcupine", "scientific": "Hystrix brachyura", "season_note": "All Year", "type": "Rodent", "size": "Medium", "description": "As rodents, porcupines are related to rats and squirrels. They have large and stout bodies. They have a lifespan of 20 years and are 65-73cm long, and weigh up to 27kg. They have a long head and nose. Fur on the face, neck and belly is fine and brown. From the side and the back of the neck to the to...", "img": "malayan_porcupine.jpg"},
+          {"id": "black_giant_squirrel", "name": "Black Giant Squirrel", "scientific": "Ratufa bicolor", "season_note": "All Year", "type": "Rodent", "size": "Small", "description": "The black giant squirrel is the largest squirrel in Thailand with a weight of 1-1.6kg. Fully grown, the head and body are 33-37.5cm long, with the long and bushy tail adding another 42.5-46cm. The body and tail are mostly black, with some individuals having brown haunches or at the base of the tail....", "img": "black_giant_squirrel.jpg"},
+          {"id": "smooth_coated_otter", "name": "Smooth-coated Otter", "scientific": "Lutrogale perspicillata", "season_note": "All Year", "type": "Aquatic Mammal", "size": "Medium", "description": "This otter has a smooth coat and the end of its tail is clearly flattened. It has straight whiskers. Lower jaw, cheeks, throat  and upper chest are yellow-white while the upper body is dark brown, and the lower body is lighter, either brown or grey. The tail is very long, more than half the length o...", "img": "smooth_coated_otter.jpg"},
+          {"id": "northern_slow_loris", "name": "Northern Slow Loris", "scientific": "Nycticebus bengalensis", "season_note": "All Year", "type": "Primate", "size": "Small", "description": "This mammal is actually a primate in the Lorisidae family, and can be found in all regions of Thailand. The Northern slow loris was only recently recognized as a separate species. It weighs 900-1400 g. Its ear lobes are clearly visible with the ears buried in the fur on the head. The fur colour can ...", "img": "northern_slow_loris.jpg"},
+          {"id": "binturong", "name": "Binturong", "scientific": "Arctictis binturong", "season_note": "All Year", "type": "Carnivore", "size": "Medium", "description": "This carnivore is a viverrid in the same family as civets and genets. Its face resembles a bear and it is sometimes called a \"bearcat\", in Thai \"Meekhor\". It has a thick coat of coarse black hair. The tail is bushy like a squirrel, earning another Thai name, \"Mee-krarork\". The tail is prehensile and...", "img": "binturong.jpg"}
+        ]
       };
-      document.head.appendChild(script);
-    } else {
-      console.log('✅ D3.js loaded successfully');
-      initializeSystem();
+      
+      allFloraData = (treeDataFromDoc.nodes || []).map(node => ({ ...node, category: 'Flora' }));
+      allFaunaData = (faunaDataFromDoc.nodes || []).map(node => ({ ...node, category: 'Fauna' }));
+      
+      console.log('Flora loaded:', allFloraData.length);
+      console.log('Fauna loaded:', allFaunaData.length);
+      
+      // Populate filter options with data from both JSON files
+      populateFilterOptions();
+      
+      // Initialize language
+      updateLanguage();
+      
+      drawGraph(getSelectedFilters());
+      initializeTimeline();
     }
 
+    // Event listeners
     document.addEventListener("DOMContentLoaded", function() {
-      console.log("🌐 DOM loaded, initializing interface...");
+      console.log("DOM loaded, initializing...");
+      
+      // Filter dropdowns
+      document.querySelectorAll('.filter-label-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const group = btn.closest('.filter-group');
+          const dropdown = group.querySelector('.dropdown-options');
+          const isOpen = dropdown.classList.contains('show');
+          closeAllDropdowns();
+          if (!isOpen) {
+            dropdown.classList.add('show');
+            btn.classList.add('open');
+          }
+        });
+      });
+
+      document.addEventListener("click", function(event) {
+        if (!event.target.closest('.filter-group')) {
+          closeAllDropdowns();
+        }
+      });
+
+      // Initial filter event listeners (including Flora/Fauna)
+      attachFilterEventListeners();
+
+      document.getElementById('resetFiltersBtn').addEventListener('click', function() {
+        // Reset all filters
+        document.querySelectorAll('.dropdown-options').forEach(dropdown => {
+          dropdown.querySelectorAll('.filter-option').forEach(opt => opt.classList.remove('selected'));
+          const allOption = dropdown.querySelector('.filter-option[data-value="All"]');
+          if (allOption) allOption.classList.add('selected');
+        });
+        
+        // Reset timeline
+        activeTimelineSpecies.clear();
+        document.querySelectorAll('.timeline-species-node').forEach(node => {
+          node.classList.remove('active');
+          node.style.background = 'rgba(34, 197, 94, 0.8)';
+          node.style.boxShadow = 'none';
+        });
+        
+        // Reset node positions
+        nodePositions.clear();
+        
+        closeAllDropdowns();
+        drawGraph(getSelectedFilters());
+      });
+      
+      // Force mobile scrolling fix
+      if (window.innerWidth <= 768) {
+        document.body.style.setProperty('overflow-y', 'auto', 'important');
+        document.body.style.setProperty('height', 'auto', 'important');
+        document.querySelector('.page-padding').style.setProperty('overflow', 'visible', 'important');
+        
+        // Additional timeline scrolling fix for mobile
+        const timelineBox = document.querySelector('.timeline-box');
+        if (timelineBox) {
+          timelineBox.style.setProperty('overflow-x', 'scroll', 'important');
+          timelineBox.style.setProperty('-webkit-overflow-scrolling', 'touch', 'important');
+        }
+      }
+      
+      // Language toggle
+      document.getElementById('langToggle').addEventListener('click', function() {
+        currentLanguage = currentLanguage === 'en' ? 'th' : 'en';
+        updateLanguage();
+        // Re-populate filters and update info box to apply language changes
+        populateFilterOptions();
+        // Re-draw the graph to refresh forest inventory with current language
+        drawGraph(getSelectedFilters());
+      });
+      
+      // Load data
+      loadData();
     });
+
+    // Initialize when D3 is ready
+    if (typeof d3 === 'undefined') {
+      console.error('D3.js failed to load');
+    } else {
+      console.log('D3.js loaded successfully');
+    }
   </script>
 </body>
 </html>

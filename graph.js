@@ -1,19 +1,23 @@
-// Integrated Flora-Fauna Graph System
-// Replace your existing graph.js with this
+// ========== TIMELINE ASSIGNMENTS ==========
+const TIMELINE_ASSIGNMENTS = {
+  '0km-0.5km': ['Kenny and Maki', 'Needlewood', 'PobaiAntiarisToxicaria'],
+  '0.5km-1.5km': ['Mimi', 'Nut', 'SaiFicusBenghalensis'], 
+  '1.5km-2.5km': ['Tangmo'],
+  '2.5km-3.5km': ['Bel_and_Mag', 'ObservationTower', 'Salt_lick', 'Nori'],
+  '3.5km-3.9km': ['YaKhaImperataCylindrica']
+};
 
 // ========== FLORA-FAUNA RELATIONSHIP DATA ==========
-// This defines which animals are associated with which plants
 const FLORA_FAUNA_RELATIONSHIPS = {
-  // Flora ID -> Array of Fauna IDs that interact with this plant
   'EagleWoodAgarwood': ['asian_elephant', 'sambar_deer', 'barking_deer_muntjac'],
   'Dipterocarpusgracilis': ['asian_elephant', 'gaur', 'black_giant_squirrel'],
   'CalamusviminalisWilld': ['asian_elephant', 'malayan_porcupine'],
   'WildNutmeg': ['black_giant_squirrel', 'binturong'],
   'AphanamixispolystachyaWallRParker': ['sambar_deer', 'barking_deer_muntjac'],
-  'Needlewood': ['lar_gibbon_whitehanded_gibbon', 'pileated_gibbon'],
+  'Needlewood': ['lar_gibbon_white_handed_gibbon', 'pileated_gibbon'],
   'MagnoliabailloniiPierre': ['asian_black_bear', 'binturong'],
-  'WaiDaengRenantheracoccineaLour': ['lar_gibbon_whitehanded_gibbon'],
-  'SamekKhaoAgapetesbracteataHookfexCBClarke': ['northern_pigtailed_macaque'],
+  'WaiDaengRenantheracoccineaLour': ['lar_gibbon_white_handed_gibbon'],
+  'SamekKhaoAgapetesbracteataHookfexCBClarke': ['northern_pig_tailed_macaque'],
   'MoliSiamReevesiapubescensvarsiamensisCraibAnthony': ['asian_black_bear'],
   'KhreuaPhuNgoenArgyreiamollisBurmfChoisy': ['smooth_coated_otter'],
   'EuangNamTarnDendrobiumheterocarpumLindl': ['northern_slow_loris'],
@@ -23,50 +27,7 @@ const FLORA_FAUNA_RELATIONSHIPS = {
   'MonolophussaxicolaKLarsenVeldkampMood': ['dhole']
 };
 
-// Timeline assignment for flora species (you can adjust these manually)
-const TIMELINE_ASSIGNMENTS = {
-  // Section 0 (0 km) - nodes 0-4
-  0: ['EagleWoodAgarwood', 'Dipterocarpusgracilis'],
-  1: ['CalamusviminalisWilld'],
-  2: ['WildNutmeg'],
-  3: ['AphanamixispolystachyaWallRParker'],
-  4: ['Needlewood'],
-  
-  // Section 1 (0.5 km) - nodes 5-9
-  5: ['MagnoliabailloniiPierre'],
-  6: ['WaiDaengRenantheracoccineaLour'],
-  7: ['SamekKhaoAgapetesbracteataHookfexCBClarke'],
-  8: ['MoliSiamReevesiapubescensvarsiamensisCraibAnthony'],
-  9: ['KhreuaPhuNgoenArgyreiamollisBurmfChoisy'],
-  
-  // Section 2 (1.5 km) - nodes 10-14
-  10: ['EuangNamTarnDendrobiumheterocarpumLindl'],
-  11: ['NerviliakhaoyaicaSuddeeWatthanaSWGale'],
-  12: ['ScutellariakhaoyaiensisAJPaton'],
-  13: ['Polypleurumubonense'],
-  14: ['MonolophussaxicolaKLarsenVeldkampMood'],
-  
-  // Continue pattern for remaining sections...
-  15: ['PobaiAntiarisToxicaria', 'SappanwoodCaesalpiniaSappan'],
-  16: ['JavaPlumSyzygiumCumini'],
-  17: ['YangSianDipterocarpusTuberculatus'],
-  18: ['PorHuChangHibiscusMacrophyllus'],
-  19: ['SaiFicusBenghalensis'],
-  
-  20: ['LueadKwaiBischofiaJavanica'],
-  21: ['TaoNguHaoAristolochiaTagala'],
-  22: ['ChampiPaMagnoliaHimalayana'],
-  23: ['YamHomCanangaLatifolia'],
-  24: ['KapraoPaOcimumGratissimum'],
-  
-  25: ['KritsanaAquilariaCrassna'],
-  26: ['NonnKhiKwaiAcalyphaWilkesiana'],
-  27: ['ShoreaRoxburghii'],
-  28: ['YaKhaImperataCylindrica'],
-  29: []
-};
-
-// Color schemes
+// ========== COLOR SCHEMES ==========
 const CATEGORY_COLORS = {
   'Flora': '#22c55e',
   'Fauna': '#ef4444',
@@ -94,6 +55,7 @@ const SPECIES_COLORS = {
   'Herb': '#68d391',
   'Flowering tree': '#ed8936',
   'Grass': '#9ae6b4',
+  'Highlight': '#24fbed',
   
   // Fauna types
   'elephant': '#a0522d',
@@ -112,6 +74,7 @@ const SPECIES_COLORS = {
   'loris': '#dda0dd'
 };
 
+// ========== UTILITY FUNCTIONS ==========
 function getSpeciesColor(node) {
   if (node.category === 'Flora') {
     return SPECIES_COLORS[node.type] || '#4a5568';
@@ -126,6 +89,82 @@ function getSpeciesColor(node) {
   }
 }
 
+function createPlaceholderImage(category, name) {
+  const placeholder = document.createElement('div');
+  placeholder.style.cssText = `
+    width: 100%;
+    height: 120px;
+    background: ${category === 'Flora' ? '#22c55e20' : '#ef444420'};
+    border: 1px dashed ${category === 'Flora' ? '#22c55e' : '#ef4444'};
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-size: 11px;
+    margin: 6px 0;
+    text-align: center;
+    line-height: 1.3;
+  `;
+  placeholder.innerHTML = `
+    <div style="font-weight: bold; margin-bottom: 4px;">${category}</div>
+    <div style="font-size: 10px;">${name}</div>
+  `;
+  return placeholder;
+}
+
+function createRealImage(node) {
+  const img = document.createElement("img");
+  img.className = "tree-img";
+  
+  // Skip if no image specified
+  if (!node.img || node.img.trim() === '') {
+    console.log('📷 No image specified for:', node.name);
+    return createPlaceholderImage(node.category, node.name);
+  }
+  
+  // Smart image path detection
+  let imgPath = node.img;
+  if (node.category === 'Fauna') {
+    imgPath = imgPath.includes('/') ? imgPath : 'FaunaPic/' + imgPath;
+  } else {
+    imgPath = imgPath.includes('/') ? imgPath : 'TreePic3/' + imgPath;
+  }
+  
+  console.log('🖼️ Loading image:', imgPath, 'for', node.name);
+  
+  img.src = imgPath;
+  img.alt = node.name;
+  
+  // Enhanced fallback system
+  let fallbackAttempts = 0;
+  img.onerror = function() {
+    fallbackAttempts++;
+    console.log(`❌ Image load failed (attempt ${fallbackAttempts}):`, this.src);
+    
+    if (node.category === 'Fauna' && fallbackAttempts === 1) {
+      // Try AnimalPic folder
+      const newPath = imgPath.replace('FaunaPic/', 'AnimalPic/');
+      console.log('🔄 Trying AnimalPic folder:', newPath);
+      this.src = newPath;
+      return;
+    }
+    
+    // Final fallback - replace with placeholder
+    console.log('🎨 Using placeholder for:', node.name);
+    const placeholder = createPlaceholderImage(node.category, node.name);
+    this.parentNode.replaceChild(placeholder, this);
+  };
+  
+  // Success handler
+  img.onload = function() {
+    console.log('✅ Image loaded:', imgPath);
+  };
+  
+  return img;
+}
+
 function categorizeFloraData(floraNodes) {
   return floraNodes.map(node => ({
     ...node,
@@ -137,7 +176,6 @@ function categorizeFloraData(floraNodes) {
 }
 
 function getFloraAnimalType(node) {
-  // Categorize flora based on what animals typically interact with them
   const type = node.type?.toLowerCase() || '';
   const name = node.name.toLowerCase();
   
@@ -176,7 +214,6 @@ function getFaunaAnimalType(node) {
 function createFloraFaunaLinks(floraNodes, faunaNodes) {
   const links = [];
   
-  // Create relationships based on FLORA_FAUNA_RELATIONSHIPS
   Object.entries(FLORA_FAUNA_RELATIONSHIPS).forEach(([floraId, faunaIds]) => {
     const floraNode = floraNodes.find(n => n.id === floraId);
     if (floraNode) {
@@ -194,11 +231,10 @@ function createFloraFaunaLinks(floraNodes, faunaNodes) {
     }
   });
   
-  // Add additional links based on animal types
+  // Add some random ecological links
   floraNodes.forEach(flora => {
     faunaNodes.forEach(fauna => {
       if (flora.animalType === fauna.animalType && Math.random() < 0.1) {
-        // 10% chance of additional connection based on similar ecological niches
         links.push({
           source: flora.id,
           target: fauna.id,
@@ -210,109 +246,6 @@ function createFloraFaunaLinks(floraNodes, faunaNodes) {
   });
   
   return links;
-}
-
-function createCategoryNodes(floraData, faunaData, mode = 'integrated') {
-  const nodes = [];
-  const links = [];
-  
-  if (mode === 'integrated') {
-    // Main category nodes
-    const floraMain = {
-      id: 'category-Flora',
-      name: 'Flora',
-      nodeType: 'mainCategory',
-      category: 'Flora',
-      radius: 25,
-      x: 300,
-      y: 250
-    };
-    
-    const faunaMain = {
-      id: 'category-Fauna', 
-      name: 'Fauna',
-      nodeType: 'mainCategory',
-      category: 'Fauna',
-      radius: 25,
-      x: 700,
-      y: 250
-    };
-    
-    nodes.push(floraMain, faunaMain);
-    
-    // Sub-category nodes for flora
-    const floraTypes = [...new Set(floraData.map(n => n.animalType))];
-    floraTypes.forEach((type, index) => {
-      const subNode = {
-        id: `flora-${type}`,
-        name: type,
-        nodeType: 'subCategory',
-        category: 'Flora',
-        radius: 15,
-        count: floraData.filter(n => n.animalType === type).length
-      };
-      nodes.push(subNode);
-      
-      links.push({
-        source: floraMain.id,
-        target: subNode.id,
-        type: 'categoryLink'
-      });
-      
-      // Link species to sub-categories
-      floraData.filter(n => n.animalType === type).forEach(species => {
-        links.push({
-          source: subNode.id,
-          target: species.id,
-          type: 'speciesLink'
-        });
-      });
-    });
-    
-    // Sub-category nodes for fauna
-    const faunaTypes = [...new Set(faunaData.map(n => n.animalType))];
-    faunaTypes.forEach((type, index) => {
-      const subNode = {
-        id: `fauna-${type}`,
-        name: type,
-        nodeType: 'subCategory',
-        category: 'Fauna',
-        radius: 15,
-        count: faunaData.filter(n => n.animalType === type).length
-      };
-      nodes.push(subNode);
-      
-      links.push({
-        source: faunaMain.id,
-        target: subNode.id,
-        type: 'categoryLink'
-      });
-      
-      // Link species to sub-categories
-      faunaData.filter(n => n.animalType === type).forEach(species => {
-        links.push({
-          source: subNode.id,
-          target: species.id,
-          type: 'speciesLink'
-        });
-      });
-    });
-    
-    // Connect similar sub-categories between flora and fauna
-    floraTypes.forEach(floraType => {
-      faunaTypes.forEach(faunaType => {
-        if (floraType === faunaType) {
-          links.push({
-            source: `flora-${floraType}`,
-            target: `fauna-${faunaType}`,
-            type: 'crossCategoryLink'
-          });
-        }
-      });
-    });
-  }
-  
-  return { categoryNodes: nodes, categoryLinks: links };
 }
 
 function applyFilters(data, filters) {
@@ -332,18 +265,18 @@ function applyFilters(data, filters) {
     });
   }
   
-  if (filters.season && filters.season.length > 0 && node.season_note) {
+  if (filters.season && filters.season.length > 0) {
     filtered = filtered.filter(node => filters.season.includes(node.season_note));
   }
   
-  if (filters.size && filters.size.length > 0 && node.size) {
+  if (filters.size && filters.size.length > 0) {
     filtered = filtered.filter(node => filters.size.includes(node.size));
   }
   
   return filtered;
 }
 
-// Main drawing function
+// ========== MAIN DRAWING FUNCTION ==========
 window.drawIntegratedGraph = function(filters = {}, containerSelector = "#force-map") {
   const container = document.querySelector(containerSelector);
   
@@ -356,6 +289,9 @@ window.drawIntegratedGraph = function(filters = {}, containerSelector = "#force-
     return;
   }
   
+  // Debug timeline assignments when data is available
+  debugTimelineAssignments(window.TreeData.nodes, window.FaunaData.nodes);
+  
   // Prepare data
   const categorizedFlora = categorizeFloraData(window.TreeData.nodes);
   const categorizedFauna = categorizeFaunaData(window.FaunaData.nodes);
@@ -364,21 +300,16 @@ window.drawIntegratedGraph = function(filters = {}, containerSelector = "#force-
   const filteredFlora = applyFilters(categorizedFlora, filters);
   const filteredFauna = applyFilters(categorizedFauna, filters);
   
-  // Create category structure
-  const categoryStructure = createCategoryNodes(filteredFlora, filteredFauna, filters.mode);
-  
   // Create flora-fauna relationships
   const floraFaunaLinks = createFloraFaunaLinks(filteredFlora, filteredFauna);
   
   // Combine all data
   const allNodes = [
-    ...categoryStructure.categoryNodes,
     ...filteredFlora,
     ...filteredFauna
   ];
   
   const allLinks = [
-    ...categoryStructure.categoryLinks,
     ...floraFaunaLinks
   ];
   
@@ -408,26 +339,18 @@ window.drawIntegratedGraph = function(filters = {}, containerSelector = "#force-
     .force("link", d3.forceLink(allLinks)
       .id(d => d.id)
       .distance(d => {
-        if (d.type === 'categoryLink') return 100;
-        if (d.type === 'speciesLink') return 60;
         if (d.type === 'floraFaunaLink') return 150;
-        if (d.type === 'crossCategoryLink') return 200;
-        return 80;
+        if (d.type === 'ecologicalLink') return 80;
+        return 100;
       })
       .strength(d => {
-        if (d.type === 'categoryLink') return 0.8;
-        if (d.type === 'speciesLink') return 0.6;
         if (d.type === 'floraFaunaLink') return 0.4;
-        if (d.type === 'crossCategoryLink') return 0.3;
+        if (d.type === 'ecologicalLink') return 0.3;
         return 0.5;
       })
     )
     .force("charge", d3.forceManyBody()
-      .strength(d => {
-        if (d.nodeType === 'mainCategory') return -1000;
-        if (d.nodeType === 'subCategory') return -500;
-        return -150;
-      })
+      .strength(d => -200)
     )
     .force("center", d3.forceCenter(width / 2, height / 2))
     .force("collision", d3.forceCollide()
@@ -440,26 +363,20 @@ window.drawIntegratedGraph = function(filters = {}, containerSelector = "#force-
     .enter().append("line")
     .attr("class", "link")
     .attr("stroke", d => {
-      if (d.type === 'categoryLink') return '#666';
-      if (d.type === 'speciesLink') return '#999';
       if (d.type === 'floraFaunaLink') return '#22c55e';
-      if (d.type === 'crossCategoryLink') return '#1e90ff';
+      if (d.type === 'ecologicalLink') return '#1e90ff';
       return '#ccc';
     })
     .attr("stroke-width", d => {
-      if (d.type === 'categoryLink') return 3;
       if (d.type === 'floraFaunaLink') return 2;
-      if (d.type === 'crossCategoryLink') return 2;
       return 1;
     })
     .attr("stroke-opacity", d => {
-      if (d.type === 'floraFaunaLink') return 1.5;
-      if (d.type === 'crossCategoryLink') return 0.5;
+      if (d.type === 'floraFaunaLink') return 0.8;
       return 0.6;
     })
     .attr("stroke-dasharray", d => {
       if (d.type === 'floraFaunaLink') return "5,5";
-      if (d.type === 'crossCategoryLink') return "3,3";
       return "none";
     });
   
@@ -469,261 +386,183 @@ window.drawIntegratedGraph = function(filters = {}, containerSelector = "#force-
     .enter().append("circle")
     .attr("class", "node")
     .attr("r", d => d.radius)
-    .attr("fill", d => {
-      if (d.nodeType === 'mainCategory') return CATEGORY_COLORS[d.name];
-      if (d.nodeType === 'subCategory') return CATEGORY_COLORS[d.name] || CATEGORY_COLORS[d.category];
-      return getSpeciesColor(d);
-    })
-    .attr("stroke", d => {
-      if (d.category === 'Flora') return '#22c55e';
-      if (d.category === 'Fauna') return '#ef4444';
-      return '#fff';
-    })
-    .attr("stroke-width", d => {
-      if (d.nodeType === 'mainCategory') return 3;
-      if (d.nodeType === 'subCategory') return 2;
-      return 1;
-    })
-    .style("cursor", "pointer")
-    .call(d3.drag()
-      .on("start", dragstarted)
-      .on("drag", dragged) 
-      .on("end", dragended)
-    );
+    .attr("fill", d => CATEGORY_COLORS[d.category] || getSpeciesColor(d))
+    .attr("stroke", "#fff")
+    .attr("stroke-width", 1.5)
+    .call(drag(simulation));
   
-  // Add labels
+  // Add node labels
   const labels = zoomable.selectAll(".label")
     .data(allNodes)
     .enter().append("text")
     .attr("class", "label")
     .attr("text-anchor", "middle")
     .attr("dy", ".35em")
-    .attr("fill", "#fff")
-    .attr("font-size", d => {
-      if (d.nodeType === 'mainCategory') return "12px";
-      if (d.nodeType === 'subCategory') return "8px";
-      return "6px";
-    })
-    .attr("font-weight", d => {
-      if (d.nodeType === 'mainCategory') return "bold";
-      if (d.nodeType === 'subCategory') return "bold";
-      return "normal";
-    })
-    .style("pointer-events", "none")
-    .style("text-shadow", "1px 1px 1px rgba(0,0,0,0.8)")
-    .text(d => {
-      if (d.nodeType === 'mainCategory') return d.name;
-      if (d.nodeType === 'subCategory') return `${d.name} (${d.count})`;
-      return d.name.length > 6 ? d.name.substring(0, 6) + "..." : d.name;
-    });
+    .attr("font-size", 9)
+    .attr("pointer-events", "none")
+    .text(d => d.name.length > 10 ? d.name.substring(0, 10) + "..." : d.name);
   
-  // Add tooltips and interactions
-  const tooltip = d3.select("#tooltip");
-  
-  nodes
-    .on("mouseover", (event, d) => {
-      tooltip.transition().duration(200).style("opacity", 0.9);
-      
-      let tooltipContent = `<strong>${d.name}</strong><br/>`;
-      if (d.nodeType === 'species') {
-        tooltipContent += `<em>${d.scientific || 'Unknown'}</em><br/>`;
-        tooltipContent += `Category: ${d.category}<br/>`;
-        if (d.type) tooltipContent += `Type: ${d.type}<br/>`;
-        if (d.animalType) tooltipContent += `Animal Type: ${d.animalType}<br/>`;
-        if (d.season_note) tooltipContent += `Season: ${d.season_note}`;
-      } else if (d.nodeType === 'subCategory') {
-        tooltipContent += `${d.count} species`;
-      }
-      
-      tooltip.html(tooltipContent)
-        .style("left", (event.pageX + 10) + "px")
-        .style("top", (event.pageY - 10) + "px");
-    })
-    .on("mouseout", () => {
-      tooltip.transition().duration(500).style("opacity", 0);
-    })
-    .on("click", (event, d) => {
-      if (d.nodeType === 'species') {
-        updateInfoBox([...filteredFlora, ...filteredFauna], d.id);
-        event.stopPropagation();
-      }
-    });
-  
-  // Simulation tick
   simulation.on("tick", () => {
-    allNodes.forEach(d => {
-      d.x = Math.max(d.radius, Math.min(width - d.radius, d.x));
-      d.y = Math.max(d.radius, Math.min(height - d.radius, d.y));
-    });
-    
     links
       .attr("x1", d => d.source.x)
       .attr("y1", d => d.source.y)
       .attr("x2", d => d.target.x)
       .attr("y2", d => d.target.y);
-      
+    
     nodes
-      .attr("cx", d => d.x)
-      .attr("cy", d => d.y);
-      
+      .attr("cx", d => d.x = Math.max(d.radius, Math.min(width - d.radius, d.x)))
+      .attr("cy", d => d.y = Math.max(d.radius, Math.min(height - d.radius, d.y)));
+    
     labels
       .attr("x", d => d.x)
-      .attr("y", d => d.y);
+      .attr("y", d => d.y - d.radius - 6);
   });
   
-  // Drag functions
-  function dragstarted(event, d) {
-    if (!event.active) simulation.alphaTarget(0.3).restart();
-    d.fx = d.x;
-    d.fy = d.y;
-  }
-  
-  function dragged(event, d) {
-    d.fx = event.x;
-    d.fy = event.y;
-  }
-  
-  function dragended(event, d) {
-    if (!event.active) simulation.alphaTarget(0);
-    if (window.innerWidth < 768) {
+  // Drag handlers
+  function drag(simulation) {
+    function dragstarted(event, d) {
+      if (!event.active) simulation.alphaTarget(0.3).restart();
+      d.fx = d.x;
+      d.fy = d.y;
+    }
+    
+    function dragged(event, d) {
+      d.fx = event.x;
+      d.fy = event.y;
+    }
+    
+    function dragended(event, d) {
+      if (!event.active) simulation.alphaTarget(0);
       d.fx = null;
       d.fy = null;
     }
+    
+    return d3.drag()
+      .on("start", dragstarted)
+      .on("drag", dragged)
+      .on("end", dragended);
   }
   
-  console.log(`✅ Integrated graph: ${allNodes.length} nodes, ${allLinks.length} links`);
-  console.log(`🌳 Flora: ${filteredFlora.length}, 🦁 Fauna: ${filteredFauna.length}`);
-};
-
-// Update info box to show both flora and fauna
-function updateInfoBox(nodes, selectedId = null) {
-  const list = document.getElementById("nodeInfoList");
-  if (!list) return;
-  list.innerHTML = "";
-
-  if (!nodes.length) {
-    list.innerHTML = `<div style="color:#aaa; text-align:center; padding:20px;">No species found.</div>`;
-    return;
-  }
-
-  // Sort by category (Flora first, then Fauna)
-  const sortedNodes = nodes.sort((a, b) => {
-    if (a.category !== b.category) {
-      return a.category === 'Flora' ? -1 : 1;
-    }
-    return a.name.localeCompare(b.name);
-  });
-
-  sortedNodes.forEach(node => {
-    const card = document.createElement("div");
-    card.className = "node-info-card";
-    card.setAttribute("data-id", node.id);
-    card.style.borderColor = getSpeciesColor(node);
-    card.style.background = getSpeciesColor(node) + "22";
-
-    const titleDiv = document.createElement("div");
-    titleDiv.className = "node-title";
+  // Info box update function
+  function updateInfoBox(data) {
+    const infoBox = document.querySelector("#nodeInfoList");
+    if (!infoBox) return;
     
-    // Add category indicator
-    const indicator = document.createElement("span");
-    indicator.className = `category-indicator ${node.category.toLowerCase()}`;
-    titleDiv.appendChild(indicator);
-    titleDiv.appendChild(document.createTextNode(node.name));
-    titleDiv.style.fontWeight = "bold";
+    infoBox.innerHTML = "";
 
-    const detailsDiv = document.createElement("div");
-    detailsDiv.className = "node-details";
-    detailsDiv.style.display = (selectedId === node.id) ? "block" : "none";
-
-    // Add image
-    if (node.img && typeof node.img === "string" && node.img.trim() !== "") {
-      const img = document.createElement("img");
-      img.className = "tree-img";
-      
-      const imgPath = node.category === 'Flora' ? 
-        (node.img.startsWith('TreePic3/') ? node.img : `TreePic3/${node.img}`) :
-        (node.img.startsWith('FaunaPic/') ? node.img : `FaunaPic/${node.img}`);
-      
-      img.src = imgPath;
-      img.alt = node.name;
-      img.onerror = function() { this.style.display = "none"; };
-      detailsDiv.appendChild(img);
+    if (!data.length) {
+      infoBox.innerHTML = '<div style="color:#aaa; text-align:center; padding:20px;">No species found.<br><small style="font-size:11px; margin-top:8px; display:block;">Try adjusting filters or timeline selection</small></div>';
+      return;
     }
 
-    const details = [
-      { label: "Scientific", value: node.scientific },
-      { label: "Category", value: node.category },
-      { label: "Type", value: node.type },
-      { label: "Animal Type", value: node.animalType },
-      { label: "Season", value: node.season_note },
-      { label: "Size", value: node.size }
-    ];
-
-    details.forEach(({ label, value }) => {
-      if (value && value !== node.category) {
-        const div = document.createElement("div");
-        div.innerHTML = `<b>${label}:</b> ${value}`;
-        div.style.marginBottom = "4px";
-        detailsDiv.appendChild(div);
+    // Sort by category (Flora first, then Fauna) and then by name
+    const sortedNodes = data.sort((a, b) => {
+      if (a.category !== b.category) {
+        return a.category === 'Flora' ? -1 : 1;
       }
+      return a.name.localeCompare(b.name);
     });
 
-    if (node.description) {
-      const descElement = document.createElement("div");
-      descElement.innerHTML = `<b>Description:</b> ${node.description.substring(0, 150)}...`;
-      descElement.style.marginBottom = "4px";
-      descElement.style.fontSize = "11px";
-      descElement.style.lineHeight = "1.3";
-      detailsDiv.appendChild(descElement);
-    }
+    sortedNodes.forEach(node => {
+      const card = document.createElement("div");
+      card.className = "node-info-card";
+      card.setAttribute("data-id", node.id);
+      card.style.borderColor = getSpeciesColor(node);
 
-    card.appendChild(titleDiv);
-    card.appendChild(detailsDiv);
-    list.appendChild(card);
-  });
+      const titleDiv = document.createElement("div");
+      titleDiv.className = "node-title";
+      
+      // Add category indicator
+      const indicator = document.createElement("span");
+      indicator.className = 'category-indicator ' + (node.category ? node.category.toLowerCase() : 'flora');
+      titleDiv.appendChild(indicator);
+      titleDiv.appendChild(document.createTextNode(node.name));
 
-  // Add click handlers
-  setTimeout(() => {
-    document.querySelectorAll('.node-info-card').forEach(card => {
-      card.addEventListener('click', function() {
-        document.querySelectorAll('.node-info-card').forEach(c => 
-          c.classList.remove('selected-info-card'));
-        this.classList.add('selected-info-card');
-        
-        if (window.innerWidth < 768) {
-          this.scrollIntoView({ behavior: "smooth", block: "center" });
+      const detailsDiv = document.createElement("div");
+      detailsDiv.className = "node-details";
+      detailsDiv.style.display = "none";
+
+      // Add image with enhanced fallback system and better debugging
+      if (node.img && typeof node.img === "string" && node.img.trim() !== "") {
+        console.log('Processing image for:', node.name, 'image file:', node.img);
+        const imageElement = createRealImage(node);
+        detailsDiv.appendChild(imageElement);
+      } else {
+        // No image specified, create placeholder
+        console.log('No image specified for:', node.name, 'creating placeholder');
+        const placeholder = createPlaceholderImage(node.category, node.name);
+        detailsDiv.appendChild(placeholder);
+      }
+
+      const details = [
+        { label: "English Name", value: node.english_name },
+        { label: "Scientific", value: node.scientific },
+        { label: "Category", value: node.category },
+        { label: "Type", value: node.type },
+        { label: "Season", value: node.season_note },
+        { label: "Size", value: node.size }
+      ];
+
+      details.forEach(detail => {
+        if (detail.value && detail.value !== node.category && detail.value !== node.name) {
+          const div = document.createElement("div");
+          div.innerHTML = '<b>' + detail.label + ':</b> ' + detail.value;
+          div.style.marginBottom = "4px";
+          div.style.fontSize = "12px";
+          detailsDiv.appendChild(div);
         }
       });
+
+      if (node.description) {
+        const descElement = document.createElement("div");
+        descElement.innerHTML = '<b>Description:</b> ' + node.description.substring(0, 200) + '...';
+        descElement.style.marginBottom = "4px";
+        descElement.style.fontSize = "11px";
+        descElement.style.lineHeight = "1.3";
+        detailsDiv.appendChild(descElement);
+      }
+
+      card.appendChild(titleDiv);
+      card.appendChild(detailsDiv);
+      infoBox.appendChild(card);
+
+      // Add click handler for each card
+      card.addEventListener('click', function(e) {
+        e.stopPropagation();
+        
+        // Remove selection from all cards
+        document.querySelectorAll('.node-info-card').forEach(c => {
+          c.classList.remove('selected-info-card');
+          const details = c.querySelector('.node-details');
+          if (details) details.style.display = 'none';
+        });
+        
+        // Add selection to clicked card
+        this.classList.add('selected-info-card');
+        const thisDetails = this.querySelector('.node-details');
+        if (thisDetails) {
+          thisDetails.style.display = 'block';
+          
+          // Smooth scroll to show the expanded card
+          setTimeout(() => {
+            if (window.innerWidth <= 768) {
+              // Mobile: scroll the expanded card into view
+              card.scrollIntoView({ 
+                behavior: "smooth", 
+                block: "start"
+              });
+            } else {
+              // Desktop: center the card
+              card.scrollIntoView({ 
+                behavior: "smooth", 
+                block: "center"
+              });
+            }
+          }, 100);
+        }
+        
+        console.log('Forest inventory card clicked:', this.getAttribute('data-id'));
+      });
     });
-  }, 100);
-}
-
-// Replace original function
-window.drawGraphWithFilters = function(filters) {
-  window.drawIntegratedGraph(filters);
+  }
 };
-
-// Load data and initialize
-Promise.all([
-  d3.json("TreeDataWithImg.json"),
-  d3.json("FaunaData.json")
-]).then(([treeData, faunaData]) => {
-  console.log("✅ Flora and Fauna data loaded successfully");
-  window.TreeData = treeData;
-  window.FaunaData = faunaData;
-  window.TreeDataLoaded = true;
-  
-  console.log(`🌳 Flora: ${treeData.nodes.length} species`);
-  console.log(`🦁 Fauna: ${faunaData.nodes.length} species`);
-  
-  // Initial draw
-  drawIntegratedGraph({ mode: 'integrated' });
-  
-}).catch(error => {
-  console.error("❌ Error loading data:", error);
-  const container = document.getElementById("force-map");
-  container.innerHTML = `<div style="color: #ff6b6b; text-align: center; padding: 20px;">Failed to load data</div>`;
-});
-
-// Export for timeline integration
-window.TIMELINE_ASSIGNMENTS = TIMELINE_ASSIGNMENTS;
