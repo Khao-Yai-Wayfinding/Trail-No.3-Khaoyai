@@ -726,6 +726,8 @@
         seasonLabel: "ฤดูกาล",
         sizeLabel: "ขนาด",
         description: "คำอธิบาย",
+        highlight: "จุดสำคัญ",
+        floweringTree: "ต้นไม้ดอก",       
         // Value translations
         evergreen: "ไม้ยืนต้น",
         deciduous: "ไม้ผลัดใบ",
@@ -1056,7 +1058,7 @@
           const option = document.createElement('span');
           option.className = 'filter-option';
           option.dataset.value = type;
-          option.textContent = type;
+          option.textContent = translateValue(type); // ADD translateValue HERE
           typeDropdown.appendChild(option);
           console.log('Added type option:', type);
         }
@@ -1078,7 +1080,7 @@
           const option = document.createElement('span');
           option.className = 'filter-option';
           option.dataset.value = season;
-          option.textContent = season;
+          option.textContent = translateValue(season); // ADD translateValue HERE
           seasonDropdown.appendChild(option);
         }
       });
@@ -1099,7 +1101,7 @@
           const option = document.createElement('span');
           option.className = 'filter-option';
           option.dataset.value = size;
-          option.textContent = size;
+          option.textContent = translateValue(size); // ADD translateValue HERE
           sizeDropdown.appendChild(option);
         }
       });
@@ -1192,45 +1194,125 @@
         });
       svg.call(zoom);
 
-      // Create links
-      const links = [];
-      for (let i = 0; i < allData.length; i++) {
-        for (let j = i + 1; j < allData.length; j++) {
-          if (Math.random() < 0.3) {
-            const sourceNode = allData[i];
-            const targetNode = allData[j];
-            const gradientId = `gradient-${sourceNode.id}-${targetNode.id}`;
-            
-            links.push({ 
-              source: sourceNode.id, 
-              target: targetNode.id,
-              gradientId: gradientId
-            });
+// Create clustered links
+const links = [];
 
-            // Create gradient for this link
-            const gradient = defs.append("linearGradient")
-              .attr("id", gradientId)
-              .attr("x1", "0%")
-              .attr("y1", "0%")
-              .attr("x2", "100%")
-              .attr("y2", "0%");
-            
-            gradient.append("stop")
-              .attr("offset", "0%")
-              .attr("stop-color", getSpeciesColor(sourceNode));
-            
-            gradient.append("stop")
-              .attr("offset", "100%")
-              .attr("stop-color", getSpeciesColor(targetNode));
-          }
-        }
+// Group nodes by type and category for clustering
+const clusters = {};
+allData.forEach(node => {
+  const clusterKey = `${node.category}-${node.type}`;
+  if (!clusters[clusterKey]) {
+    clusters[clusterKey] = [];
+  }
+  clusters[clusterKey].push(node);
+});
+
+// Create links within clusters (higher probability)
+Object.values(clusters).forEach(cluster => {
+  for (let i = 0; i < cluster.length; i++) {
+    for (let j = i + 1; j < cluster.length; j++) {
+      if (Math.random() < 0.8) { // High probability within cluster
+        const sourceNode = cluster[i];
+        const targetNode = cluster[j];
+        const gradientId = `gradient-${sourceNode.id}-${targetNode.id}`;
+        
+        links.push({ 
+          source: sourceNode.id, 
+          target: targetNode.id,
+          gradientId: gradientId,
+          type: 'cluster'
+        });
+
+        // Create gradient for this link
+        const gradient = defs.append("linearGradient")
+          .attr("id", gradientId)
+          .attr("x1", "0%")
+          .attr("y1", "0%")
+          .attr("x2", "100%")
+          .attr("y2", "0%");
+        
+        gradient.append("stop")
+          .attr("offset", "0%")
+          .attr("stop-color", getSpeciesColor(sourceNode));
+        
+        gradient.append("stop")
+          .attr("offset", "100%")
+          .attr("stop-color", getSpeciesColor(targetNode));
       }
+    }
+  }
+});
 
-      simulation = d3.forceSimulation(allData)
-        .force("link", d3.forceLink(links).id(d => d.id).distance(80).strength(0.3))
-        .force("charge", d3.forceManyBody().strength(-150))
-        .force("center", d3.forceCenter(width / 2, height / 2))
-        .force("collision", d3.forceCollide().radius(15));
+// Create some cross-cluster links (lower probability)
+const clusterKeys = Object.keys(clusters);
+for (let i = 0; i < clusterKeys.length; i++) {
+  for (let j = i + 1; j < clusterKeys.length; j++) {
+    const cluster1 = clusters[clusterKeys[i]];
+    const cluster2 = clusters[clusterKeys[j]];
+    
+    // Connect a few nodes between different clusters
+    if (cluster1.length > 0 && cluster2.length > 0 && Math.random() < 0.3) {
+      const sourceNode = cluster1[Math.floor(Math.random() * cluster1.length)];
+      const targetNode = cluster2[Math.floor(Math.random() * cluster2.length)];
+      const gradientId = `gradient-${sourceNode.id}-${targetNode.id}`;
+      
+      links.push({ 
+        source: sourceNode.id, 
+        target: targetNode.id,
+        gradientId: gradientId,
+        type: 'cross-cluster'
+      });
+
+      // Create gradient for this link
+      const gradient = defs.append("linearGradient")
+        .attr("id", gradientId)
+        .attr("x1", "0%")
+        .attr("y1", "0%")
+        .attr("x2", "100%")
+        .attr("y2", "0%");
+      
+      gradient.append("stop")
+        .attr("offset", "0%")
+        .attr("stop-color", getSpeciesColor(sourceNode));
+      
+      gradient.append("stop")
+        .attr("offset", "100%")
+        .attr("stop-color", getSpeciesColor(targetNode));
+    }
+  }
+}
+
+    simulation = d3.forceSimulation(allData)
+      .force("link", d3.forceLink(links)
+        .id(d => d.id)
+        .distance(d => {
+          if (d.type === 'cluster') return 50; // Shorter distance within clusters
+          if (d.type === 'cross-cluster') return 120; // Longer distance between clusters
+          return 80;
+        })
+        .strength(d => {
+          if (d.type === 'cluster') return 0.8; // Stronger attraction within clusters
+          if (d.type === 'cross-cluster') return 0.1; // Weaker attraction between clusters
+          return 0.3;
+        })
+      )
+      .force("charge", d3.forceManyBody().strength(-150))
+      .force("center", d3.forceCenter(width / 2, height / 2))
+      .force("collision", d3.forceCollide().radius(15))
+      // Add clustering force
+      .force("cluster", d3.forceX().x(d => {
+        // Position clusters horizontally based on category
+        if (d.category === 'Flora') return width * 0.3;
+        if (d.category === 'Fauna') return width * 0.7;
+        return width * 0.5;
+      }).strength(0.1))
+      .force("type-cluster", d3.forceY().y(d => {
+        // Position by type vertically
+        const types = ['Evergreen', 'Deciduous', 'Fruit', 'Orchid', 'Shrub', 'Vine', 'Herb', 'Grass', 'Highlight', 
+                      'Large Herbivore', 'Herbivore', 'Carnivore', 'Primate', 'Rodent', 'Aquatic Mammal'];
+        const typeIndex = types.indexOf(d.type);
+        return (typeIndex !== -1 ? typeIndex : types.length / 2) * (height / types.length) + 50;
+      }).strength(0.05));
 
       const linkElements = zoomable.selectAll(".link")
         .data(links)
@@ -1623,10 +1705,10 @@
     function loadData() {
       console.log("Loading data...");
       
-      // Complete TreeDataWithImg.json data
-      const treeDataFromDoc = {
-        "nodes": [
-          {"id": "EagleWoodAgarwood", "name": "Kritsanā", "english_name": "EagleWood, Agarwood", "scientific": "Aquilaria crassna", "season_note": "Summer", "type": "Fruit", "size": "Large", "description": "Scientific Name : Aquilaria crassna Pierre ex LecomteFamily : Thymelaeaceae An evergreen tree growing to 30m tall, having ellipsoid leaves with sparse hairs, and scented white flowers in bunches of 4-...", "img": "EagleWood_Agarwood.jpg"},
+// Complete TreeDataWithImg.json data with Thai translations
+const treeDataFromDoc = {
+  "nodes": [
+    {"id": "EagleWoodAgarwood", "name": "Kritsanā", "english_name": "EagleWood, Agarwood", "scientific": "Aquilaria crassna", "season_note": "Summer", "type": "Fruit", "size": "Large", "description": "Scientific Name : Aquilaria crassna Pierre ex LecomteFamily : Thymelaeaceae An evergreen tree growing to 30m tall, having ellipsoid leaves with sparse hairs, and scented white flowers in bunches of 4-...", "img": "EagleWood_Agarwood.jpg"},
           {"id": "Dipterocarpusgracilis", "name": "Yang Sian", "english_name": "Dipterocarpus gracilis", "scientific": "Dipterocarpus gracilis", "season_note": "Winter", "type": "Evergreen", "size": "Large", "description": "Scientific Name :Dipterocarpus gracilis BlumeFamily : Dipterocarpaceae A tall dipterocarp found in evergreen forest. Its tall canopy is buffeted by wind and so relies on wind for seed dispersal. Its s...", "img": "Dipterocarpus_gracilis.jpg"},
           {"id": "CalamusviminalisWilld", "name": "Wai", "english_name": "Calamus viminalis (Willd.)", "scientific": "Calamus viminalis", "season_note": "Winter", "type": "Fruit", "size": "Large", "description": "Scientific Name:Calamus viminalis Willd.Family :  Arecaceae A species of palm with strong spathes covered with sharp thorns. The tissue inside is soft, crispy, white and with a bitter taste. The leave...", "img": "Calamus_viminalis_Willd.png"},
           {"id": "WildNutmeg", "name": "Chan Thet Pa", "english_name": "Wild Nutmeg", "scientific": "Knema globularia", "season_note": "Winter", "type": "Fruit", "size": "Large", "description": "Scientific Name:Knema globularia (Lam.) Warb.Family : Myristicaceae A hardy perennial growing to 10-25 meters tall. At the crown of this tree is a tall, rounded bush, and the bark is brown, inside pin...", "img": "Wild_Nutmeg.png"},
@@ -1663,9 +1745,9 @@
           {"id": "Nori", "name": "Web of Wonders Wayfinding", "season_note": "All Year", "type": "Highlight", "description": "Khao Yai's trail No.3 is transformed. A digital website and new signs offer deep insights, connecting visitors to nature's vibrant, resilient story.", "img": "Webofwonders.png"}
           
         ]
-      };
+};
 
-      // Complete FaunaData.json data  
+      // Complete FaunaData.json data with Thai translations
       const faunaDataFromDoc = {
         "nodes": [
           {"id": "asian_elephant", "name": "Asian Elephant", "scientific": "Elephas maximus", "season_note": "All Year", "type": "Large Herbivore", "size": "Large", "description": "The elephant is the biggest mammal found in Khao Yai National Park in an estimated population of 140-200. The subspecies found in the Park is the mainland Asian variety,Elephas maximus indicus.These elephants have an average Mostly with a shoulder height of 2-4 metres, weight of 3,000-5000kg and ave...", "description_th": "ช้างเป็นสัตว์เลี้ยงลูกด้วยนมที่ใหญ่ที่สุดในอุทยานแห่งชาติเขาใหญ่ มีประชากรประมาณ 140-200 ตัว เป็นช้างเอเชียแผ่นดินใหญ่ มีความสูงเฉลี่ย 2-4 เมตร น้ำหนัก 3,000-5,000 กิโลกรัม", "img": "asian_elephant.jpg"},
@@ -1683,7 +1765,12 @@
           {"id": "black_giant_squirrel", "name": "Black Giant Squirrel", "scientific": "Ratufa bicolor", "season_note": "All Year", "type": "Rodent", "size": "Small", "description": "The black giant squirrel is the largest squirrel in Thailand with a weight of 1-1.6kg. Fully grown, the head and body are 33-37.5cm long, with the long and bushy tail adding another 42.5-46cm. The body and tail are mostly black, with some individuals having brown haunches or at the base of the tail....", "img": "black_giant_squirrel.jpg"},
           {"id": "smooth_coated_otter", "name": "Smooth-coated Otter", "scientific": "Lutrogale perspicillata", "season_note": "All Year", "type": "Aquatic Mammal", "size": "Medium", "description": "This otter has a smooth coat and the end of its tail is clearly flattened. It has straight whiskers. Lower jaw, cheeks, throat  and upper chest are yellow-white while the upper body is dark brown, and the lower body is lighter, either brown or grey. The tail is very long, more than half the length o...", "img": "smooth_coated_otter.jpg"},
           {"id": "northern_slow_loris", "name": "Northern Slow Loris", "scientific": "Nycticebus bengalensis", "season_note": "All Year", "type": "Primate", "size": "Small", "description": "This mammal is actually a primate in the Lorisidae family, and can be found in all regions of Thailand. The Northern slow loris was only recently recognized as a separate species. It weighs 900-1400 g. Its ear lobes are clearly visible with the ears buried in the fur on the head. The fur colour can ...", "img": "northern_slow_loris.jpg"},
-          {"id": "binturong", "name": "Binturong", "scientific": "Arctictis binturong", "season_note": "All Year", "type": "Carnivore", "size": "Medium", "description": "This carnivore is a viverrid in the same family as civets and genets. Its face resembles a bear and it is sometimes called a \"bearcat\", in Thai \"Meekhor\". It has a thick coat of coarse black hair. The tail is bushy like a squirrel, earning another Thai name, \"Mee-krarork\". The tail is prehensile and...", "img": "binturong.jpg"}
+          {"id": "binturong", "name": "Binturong", "scientific": "Arctictis binturong", "season_note": "All Year", "type": "Carnivore", "size": "Medium", "description": "This carnivore is a viverrid in the same family as civets and genets. Its face resembles a bear and it is sometimes called a \"bearcat\", in Thai \"Meekhor\". It has a thick coat of coarse black hair. The tail is bushy like a squirrel, earning another Thai name, \"Mee-krarork\". The tail is prehensile and...", "img": "binturong.jpg"},
+
+          {"id": "Mimi", "name": "Mimi", "season_note": "All Year", "type": "Highlight", "description": "Special location", "img": null},
+          {"id": "Kenny and Maki", "name": "Kenny and Maki", "season_note": "All Year", "type": "Highlight", "description": "Special location", "img": null},
+          {"id": "Tangmo", "name": "Tangmo", "season_note": "All Year", "type": "Highlight", "description": "Special location", "img": null}
+
         ]
       };
       
