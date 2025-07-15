@@ -595,6 +595,8 @@
               <div class="timeline-species-node" data-species-id="Kenny and Maki" title="Kenny and Maki"></div>
               <div class="timeline-species-node" data-species-id="Needlewood" title="Needlewood"></div>
               <div class="timeline-species-node" data-species-id="PobaiAntiarisToxicaria" title="Pobai"></div>
+              <div class="timeline-species-node" data-species-id="SappanwoodCaesalpiniaSappan" title="Si Siet Thet"></div>
+              <div class="timeline-species-node" data-species-id="JavaPlumSyzygiumCumini" title="Waa"></div>
             </div>
           </div>
 
@@ -602,6 +604,8 @@
             <div class="timeline-label">0.5 km - 1.5 km</div>
             <div class="timeline-species">
               <div class="timeline-species-node" data-species-id="Mimi" title="Mimi"></div>
+              <div class="timeline-species-node" data-species-id="Dipterocarpusgracilis" title="Yang Sian"></div>
+              <div class="timeline-species-node" data-species-id="PorHuChangHibiscusMacrophyllus" title="Por Hu Chang"></div>
               <div class="timeline-species-node" data-species-id="Nut" title="Nut"></div>
               <div class="timeline-species-node" data-species-id="SaiFicusBenghalensis" title="Sai (Banyan)"></div>
             </div>
@@ -611,6 +615,7 @@
             <div class="timeline-label">1.5 km - 2.5 km</div>
             <div class="timeline-species">
               <div class="timeline-species-node" data-species-id="Tangmo" title="Tangmo"></div>
+              <div class="timeline-species-node" data-species-id="gaur" title="Gaur"></div>
             </div>
           </div>
 
@@ -620,6 +625,7 @@
               <div class="timeline-species-node" data-species-id="Bel_and_Mag" title="Bel and Mag"></div>
               <div class="timeline-species-node" data-species-id="ObservationTower" title="Observation Tower"></div>
               <div class="timeline-species-node" data-species-id="Salt_lick" title="Salt Lick"></div>
+              <div class="timeline-species-node" data-species-id="asian_elephant" title="Asian Elephant"></div>
               <div class="timeline-species-node" data-species-id="Nori" title="Nori"></div>
             </div>
           </div>
@@ -866,7 +872,103 @@
     function getSpeciesColor(node) {
       return SPECIES_COLORS[node.type] || '#4a5568';
     }
+// URL Parameter Functions - ADD THESE RIGHT AFTER YOUR SPECIES_COLORS SECTION
+    function getURLParameter(name) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name);
+    }
 
+    function updateURLForNode(nodeId) {
+      const newUrl = new URL(window.location);
+      newUrl.searchParams.set('node', nodeId);
+      window.history.replaceState({}, '', newUrl);
+    }
+
+    function openNodeFromURL() {
+      const nodeId = getURLParameter('node');
+      
+      if (!nodeId) return;
+      
+      console.log('Opening node from URL:', nodeId);
+      
+      const waitForData = () => {
+        if (!allFloraData.length && !allFaunaData.length) {
+          setTimeout(waitForData, 100);
+          return;
+        }
+        
+        const waitForGraph = () => {
+          const svgElements = document.querySelectorAll('#force-map svg .node');
+          if (svgElements.length === 0) {
+            setTimeout(waitForGraph, 100);
+            return;
+          }
+          
+          const allData = [...allFloraData, ...allFaunaData];
+          const targetNode = allData.find(node => node.id === nodeId);
+          
+          if (!targetNode) {
+            console.warn('Node not found:', nodeId);
+            return;
+          }
+          
+          console.log('Found node:', targetNode.name);
+          simulateNodeClick(targetNode, allData);
+        };
+        
+        waitForGraph();
+      };
+      
+      waitForData();
+    }
+
+    function simulateNodeClick(targetNode, allData) {
+      Object.values(TIMELINE_ASSIGNMENTS).flat().forEach(speciesId => {
+        if (speciesId === targetNode.id) {
+          if (!activeTimelineSpecies.has(targetNode.id)) {
+            activeTimelineSpecies.add(targetNode.id);
+            
+            document.querySelectorAll('.timeline-species-node').forEach(timelineNode => {
+              if (timelineNode.getAttribute('data-species-id') === targetNode.id) {
+                timelineNode.classList.add('active');
+                timelineNode.style.background = '#1e90ff';
+                timelineNode.style.boxShadow = '0 0 10px rgba(30, 144, 255, 0.5)';
+              }
+            });
+            
+            drawGraph(getSelectedFilters());
+          }
+        }
+      });
+      
+      updateInfoBox(allData, targetNode.id);
+      
+      setTimeout(() => {
+        const selectedCard = document.querySelector('.node-info-card[data-id="' + targetNode.id + '"]');
+        if (selectedCard) {
+          selectedCard.click();
+          
+          if (window.innerWidth <= 768) {
+            const inventorySection = document.querySelector('.info-box');
+            if (inventorySection) {
+              inventorySection.scrollIntoView({ 
+                behavior: "smooth", 
+                block: "start" 
+              });
+              
+              setTimeout(() => {
+                selectedCard.scrollIntoView({ 
+                  behavior: "smooth", 
+                  block: "start" 
+                });
+              }, 300);
+            }
+          } else {
+            selectedCard.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+        }
+      }, 100);
+    }
     function createPlaceholderImage(category, name) {
       const placeholder = document.createElement('div');
       placeholder.style.cssText = `
@@ -1147,7 +1249,7 @@
         .attr("r", 8)
         .attr("fill", d => d.isHighlighted ? getSpeciesColor(d) : (activeTimelineSpecies.size > 0 ? '#444' : getSpeciesColor(d)))
         .attr("stroke", d => d.isHighlighted ? (d.category === 'Flora' ? '#22c55e' : '#ef4444') : (activeTimelineSpecies.size > 0 ? '#666' : (d.category === 'Flora' ? '#22c55e' : '#ef4444')))
-        .attr("stroke-width", d => d.isHighlighted ? 3 : 2)
+        .attr("stroke-width", d => d.isHighlighted ? 1 : 2)
         .attr("opacity", d => d.isHighlighted ? 1 : (activeTimelineSpecies.size > 0 ? 0.3 : 1))
         .style("cursor", "grab")
         .call(d3.drag()
@@ -1210,6 +1312,7 @@
           tooltip.transition().duration(500).style("opacity", 0);
         })
         .on("click", function(event, d) {
+          updateURLForNode(d.id);
           updateInfoBox(allData, d.id);
           setTimeout(() => {
             const selectedCard = document.querySelector('.node-info-card[data-id="' + d.id + '"]');
@@ -1423,7 +1526,8 @@
           }
           
           drawGraph(getSelectedFilters());
-          
+          updateURLForNode(speciesId); // ADD THIS LINE
+   
           setTimeout(() => {
             const card = document.querySelector('.node-info-card[data-id="' + speciesId + '"]');
             if (card) {
@@ -1534,33 +1638,30 @@
           {"id": "MoliSiamReevesiapubescensvarsiamensisCraibAnthony", "name": "Moli Siam", "english_name": "Moli Siam (Reevesia pubescens var. siamensis (Craib) Anthony)", "scientific": "Reevesia pubescens var", "season_note": "Winter", "type": "Fruit", "size": "Large", "description": "Scientific Name:Reevesia pubescens var. siamensis (Craib) AnthonyFamily : Sterculiaceae A single habitat plant in Thailand, it is a handsome plant standing 5-12 meters tall. Young leaves and flowers a...", "img": "Moli_Siam.jpg"},
           {"id": "KhreuaPhuNgoenArgyreiamollisBurmfChoisy", "name": "Khreua Phu Ngoen", "english_name": "Khreua Phu Ngoen Argyreia mollis (Burm. f.) Choisy", "scientific": "Argyreia mollis", "season_note": "Winter", "type": "Vine", "size": "Medium", "description": "Scientific Name:Argyreia mollis (Burm. f.) ChoisyFamily : Convolvulaceae A climber with hard stems, which can scale up to 10m. The young branches have a fine white-brown hair. The oval fruits have poi...", "img": "Khreua_Phu_Ngoen.jpg"},
           {"id": "EuangNamTarnDendrobiumheterocarpumLindl", "name": "Euang Nam Tarn", "english_name": "Euang Nam Tarn Dendrobium heterocarpum Lindl.", "scientific": "Dendrobium heterocarpum", "season_note": "Winter", "type": "Orchid", "size": "Small", "description": "Scientific Name:Dendrobium heterocarpum Lindl.Family : Orchidaceae An epiphyte orchid 15-30cm long in the shape of a spear, 1.5-2.5cm wide and 10-16cm long. It flowers in short bunches with 2-5 floret...", "img": "Euang_Nam_Tarn.jpg"},
-          {"id": "NerviliakhaoyaicaSuddeeWatthanaSWGale", "name": "Nervilia Khaoyaica", "english_name": "Nervilia khaoyaica Suddee (Watthana & S.W. Gale)", "scientific": "Nervilia khaoyaica", "season_note": "Winter", "type": "Orchid", "size": "Small", "description": "Scientific Name:Nervilia khaoyaica Suddee (Watthana & S.W. Gale)Family : Nervilia This is an orchid growing from the soil on the mountains at an average elevation of 733 meters and measures 9 cm. from...", "img": "Nervilia_khaoyaica_Suddee.jpg"},
-          {"id": "ScutellariakhaoyaiensisAJPaton", "name": "Scutellaria Khaoyaiensis", "english_name": "Scutellaria khaoyaiensis A. J. Paton", "scientific": "Scutellaria khaoyaiensis", "season_note": "Winter", "type": "Shrub", "size": "Large", "description": "Scientific Name:Scutellaria khaoyaiensis A. J. PatonFamily : Lamiaceae A newly discovered annual species, 20-40cm tall, with inflorescences appearing at the end of a shoot. Petals at the base are fuse...", "img": "Scutellaria_khaoyaiensis.jpg"},
-          {"id": "Polypleurumubonense", "name": "Polypleurum Ubonense", "english_name": "Polypleurum ubonense", "scientific": "This newly", "season_note": "Rainy", "type": "Herb", "size": "Small", "description": "Scientific Name:Polypleurum ubonenseFamily : Podostemaceae This newly-reported species is a herbaceous perennial whose roots are hard plates and leaves are small and scaly. The flowers are very small,...", "img": "Polypleurum_ubonense.jpg"},
-          {"id": "MonolophussaxicolaKLarsenVeldkampMood", "name": "Monolophus Saxicola", "english_name": "Monolophus saxicola (K. Larsen) Veldkamp & Mood", "scientific": "Monolophus saxicola", "season_note": "Winter", "type": "Shrub", "size": "Small", "description": "Scientific Name:Monolophus saxicola (K. Larsen) Veldkamp & MoodFamily : Zingiberaceae An annual growing on moist rock with yellow flowers", "img": "Monolophus_saxicola.png"},
-          {"id": "PobaiAntiarisToxicaria", "name": "Pobai", "english_name": "Pobai Antiaris toxicaria", "scientific": "Antiaris toxicaria", "season_note": "Unknown", "type": "Deciduous", "size": "Large", "description": "A tall deciduous tree known for its toxic latex. Found in tropical forests and used in traditional medicine.", "img": null},
-          {"id": "SappanwoodCaesalpiniaSappan", "name": "Si Siet Thet", "english_name": "Si Siet Thet Sappanwood", "scientific": "Caesalpinia sappan", "season_note": "Unknown", "type": "Shrub", "size": "Medium", "description": "A medicinal shrub used for red dye and herbal remedies. Common in Southeast Asia.", "img": null},
-          {"id": "JavaPlumSyzygiumCumini", "name": "Waa", "english_name": "Waa Java Plum", "scientific": "Syzygium cumini", "season_note": "Summer", "type": "Fruit", "size": "Large", "description": "Evergreen tropical tree bearing edible purple fruits. Widely cultivated in Asia.", "img": null},
-          {"id": "YangSianDipterocarpusTuberculatus", "name": "Yang Sian", "english_name": "Yang Sian Dipterocarpus tuberculatus", "scientific": "Dipterocarpus tuberculatus", "season_note": "Rainy", "type": "Evergreen", "size": "Large", "description": "A large dipterocarp tree native to Southeast Asian forests. Important for timber and resin.", "img": null},
-          {"id": "PorHuChangHibiscusMacrophyllus", "name": "Por Hu Chang", "english_name": "Por Hu Chang Hibiscus macrophyllus", "scientific": "Hibiscus macrophyllus", "season_note": "Unknown", "type": "Shrub", "size": "Medium", "description": "A broad-leaved shrub native to Thai forests, with medicinal uses.", "img": null},
+          {"id": "NerviliakhaoyaicaSuddeeWatthanaSWGale", "name": "Wan Paen Din Yen Khao Yai", "english_name": "Nervilia khaoyaica Suddee (Watthana & S.W. Gale)", "scientific": "Nervilia khaoyaica", "season_note": "Winter", "type": "Orchid", "size": "Small", "description": "Scientific Name:Nervilia khaoyaica Suddee (Watthana & S.W. Gale)Family : Nervilia This is an orchid growing from the soil on the mountains at an average elevation of 733 meters and measures 9 cm. from...", "img": "Nervilia_khaoyaica_Suddee.jpg"},
+          {"id": "ScutellariakhaoyaiensisAJPaton", "name": "Yah Kahng Luey Khao Yai", "english_name": "Scutellaria khaoyaiensis A. J. Paton", "scientific": "Scutellaria khaoyaiensis", "season_note": "Winter", "type": "Shrub", "size": "Large", "description": "Scientific Name:Scutellaria khaoyaiensis A. J. PatonFamily : Lamiaceae A newly discovered annual species, 20-40cm tall, with inflorescences appearing at the end of a shoot. Petals at the base are fuse...", "img": "Scutellaria_khaoyaiensis.jpg"},
+          {"id": "Polypleurumubonense", "name": "Dork Mai Hin", "english_name": "Polypleurum ubonense", "scientific": "Polypleurum ubonense", "season_note": "Rainy", "type": "Herb", "size": "Small", "description": "This newly-reported species is a herbaceous perennial whose roots are hard plates and leaves are small and scaly. The flowers are very small,...", "img": "Polypleurum_ubonense.jpg"},
+          {"id": "MonolophussaxicolaKLarsenVeldkampMood", "name": "Por Hin Lueang", "english_name": "Monolophus saxicola (K. Larsen) Veldkamp & Mood", "scientific": "Monolophus saxicola", "season_note": "Winter", "type": "Shrub", "size": "Small", "description": "Scientific Name:Monolophus saxicola (K. Larsen) Veldkamp & MoodFamily : Zingiberaceae An annual growing on moist rock with yellow flowers", "img": "Monolophus_saxicola.png"},
+          {"id": "PobaiAntiarisToxicaria", "name": "Pobai", "english_name": "Pobai Antiaris toxicaria", "scientific": "Antiaris toxicaria", "season_note": "Unknown", "type": "Deciduous", "size": "Large", "description": "A tall deciduous tree known for its toxic latex. Found in tropical forests and used in traditional medicine.", "img": "Pobai.jpg"},
+          {"id": "SappanwoodCaesalpiniaSappan", "name": "Si Siet Thet", "english_name": "Si Siet Thet Sappanwood", "scientific": "Caesalpinia sappan", "season_note": "Unknown", "type": "Shrub", "size": "Medium", "description": "A medicinal shrub used for red dye and herbal remedies. Common in Southeast Asia.", "img": "sisietthet.jpg"},
+          {"id": "JavaPlumSyzygiumCumini", "name": "Waa", "english_name": "Waa Java Plum", "scientific": "Syzygium cumini", "season_note": "Summer", "type": "Fruit", "size": "Large", "description": "Evergreen tropical tree bearing edible purple fruits. Widely cultivated in Asia.", "img": "Waa.jpg"},
+          {"id": "PorHuChangHibiscusMacrophyllus", "name": "Por Hu Chang", "english_name": "Por Hu Chang Hibiscus macrophyllus", "scientific": "Hibiscus macrophyllus", "season_note": "Unknown", "type": "Shrub", "size": "Medium", "description": "A broad-leaved shrub native to Thai forests, with medicinal uses.", "img": "Porhuchang.png"},
           {"id": "SaiFicusBenghalensis", "name": "Sai", "english_name": "Sai Banyan Tree", "scientific": "Ficus benghalensis", "season_note": "All Year", "type": "Evergreen", "size": "Large", "description": "A majestic fig tree with aerial roots. Considered sacred in many cultures.", "description_th": "ต้นไผ่ใหญ่ที่มีรากอากาศ ถือว่าเป็นต้นไม้ศักดิ์สิทธิ์ในหลายวัฒนธรรม", "img": "banyantree.jpeg"},
-          {"id": "LueadKwaiBischofiaJavanica", "name": "Luead Kwai", "english_name": "Luead Kwai Bischofia javanica", "scientific": "Bischofia javanica", "season_note": "Unknown", "type": "Deciduous", "size": "Large", "description": "Fast-growing tree with reddish wood. Often found in tropical lowland forests.", "img": null},
-          {"id": "TaoNguHaoAristolochiaTagala", "name": "Tao Ngu Hao", "english_name": "Tao Ngu Hao Aristolochia tagala", "scientific": "Aristolochia tagala", "season_note": "Unknown", "type": "Vine", "size": "Medium", "description": "A climbing vine known for its snake-like flower patterns. Used in traditional remedies.", "img": null},
-          {"id": "ChampiPaMagnoliaHimalayana", "name": "Champi Pa", "english_name": "Champi Pa Wild Champak", "scientific": "Magnolia hodgsonii", "season_note": "Winter", "type": "Evergreen", "size": "Large", "description": "A forest magnolia with fragrant white flowers. Native to mountainous forest zones.", "img": null},
-          {"id": "YamHomCanangaLatifolia", "name": "Yam Hom", "english_name": "Yam Hom Wild Ylang-Ylang", "scientific": "Cananga latifolia", "season_note": "Summer", "type": "Flowering tree", "size": "Large", "description": "Aromatic tree with flowers used in perfumes and oils.", "img": null},
-          {"id": "KapraoPaOcimumGratissimum", "name": "Kaprao Pa", "english_name": "Kaprao Pa Wild Holy Basil", "scientific": "Ocimum gratissimum", "season_note": "Summer", "type": "Herb", "size": "Small", "description": "A wild form of basil with strong aroma and medicinal properties.", "img": null},
-          {"id": "KritsanaAquilariaCrassna", "name": "Kritsanā", "english_name": "Kritsana Eaglewood", "scientific": "Aquilaria crassna", "season_note": "Rainy", "type": "Evergreen", "size": "Medium", "description": "Valuable tree known for producing agarwood, used in incense and perfumes.", "img": null},
-          {"id": "NonnKhiKwaiAcalyphaWilkesiana", "name": "Nonn Khi Kwai", "english_name": "Nonn Khi Kwai Acalypha wilkesiana", "scientific": "Acalypha wilkesiana", "season_note": "Unknown", "type": "Shrub", "size": "Small", "description": "A colorful-leaved ornamental shrub, used in hedges and landscaping.", "img": null},
-          {"id": "ShoreaRoxburghii", "name": "Yang Na", "english_name": "Shorea roxburghii", "scientific": "Shorea roxburghii", "season_note": "Dry", "type": "Deciduous", "size": "Large", "description": "A high-value timber tree found in dry dipterocarp forests.", "img": null},
-          {"id": "YaKhaImperataCylindrica", "name": "Ya Kha", "english_name": "Ya Kha Cogon Grass", "scientific": "Imperata cylindrica", "season_note": "All Year", "type": "Grass", "size": "Small", "description": "A tough perennial grass common in disturbed forest areas. Used for thatching and erosion control.", "description_th": "หญ้าเหนียวที่แข็งแกร่งพบในพื้นที่ป่าที่ถูกรบกวน ใช้สำหรับมุงหลังคาและควบคุมการพังทลายของดิน", "img": null},
+          {"id": "LueadKwaiBischofiaJavanica", "name": "Luead Kwai", "english_name": "Luead Kwai Bischofia javanica", "scientific": "Bischofia javanica", "season_note": "Unknown", "type": "Deciduous", "size": "Large", "description": "Fast-growing tree with reddish wood. Often found in tropical lowland forests.", "img": "LueadKwai.jpg"},
+          {"id": "TaoNguHaoAristolochiaTagala", "name": "Tao Ngu Hao", "english_name": "Tao Ngu Hao Aristolochia tagala", "scientific": "Aristolochia tagala", "season_note": "Unknown", "type": "Vine", "size": "Medium", "description": "A climbing vine known for its snake-like flower patterns. Used in traditional remedies.", "img": "TaoNguHao.jpg"},
+          {"id": "YamHomCanangaLatifolia", "name": "Yam Hom", "english_name": "Yam Hom Wild Ylang-Ylang", "scientific": "Cananga latifolia", "season_note": "Summer", "type": "Flowering tree", "size": "Large", "description": "Aromatic tree with flowers used in perfumes and oils.", "img": "YamHom.jpg"},
+          {"id": "NonnKhiKwaiAcalyphaWilkesiana", "name": "Nonn Khi Kwai", "english_name": "Nonn Khi Kwai Acalypha wilkesiana", "scientific": "Acalypha wilkesiana", "season_note": "Unknown", "type": "Shrub", "size": "Small", "description": "A colorful-leaved ornamental shrub, used in hedges and landscaping.", "img": "NonnKhiKwai.jpg"},
+          {"id": "ShoreaRoxburghii", "name": "Yang Na", "english_name": "Yang Gurjan", "scientific": "Shorea roxburghii", "season_note": "Dry", "type": "Deciduous", "size": "Large", "description": "A high-value timber tree found in dry dipterocarp forests.", "img": "YangNa.png"},
+          {"id": "YaKhaImperataCylindrica", "name": "Ya Kha", "english_name": "Cogon Grass", "scientific": "Imperata cylindrica", "season_note": "All Year", "type": "Grass", "size": "Small", "description": "A tough perennial grass found in disturbed forest areas, used for thatching and erosion control.", "img": "YaKha.jpg"},
+          
           {"id": "ObservationTower", "name": "Observation Tower", "english_name": "Observation Tower", "scientific": "Observation Tower", "season_note": "All Year", "type": "Highlight", "size": "Large", "description": "A lookout tower providing panoramic views of the forest and wildlife.", "img": null},
-          {"id": "Kenny and Maki", "name": "Kenny and Maki", "season_note": "All Year", "type": "Highlight", "description": "Special location", "img": null},
-          {"id": "Mimi", "name": "Mimi", "season_note": "All Year", "type": "Highlight", "description": "Special location", "img": null},
+          {"id": "Salt_lick", "name": "Salt lick", "season_note": "All Year", "type": "Highlight", "description": "Mineral deposit for animals", "img": "SaltLick.jpg"},
+        
+          
           {"id": "Nut", "name": "Nut", "season_note": "All Year", "type": "Highlight", "description": "Special location", "img": null},
-          {"id": "Tangmo", "name": "Tangmo", "season_note": "All Year", "type": "Highlight", "description": "Special location", "img": null},
           {"id": "Bel_and_Mag", "name": "Bel and Mag", "season_note": "All Year", "type": "Highlight", "description": "Special location", "img": null},
-          {"id": "Nori", "name": "Nori", "season_note": "All Year", "type": "Highlight", "description": "Special location", "img": null},
-          {"id": "Salt_lick", "name": "Salt lick", "season_note": "All Year", "type": "Highlight", "description": "Mineral deposit for animals", "img": null}
+          {"id": "Nori", "name": "Web of Wonders Wayfinding", "season_note": "All Year", "type": "Highlight", "description": "Khao Yai's trail No.3 is transformed. A digital website and new signs offer deep insights, connecting visitors to nature's vibrant, resilient story.", "img": "Webofwonders.png"}
+          
         ]
       };
 
@@ -1648,7 +1749,10 @@
         
         // Reset node positions
         nodePositions.clear();
-        
+        const newUrl = new URL(window.location);
+        newUrl.searchParams.delete('node');
+        window.history.replaceState({}, '', newUrl);
+    
         closeAllDropdowns();
         drawGraph(getSelectedFilters());
       });
@@ -1679,6 +1783,9 @@
       
       // Load data
       loadData();
+      setTimeout(() => {
+        openNodeFromURL();
+      }, 2000);
     });
 
     // Initialize when D3 is ready
