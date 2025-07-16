@@ -1,8 +1,8 @@
 // ========== TIMELINE ASSIGNMENTS ==========
 const TIMELINE_ASSIGNMENTS = {
   '0km-0.5km': ['Kenny_Maki', 'Needlewood', 'PobaiAntiarisToxicaria'],
-  '0.5km-1.5km': ['Mimi', 'Nat', 'SaiFicusBenghalensis'], 
-  '1.5km-2.5km': ['Tangmo'],
+  '0.5km-1.5km': ['Boss_Mimi_Safa', 'Nat', 'Japan',  'SaiFicusBenghalensis'], 
+  '1.5km-2.5km': ['Mix','Tangmo'],
   '2.5km-3.5km': ['Bel_and_Mag', 'ObservationTower', 'Salt_lick', 'Nori'],
   '3.5km-3.9km': ['YaKhaImperataCylindrica']
 };
